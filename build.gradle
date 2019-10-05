@@ -20,7 +20,12 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-jdbc'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+	compile 'mysql:mysql-connector-java'
+	compile 'org.webjars:jquery:3.4.1'
+	compile 'org.webjars:bootstrap:4.3.1'
 }
