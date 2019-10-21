@@ -4,3 +4,4 @@
 !/.idea/gradle.xml
 !/.idea/misc.xml
 /build
+/docker/db/data/*
