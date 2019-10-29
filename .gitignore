@@ -1,11 +1,7 @@
-/.DS_Store
-/.gradle
 /.idea/*
 !/.idea/gradle.xml
 !/.idea/misc.xml
-/build
-/docker/db/data/*
-/caches
 /daemon
 /native
 /wrapper
+/caches

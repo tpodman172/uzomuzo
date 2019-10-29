@@ -1,11 +1,10 @@
-package com.tpodman172.uzomuzo.demo.login.controller;
+package com.tpodman172.uzomuzo.api.login.controller;
 
-import com.tpodman172.uzomuzo.demo.login.model.Pet;
+import com.tpodman172.uzomuzo.api.login.model.Pet;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.NativeWebRequest;
 

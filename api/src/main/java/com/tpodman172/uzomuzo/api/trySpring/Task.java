@@ -1,4 +1,4 @@
-package com.tpodman172.uzomuzo.demo.trySpring;
+package com.tpodman172.uzomuzo.api.trySpring;
 
 
 import lombok.Data;

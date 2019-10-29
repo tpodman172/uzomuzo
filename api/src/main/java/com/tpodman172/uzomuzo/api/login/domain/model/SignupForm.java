@@ -1,4 +1,4 @@
-package com.tpodman172.uzomuzo.demo.login.domain.model;
+package com.tpodman172.uzomuzo.api.login.domain.model;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

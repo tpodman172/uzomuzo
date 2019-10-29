@@ -1,4 +1,4 @@
-package com.tpodman172.uzomuzo.demo.trySpring;
+package com.tpodman172.uzomuzo.api.trySpring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

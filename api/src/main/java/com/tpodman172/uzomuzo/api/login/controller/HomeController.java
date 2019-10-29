@@ -1,4 +1,4 @@
-package com.tpodman172.uzomuzo.demo.login.controller;
+package com.tpodman172.uzomuzo.api.login.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
