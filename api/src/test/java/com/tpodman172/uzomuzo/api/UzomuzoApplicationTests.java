@@ -1,4 +1,4 @@
-package com.tpodman172.uzomuzo.demo;
+package com.tpodman172.uzomuzo.api;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
