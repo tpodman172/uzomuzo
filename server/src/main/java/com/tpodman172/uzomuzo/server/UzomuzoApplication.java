@@ -1,4 +1,4 @@
-package com.tpodman172.uzomuzo.api;
+package com.tpodman172.uzomuzo.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

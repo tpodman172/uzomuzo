@@ -1,4 +1,4 @@
-package com.tpodman172.uzomuzo.api.trySpring;
+package com.tpodman172.uzomuzo.server.trySpring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

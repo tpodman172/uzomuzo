@@ -1,6 +1,6 @@
-package com.tpodman172.uzomuzo.api.login.controller;
+package com.tpodman172.uzomuzo.server.login.controller;
 
-import com.tpodman172.uzomuzo.api.login.model.Pet;
+import com.tpodman172.uzomuzo.server.login.appService.model.Pet;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,9 @@ public class PetsApiController implements PetsApi {
         }).collect(Collectors.toList());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:63342");
+//        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "http://localhost:8081");
+        //headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "X-SPECIAL-TOKEN");
+        headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");//上だとローカルで開くと怒られる
         ResponseEntity responseEntity = new ResponseEntity(petList, headers, HttpStatus.OK);
         return responseEntity;
     }

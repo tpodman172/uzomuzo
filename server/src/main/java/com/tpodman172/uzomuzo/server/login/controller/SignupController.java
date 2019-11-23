@@ -1,6 +1,6 @@
-package com.tpodman172.uzomuzo.api.login.controller;
+package com.tpodman172.uzomuzo.server.login.controller;
 
-import com.tpodman172.uzomuzo.api.login.domain.model.SignupForm;
+import com.tpodman172.uzomuzo.server.login.domain.model.SignupForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

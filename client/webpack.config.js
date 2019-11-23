@@ -1,8 +1,12 @@
+var path = require('path');
+
 module.exports = {
     mode: "development",
     entry: "./src/main.tsx",
-    output: {
-        path: `${__dirname}/dist`,
+    devtool: 'inline-source-map',
+    devServer: {},
+	output: {
+        path: path.resolve(__dirname, 'dist'),
         filename: "main.js"
     },
     module: {
