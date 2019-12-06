@@ -2,7 +2,7 @@
 
 TARGET_FILE_PATH="/Users/nakasetakaharu/uzomuzo/api/doc"
 SERVER_FILE_PATH="/Users/nakasetakaharu/uzomuzo/server"
-PACKAGE="com.tpodman172.uzomuzo.server.login"
+PACKAGE="com.tpodman172.uzomuzo.server.api"
 
 PACKAGE_PATH=${PACKAGE} | tr '.' '/'
 
@@ -13,7 +13,7 @@ createApiGen() {
     openapitools/openapi-generator-cli:v3.3.4 \
     sh -c "rm -rf /local/out/src/main/java/${PACKAGE_PATH}* && \
     /usr/local/bin/docker-entrypoint.sh generate \
-    -i /local/document/petstore.yaml \
+    -i /local/document/index.yaml \
     -g spring \
     -o /local/out \
     --additional-properties useTags=true \

@@ -4,6 +4,6 @@ docker run --rm \
     -v ~/uzomuzo/client/api/generated:/local/out \
     -v ~/uzomuzo/api/doc:/local/doc \
         openapitools/openapi-generator-cli generate \
-            -i /local/doc/petstore.yaml \
+            -i /local/doc/index.yaml \
             -g typescript-axios \
             -o /local/out/
