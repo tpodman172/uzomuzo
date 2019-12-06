@@ -5,12 +5,12 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:8080/v1
+  - url: http://localhost:8080/
 paths:
-  /tasks:
+  /task:
     options:
       tags:
-        - tasks
+        - task
       responses:
         200:
           description: "200 response"
@@ -29,14 +29,14 @@ paths:
       summary: List all tasks
       operationId: listTasks
       tags:
-        - tasks
+        - task
       responses:
         '200':
           description: A paged array of tasks
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pets"
+                $ref: "#/components/schemas/Tasks"
         default:
           description: unexpected error
           content:

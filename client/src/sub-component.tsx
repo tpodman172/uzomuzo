@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {PetsApi} from "../api/generated/api";
+import {TaskApi} from "../api/generated/api";
 
 // Propsの型定義
 interface IProps {
@@ -48,8 +48,9 @@ async function main() {
 
             //headers: {'X-SPECIAL-TOKEN': 'aaaaaa'}
         }
-        const response = await new PetsApi().listPets(10);
-        response.data.forEach(value => console.log(value.id + ":" + value.name))
+        //const response = await new PetsApi().listPets(10);
+        const response = await new TaskApi().listTasks();
+        response.data.forEach(value => console.log(value.id + ":" + value.title))
         // const res = await axios.get(url);
         // const items = res.data;
         // for (const item of items) {

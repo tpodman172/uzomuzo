@@ -1,6 +1,7 @@
 package com.tpodman172.uzomuzo.server.login.controller;
 
-import com.tpodman172.uzomuzo.server.login.appService.model.Pet;
+import com.tpodman172.uzomuzo.server.api.appService.model.Pet;
+import com.tpodman172.uzomuzo.server.api.controller.PetsApi;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
