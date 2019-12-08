@@ -1,24 +1,10 @@
-plugins {
-    id 'org.springframework.boot' version '2.1.8.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'java'
-}
-
 sourceSets.main.java.srcDirs = ['src/generated/java', 'src/main/java']
 //sourceSets.test.java.srcDirs = ['test']
-
-
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {

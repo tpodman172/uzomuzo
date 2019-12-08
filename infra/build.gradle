@@ -1,0 +1,53 @@
+plugins {
+    id 'nu.studer.jooq' version '3.0.3'
+}
+
+dependencies {
+    jooqRuntime group: 'mysql', name: 'mysql-connector-java', version: "${mysqlConnectorVersion}"
+    compile group: 'org.jooq', name: 'jooq', version: jooqVersion
+    compile group: 'org.jooq', name: 'jooq-meta', version: jooqVersion
+
+    compile group: 'org.jooq', name: 'jooq-parent', version: jooqVersion/*, ext: 'pom'*/
+    compile group: 'org.jooq', name: 'jooq-meta-extensions', version: jooqVersion
+    compile group: 'org.jooq', name: 'jooq-codegen', version: jooqVersion
+    compile group: 'org.jooq', name: 'jooq-codegen-maven', version: jooqVersion
+
+//        implementation("org.jooq:jooq:${jooqVersion}")
+//        implementation("org.jooq:jooq-meta:${jooqVersion}")
+//        implementation("org.jooq:jooq-codegen:${jooqVersion}")
+//        runtimeOnly("mysql:mysql-connector-java:${mysqlConnectorVersion}")
+}
+
+jooq {
+    //jooqのバージョンを指定
+    version = jooqVersion
+    edition = 'OSS'
+    tables(sourceSets.main) {
+        jdbc {
+            //データベースドライバの完全修飾クラス名
+            driver = 'com.mysql.jdbc.Driver'
+            //SQLに接続するためのURL
+            url = 'jdbc:mysql://localhost:3306/tsk2?serverTimezone=JST'
+            //データベースにログインするためのユーザ名
+            user = 'root'
+            //データベースにログインするためのパスワード
+            password = 'root'
+        }
+        generator {
+            name = 'org.jooq.codegen.DefaultGenerator'
+            database {
+                //対象とするデータベースを表すクラス名(後述)
+                name = 'org.jooq.meta.mysql.MySQLDatabase'
+                inputSchema = 'tsk2'
+                includes = '.*'
+                excludes = ''
+            }
+            target {
+                //生成されるコードのパッケージ名
+                packageName = 'jooq'
+                //生成されるコードを配置するディレクトリ
+                directory = 'src/main/java'
+            }
+        }
+    }
+}

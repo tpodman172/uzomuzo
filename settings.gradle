@@ -1,2 +1,2 @@
 rootProject.name = 'uzomuzo'
-include 'server', 'client', 'api'
+include 'server', 'client', 'api', 'infra'

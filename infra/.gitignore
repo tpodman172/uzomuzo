@@ -2,4 +2,4 @@
 /.gradle
 /build
 /docker/db/data/*
-/src/generated
+/src/
