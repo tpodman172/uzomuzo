@@ -1,3 +1,7 @@
+jar {
+    enabled = true
+}
+
 sourceSets.main.java.srcDirs = ['src/generated/java', 'src/main/java']
 //sourceSets.test.java.srcDirs = ['test']
 
@@ -8,6 +12,7 @@ configurations {
 }
 
 dependencies {
+    implementation project(":infra")
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-jdbc'
     compileOnly 'org.projectlombok:lombok'
@@ -19,4 +24,17 @@ dependencies {
     compile 'org.webjars:bootstrap:3.3.7-1'
     compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.0'
     compile group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.0'
+
+//    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine'
+//    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params'
+//    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api'
+//    testCompile group: 'org.junit.vintage', name: 'junit-vintage-engine'
+//    testCompile group: 'org.junit.platform', name: 'junit-platform-launcher'
 }
+
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+}
+

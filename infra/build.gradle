@@ -2,6 +2,10 @@ plugins {
     id 'nu.studer.jooq' version '3.0.3'
 }
 
+jar {
+    enabled = true
+}
+
 dependencies {
     jooqRuntime group: 'mysql', name: 'mysql-connector-java', version: "${mysqlConnectorVersion}"
     compile group: 'org.jooq', name: 'jooq', version: jooqVersion
@@ -44,7 +48,7 @@ jooq {
             }
             target {
                 //生成されるコードのパッケージ名
-                packageName = 'jooq'
+                packageName = 'com.tpodman172.uzomuzo.infra.schema.rds.eden'
                 //生成されるコードを配置するディレクトリ
                 directory = 'src/main/java'
             }
