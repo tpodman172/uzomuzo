@@ -15,11 +15,6 @@ dependencies {
     compile group: 'org.jooq', name: 'jooq-meta-extensions', version: jooqVersion
     compile group: 'org.jooq', name: 'jooq-codegen', version: jooqVersion
     compile group: 'org.jooq', name: 'jooq-codegen-maven', version: jooqVersion
-
-//        implementation("org.jooq:jooq:${jooqVersion}")
-//        implementation("org.jooq:jooq-meta:${jooqVersion}")
-//        implementation("org.jooq:jooq-codegen:${jooqVersion}")
-//        runtimeOnly("mysql:mysql-connector-java:${mysqlConnectorVersion}")
 }
 
 jooq {
@@ -48,7 +43,7 @@ jooq {
             }
             target {
                 //生成されるコードのパッケージ名
-                packageName = 'com.tpodman172.uzomuzo.infra.schema.rds.eden'
+                packageName = 'com.tpodman172.uzomuzo.infra.schema.rds'
                 //生成されるコードを配置するディレクトリ
                 directory = 'src/main/java'
             }

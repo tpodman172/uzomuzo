@@ -2,6 +2,10 @@ jar {
     enabled = true
 }
 
+bootJar{
+    baseName('tsk2-server')
+}
+
 sourceSets.main.java.srcDirs = ['src/generated/java', 'src/main/java']
 //sourceSets.test.java.srcDirs = ['test']
 

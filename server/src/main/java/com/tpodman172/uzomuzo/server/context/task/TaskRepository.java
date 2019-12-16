@@ -1,6 +1,6 @@
 package com.tpodman172.uzomuzo.server.context.task;
 
-import com.tpodman172.uzomuzo.infra.schema.rds.eden.Tables;
+import com.tpodman172.uzomuzo.infra.schema.rds.Tables;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
