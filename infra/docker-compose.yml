@@ -18,8 +18,10 @@ services:
     ports:
       - 3306:3306
   web:
+    image: openjdk11
+    container_name: tsk2web
     build: ../server/
-    volumes:
-      - ./docker/web/data
+#    volumes:
+#      - ./docker/web/data:/tmp
     ports:
       - 8080:8080

@@ -17,7 +17,7 @@ type Task = {
     title: string,
 }
 
-export class SubComponent extends React.Component<IProps, IState> {
+export class Board extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {

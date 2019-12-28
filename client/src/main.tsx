@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {SubComponent} from './sub-component';
+import {Board} from './board';
 
 class App extends React.Component {
     render() {
         return (
             <div>
-                <h1>Hello React!</h1>
-                <SubComponent name="My Counter for TypeScript"/>
+                <h2>こうへい君、おはようございます！</h2>
+                <Board name="あさおきたらやることリスト"/>
             </div>
         );
     }

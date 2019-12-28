@@ -3,11 +3,11 @@ package com.tpodman172.uzomuzo.server.context.task;
 import com.tpodman172.uzomuzo.infra.schema.rds.Tables;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -19,16 +19,13 @@ public class TaskRepository implements ITaskRepository {
     @Override
     public List<TaskEntity> find() {
         // そういえばコネクションのクローズはだれがやってくれるんだっけ…AOPか…
-        Result<Record> result = jooq.select().from(Tables.TASKS).fetch();
+        List<TaskEntity> taskList = jooq.select().from(Tables.TASKS)
+                .fetchStream()
+                .map(record -> new TaskEntity(
+                        record.get(Tables.TASKS.ID).longValue(),
+                        record.get(Tables.TASKS.TITLE)))
+                .collect(Collectors.toList());
 
-        for (final Record r : result) {
-            final Integer id = r.getValue(Tables.TASKS.ID);
-            final String title = r.getValue(Tables.TASKS.TITLE);
-
-            System.out.println(
-                    "ID: " + id + " title: " + title);
-        }
-
-        return null;
+        return taskList;
     }
 }
