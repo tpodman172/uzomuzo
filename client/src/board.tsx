@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {TaskApi} from "../api/generated/api";
 import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 // Propsの型定義
 type IProps = {
@@ -28,7 +27,7 @@ export class Board extends React.Component<IProps, IState> {
     handleClick() {
         console.log('クリックされました');
         main().then(taskList => {
-            if(taskList) {
+            if (taskList) {
                 taskList.forEach(value => console.log(value.id + ":" + value.title));
                 this.setState({taskList: taskList});
             }
@@ -37,7 +36,7 @@ export class Board extends React.Component<IProps, IState> {
         });
     }
 
-    listTask(){
+    listTask() {
         return this.state.taskList.map(task => <li key={task.id}>{task.title}</li>);
     }
 
@@ -58,7 +57,7 @@ async function main() {
             //headers: {'X-SPECIAL-TOKEN': 'aaaaaa'}
         }
         //const response = await new PetsApi().listPets(10);
-        const response = await new TaskApi().listTasks();
+        const response = await new TaskApi().tasksGet();
         return response.data;
     } catch (error) {
         throw new Error(`Error! HTTP Status: ${error.response}`);

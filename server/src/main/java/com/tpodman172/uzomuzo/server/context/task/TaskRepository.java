@@ -1,8 +1,8 @@
 package com.tpodman172.uzomuzo.server.context.task;
 
 import com.tpodman172.uzomuzo.infra.schema.rds.Tables;
+import com.tpodman172.uzomuzo.infra.schema.rds.tables.records.TasksRecord;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,5 +27,17 @@ public class TaskRepository implements ITaskRepository {
                 .collect(Collectors.toList());
 
         return taskList;
+    }
+
+    @Override
+    public Long create(TaskEntity taskEntity) {
+        jooq.settings().setExecuteLogging(true);
+        final TasksRecord tasksRecord =
+                jooq.insertInto(Tables.TASKS, Tables.TASKS.TITLE)
+                        .values(taskEntity.getTitle())
+                        .returning(Tables.TASKS.ID)
+                        .fetchOne();
+        find();
+        return tasksRecord.getId();
     }
 }

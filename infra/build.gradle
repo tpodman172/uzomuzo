@@ -10,7 +10,6 @@ dependencies {
     jooqRuntime group: 'mysql', name: 'mysql-connector-java', version: "${mysqlConnectorVersion}"
     compile group: 'org.jooq', name: 'jooq', version: jooqVersion
     compile group: 'org.jooq', name: 'jooq-meta', version: jooqVersion
-
     compile group: 'org.jooq', name: 'jooq-parent', version: jooqVersion/*, ext: 'pom'*/
     compile group: 'org.jooq', name: 'jooq-meta-extensions', version: jooqVersion
     compile group: 'org.jooq', name: 'jooq-codegen', version: jooqVersion

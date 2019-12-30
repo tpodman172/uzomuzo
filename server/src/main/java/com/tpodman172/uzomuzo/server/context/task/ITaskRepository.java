@@ -4,4 +4,6 @@ import java.util.List;
 
 public interface ITaskRepository {
     List<TaskEntity> find();
+
+    Long create(TaskEntity taskEntity);
 }
