@@ -20,7 +20,8 @@ public class TaskRepository implements ITaskRepository {
     public List<TaskEntity> find() {
         // そういえばコネクションのクローズはだれがやってくれるんだっけ…AOPか…
         List<TaskEntity> taskList = jooq.select().from(Tables.TASKS)
-                .fetchStream()
+                .fetch()
+                .stream()
                 .map(record -> new TaskEntity(
                         record.get(Tables.TASKS.ID).longValue(),
                         record.get(Tables.TASKS.TITLE)))
@@ -31,13 +32,11 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public Long create(TaskEntity taskEntity) {
-        jooq.settings().setExecuteLogging(true);
         final TasksRecord tasksRecord =
                 jooq.insertInto(Tables.TASKS, Tables.TASKS.TITLE)
                         .values(taskEntity.getTitle())
                         .returning(Tables.TASKS.ID)
                         .fetchOne();
-        find();
         return tasksRecord.getId();
     }
 }

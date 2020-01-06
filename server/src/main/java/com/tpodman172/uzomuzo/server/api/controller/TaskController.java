@@ -6,7 +6,6 @@ import com.tpodman172.uzomuzo.server.api.appService.model.TaskDTO;
 import com.tpodman172.uzomuzo.server.context.task.TaskEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,16 +22,18 @@ public class TaskController implements TaskApi {
 
     @Override
     public ResponseEntity<List<TaskDTO>> tasksGet() {
-        HttpHeaders header = new HttpHeaders();
-        header.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+//        HttpHeaders header = new HttpHeaders();
+//        header.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
         List<TaskDTO> tasks = taskAppService.fetchTasks();
 
-        return new ResponseEntity(tasks, header, HttpStatus.OK);
+        return new ResponseEntity(tasks, null, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Long> taskPost(@Valid TaskCreateDTO taskCreateDTO) {
-        return new ResponseEntity(taskAppService.createTask(new TaskEntity(null, taskCreateDTO.getTitle())), HttpStatus.OK);
+        return new ResponseEntity(taskAppService.createTask(new TaskEntity(null, taskCreateDTO.getTitle())), null, HttpStatus.OK);
     }
+
+
 }
