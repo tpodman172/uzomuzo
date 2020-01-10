@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+ROOT=$(pwd)
+TOOLS_PATH=$(dirname $0)
+
 docker run --rm \
-    -v ~/uzomuzo/client/api/generated:/local/out \
-    -v ~/uzomuzo/api/doc:/local/doc \
+    -v ${ROOT}/${TOOLS_PATH}/../client/api/generated:/local/out \
+    -v ${ROOT}/${TOOLS_PATH}/../api/doc:/local/doc \
         openapitools/openapi-generator-cli generate \
             -i /local/doc/index.yaml \
             -g typescript-axios \

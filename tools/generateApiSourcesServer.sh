@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-TARGET_FILE_PATH="/Users/nakasetakaharu/uzomuzo/api/doc"
-SERVER_FILE_PATH="/Users/nakasetakaharu/uzomuzo/server"
+ROOT=$(pwd)
+TOOLS_PATH=$(dirname $0)
+TARGET_FILE_PATH=${ROOT}/${TOOLS_PATH}"/../api/doc"
+SERVER_FILE_PATH=${ROOT}/${TOOLS_PATH}"/../server"
 PACKAGE="com.tpodman172.uzomuzo.server.api"
 
 PACKAGE_PATH=${PACKAGE} | tr '.' '/'
