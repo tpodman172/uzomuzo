@@ -9,4 +9,6 @@ docker run --rm \
         openapitools/openapi-generator-cli generate \
             -i /local/doc/index.yaml \
             -g typescript-axios \
-            -o /local/out/
+            -o /local/out/ \
+            --server-variables environment=${OPENAPI_DOMAIN:-localhost} \
+            --server-variables port=${OPENAPI_PORT:-8080}

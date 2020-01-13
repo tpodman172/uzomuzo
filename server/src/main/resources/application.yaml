@@ -1,9 +1,10 @@
 spring:
   datasource:
     #driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tsk2?useSSL=false
-    username: root
-    password: root
+    #url: jdbc:mysql://mysql_host:3306/tsk2?useSSL=false
+    url: ${MYSQL_URL:jdbc:mysql://mysql_host:3306/tsk2?useSSL=false}
+    username: ${MYSQL_USER_NAME:root}
+    password: ${MYSQL_PASSWORD:root}
     validationQuery: SELECT 1
     testOnBorrow: true
     type: com.zaxxer.hikari.HikariDataSource

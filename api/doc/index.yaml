@@ -5,7 +5,18 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:8080/
+  - url: http://{environment}:{port}/
+    variables:
+      environment:
+        default: localhost    # Development server
+        enum:
+          - api.tsk2.me # Production server
+          - localhost   # Development server
+      port:
+        default: 8080    # Development server
+        enum:
+          - 80     # Production server
+          - 8080   # Development server
 paths:
   /task:
     options:
