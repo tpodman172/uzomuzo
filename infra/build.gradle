@@ -42,7 +42,7 @@ jooq {
             }
             target {
                 //生成されるコードのパッケージ名
-                packageName = 'com.tpodman172.uzomuzo.infra.schema.rds'
+                packageName = 'com.tpodman172.tsk2.infra.schema.rds'
                 //生成されるコードを配置するディレクトリ
                 directory = 'src/main/java'
             }
