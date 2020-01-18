@@ -18,7 +18,7 @@ services:
     ports:
       - 3306:3306
   web:
-    image: openjdk11
+    image: tsk2web
     environment:
       MYSQL_URL: jdbc:mysql://mysql_host:3306/tsk2?useSSL=false
     container_name: tsk2web
