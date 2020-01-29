@@ -54,8 +54,7 @@ export OPENAPI_PORT=80
 
 ### generate source
 ```
-cd {srcRootPath}/tools
-./generateApiSourcesServer.sh 
+.tools/generateApiSourcesServer.sh 
 ```
 
 ### build (server)
