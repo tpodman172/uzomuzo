@@ -18,11 +18,10 @@ services:
     ports:
       - 3306:3306
   web:
-    image: tsk2web
+    image: ${AWS_ACOUNT_ID}.dkr.ecr.ap-northeast-1.amazonaws.com/tsk2web
     environment:
       MYSQL_URL: jdbc:mysql://mysql_host:3306/tsk2?useSSL=false
     container_name: tsk2web
-    build: ../server/
 #    volumes:
 #      - ./docker/web/data:/tmp
     ports:
