@@ -25,9 +25,6 @@ $ sudo rpm -Uvh https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch
 $ sudo yum install mysql-community-client
 ```
 
-### clone
-
-
 ### java setup
 ```
 $ wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz
@@ -47,24 +44,25 @@ OpenJDK 64-Bit Server VM 18.9 (build 11.0.2+9, mixed mode)
 ### system environment variable
 ```
 vi ~/.bash_profile
-export MYSQL_URL=jdbc:mysql://mysql_host:3306/tsk2?useSSL=false
+export AWS_ACOUNT_ID=xxxxxxxxx
 export OPENAPI_DOMAIN=api.tsk2.me
 export OPENAPI_PORT=80
 ```
 
-### generate source
+### clone
 ```
-.tools/generateApiSourcesServer.sh 
+$ git@github.com:tpodman172/tsk2.git 
+$ cd tsk2 
 ```
 
 ### build (server)
 ```
-$ cd {srcRootPath}
-$ ./gradlew server:bootJar -x generateTablesJooqSchemaSource
+コードビルドで実行 => ECRにpush
+todo: クライアントコードはS3にあげるように
 ```
 
 ### deploy
 ```
-$ docker-compose -f docker-compose_prd.yml up -d
+$ docker-compose -f infra/docker-compose_prd.yml up -d
 ```
 
