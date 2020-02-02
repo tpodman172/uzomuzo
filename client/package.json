@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --watch",
+    "build": "webpack",
     "watch": "webpack -w",
     "start": "webpack-dev-server --open-page index.html --inline --hot"
   },
