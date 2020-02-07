@@ -6,7 +6,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <h2>こうへい君、おはようございます！</h2>
+                <h2>こうへい君、おはようございます！！</h2>
                 <Board name="あさおきたらやることリスト"/>
             </div>
         );
