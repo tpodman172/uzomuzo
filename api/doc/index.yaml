@@ -18,6 +18,15 @@ servers:
           - 80     # Production server
           - 8080   # Development server
 paths:
+  /health:
+    get:
+      summary: health check
+      operationId: healthCheck
+      tags:
+        - health
+      responses:
+        '200':
+          description: OK
   /task:
     options:
       tags:
