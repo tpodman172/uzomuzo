@@ -1,0 +1,22 @@
+{
+  "executionRoleArn": "arn:aws:iam::072514135421:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "tsk2web",
+      "image": "072514135421.dkr.ecr.ap-northeast-1.amazonaws.com/tsk2web:latest",
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512",
+  "family": "tsk2web-taskDefinition",
+}
