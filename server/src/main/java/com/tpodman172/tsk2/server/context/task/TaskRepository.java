@@ -19,6 +19,7 @@ public class TaskRepository implements ITaskRepository {
     @Override
     public List<TaskEntity> find() {
         // そういえばコネクションのクローズはだれがやってくれるんだっけ…AOPか…
+        System.out.println(jooq.configuration());
         List<TaskEntity> taskList = jooq.select().from(Tables.TASKS)
                 .fetch()
                 .stream()

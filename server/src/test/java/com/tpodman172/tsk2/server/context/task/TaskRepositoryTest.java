@@ -1,13 +1,13 @@
 package com.tpodman172.tsk2.server.context.task;
 
-import com.tpodman172.uzomuzo.infra.schema.rds.tables.records.TasksRecord;
+import com.tpodman172.tsk2.infra.schema.rds.tables.records.TasksRecord;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.tpodman172.uzomuzo.infra.schema.rds.tables.Tasks.TASKS;
+import static com.tpodman172.tsk2.infra.schema.rds.tables.Tasks.TASKS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
