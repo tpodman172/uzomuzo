@@ -41,5 +41,5 @@
   "networkMode": "awsvpc",
   "cpu": "256",
   "memory": "512",
-  "family": "tsk2web-taskDefinition",
+  "family": "tsk2web-taskDefinition"
 }
