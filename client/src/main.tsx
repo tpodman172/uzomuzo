@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {Board} from './board';
+import Board from "./board";
 
 class App extends React.Component {
     render() {

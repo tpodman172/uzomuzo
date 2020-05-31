@@ -81,6 +81,24 @@ paths:
               schema:
                 type: integer
                 format: int64
+  /task/{id}:
+    delete:
+      tags:
+        - task
+      description: やることの削除
+      operationId: taskDelete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: task id
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: delete success
+
 components:
   schemas:
     TaskDTO:

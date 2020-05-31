@@ -1,6 +1,7 @@
 import * as React from 'react';
-import {ChangeEvent} from 'react';
-import {TaskApi, TaskCreateDTO} from "../api/generated/api";
+import {ChangeEvent, useState} from 'react';
+import {TaskApi, TaskCreateDTO, TaskDTO} from "../api/generated/api";
+import styled from "styled-components";
 
 // Propsの型定義
 type IProps = {
@@ -17,52 +18,56 @@ type Task = {
     title: string,
 }
 
-export class Board extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
-        super(props);
-        this.state = {
-            taskList: [],
-            newTask: ""
-        };
-    }
+const Board = (props: IProps) => {
 
-    displayButtonClick() {
+    const [taskList, setTaskList] = useState<TaskDTO[]>([]);
+    const [newTask, setNewTask] = useState<string>("");
+    const showList = () => {
         console.log('クリックされました');
-        getTaskList().then(taskList => {
-            if (taskList) {
-                taskList.forEach(value => console.log(value.id + ":" + value.title));
-                this.setState({taskList: taskList});
+        getTaskList().then(list => {
+            if (list) {
+                list.forEach(value => console.log(value.id + ":" + value.title));
+                setTaskList(list);
             }
         }).catch(err => {
             console.log(err.message);
         });
     }
 
-    textChange(e: ChangeEvent<HTMLInputElement>) {
-        this.setState({newTask: e.currentTarget.value})
+    const textChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewTask(e.currentTarget.value);
     }
 
-    registerButtonClick() {
-        createTask({title: this.state.newTask});
+    const registerButtonClick = () => {
+        createTask({title: newTask});
     }
 
-    listTask(taskList: Array<Task>) {
-        return taskList.map(task => <li key={task.id}>{task.title}</li>);
+    const listTask = (taskList: Array<Task>) => {
+        return taskList.map(task => <StyledDiv><input type="checkbox"/>
+            <li key={task.id}>{task.title}</li>
+        </StyledDiv>);
     }
 
-    render() {
-        return (
+    const deleteTask = async (id: number) => {
+        try {
+            await new TaskApi().taskDelete(id);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    return (
+        <div>
+            <h2>{props.name}</h2>
+            <ul>{listTask(taskList)}</ul>
+            <button onClick={() => showList()}>表示</button>
             <div>
-                <h2>{this.props.name}</h2>
-                <ul>{this.listTask(this.state.taskList)}</ul>
-                <button onClick={() => this.displayButtonClick()}>表示</button>
-                <div>
-                    <input type="text" onChange={e => this.textChange(e)}/>
-                    <button onClick={() => this.registerButtonClick()}>登録</button>
-                </div>
+                <input type="text" onChange={e => textChange(e)}/>
+                <button onClick={() => registerButtonClick()}>登録</button>
+                <button onClick={() => showList()}>削除</button>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 async function getTaskList() {
@@ -88,3 +93,8 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
         //throw new Error(`Error! HTTP Status: ${error.response}`);
     }
 }
+
+const StyledDiv = styled.label`
+    display:flex
+`
+export default Board;
