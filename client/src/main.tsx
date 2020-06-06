@@ -7,7 +7,7 @@ class App extends React.Component {
         return (
             <div>
                 <h2>こうへい君、おはようございます！！</h2>
-                <Board name="あさおきたらやることリスト"/>
+                <Board name="あさおきたらやるとリスト"/>
             </div>
         );
     }

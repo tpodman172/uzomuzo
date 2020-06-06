@@ -2,6 +2,7 @@ import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import {TaskApi, TaskCreateDTO, TaskDTO} from "../api/generated/api";
 import styled from "styled-components";
+import CheckBox from "./molecules/checkbox";
 
 // Propsの型定義
 type IProps = {
@@ -22,6 +23,7 @@ const Board = (props: IProps) => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [newTask, setNewTask] = useState<string>("");
+    const [checkedList, setCheckedList] = useState(new Set<number>());
     const showList = () => {
         console.log('クリックされました');
         getTaskList().then(list => {
@@ -42,10 +44,28 @@ const Board = (props: IProps) => {
         createTask({title: newTask});
     }
 
+    const onCheck = (checked: boolean, id: number) => {
+        // checkboxのチェックでrenderを走らせたくないのでmutableにしている
+        if (checked) {
+            setCheckedList((prev) => prev.add(id));
+        } else {
+            setCheckedList((prev) => {
+                prev.delete(id);
+                return prev;
+            });
+        }
+    }
+
     const listTask = (taskList: Array<Task>) => {
-        return taskList.map(task => <StyledDiv><input type="checkbox"/>
-            <li key={task.id}>{task.title}</li>
-        </StyledDiv>);
+        return taskList.map(task => {
+
+            return <StyledDiv>
+                <li key={task.id}>
+                    <CheckBox key={task.id} checked={checkedList.has(task.id)} onCheck={(checked) => onCheck(checked, task.id)}/>
+                    {task.title}
+                </li>
+            </StyledDiv>
+        });
     }
 
     const deleteTask = async (id: number) => {
@@ -56,6 +76,7 @@ const Board = (props: IProps) => {
         }
     };
 
+    console.log('render: board');
     return (
         <div>
             <h2>{props.name}</h2>

@@ -1,13 +1,18 @@
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     mode: "development",
-    entry: "./src/main.tsx",
+    entry: {
+        app: ["./src/main.tsx"]
+    },
     devtool: 'inline-source-map',
-    devServer: {},
-	output: {
+    devServer: {
+    },
+    output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "main.js"
+        filename: "main.js",
+        publicPath: "/dist/",
     },
     module: {
         rules: [
