@@ -27,10 +27,10 @@ paths:
       responses:
         '200':
           description: OK
-  /task:
+  /tasks:
     options:
       tags:
-        - task
+        - tasks
       responses:
         200:
           description: "200 response"
@@ -49,7 +49,7 @@ paths:
       summary: List all tasks
       operationId: tasksGet
       tags:
-        - task
+        - tasks
       responses:
         '200':
           description: A paged array of tasks
@@ -65,7 +65,7 @@ paths:
                 $ref: "#/components/schemas/Error"
     post:
       tags:
-        - task
+        - tasks
       description: やることの登録
       operationId: taskPost
       requestBody:
@@ -81,17 +81,17 @@ paths:
               schema:
                 type: integer
                 format: int64
-  /task/{id}:
+  /tasks/{id}:
     delete:
       tags:
-        - task
+        - tasks
       description: やることの削除
       operationId: taskDelete
       parameters:
         - name: id
           in: path
           required: true
-          description: task id
+          description: tasks id
           schema:
             type: integer
             format: int64

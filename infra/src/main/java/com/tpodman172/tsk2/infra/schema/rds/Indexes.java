@@ -4,7 +4,8 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
-import com.tpodman172.tsk2.infra.schema.rds.tables.Tasks;
+import com.tpodman172.tsk2.infra.schema.rds.tables.ChallengeHistory;
+import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
 
 import javax.annotation.processing.Generated;
 
@@ -30,13 +31,15 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index TASKS_PRIMARY = Indexes0.TASKS_PRIMARY;
+    public static final Index CHALLENGE_HISTORY_PRIMARY = Indexes0.CHALLENGE_HISTORY_PRIMARY;
+    public static final Index TASK_PRIMARY = Indexes0.TASK_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index TASKS_PRIMARY = Internal.createIndex("PRIMARY", Tasks.TASKS, new OrderField[] { Tasks.TASKS.ID }, true);
+        public static Index CHALLENGE_HISTORY_PRIMARY = Internal.createIndex("PRIMARY", ChallengeHistory.CHALLENGE_HISTORY, new OrderField[] { ChallengeHistory.CHALLENGE_HISTORY.CHALLENGE_HISTORY_ID }, true);
+        public static Index TASK_PRIMARY = Internal.createIndex("PRIMARY", Task.TASK, new OrderField[] { Task.TASK.TASK_ID }, true);
     }
 }

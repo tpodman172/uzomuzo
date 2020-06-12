@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
-import {TaskApi, TaskCreateDTO, TaskDTO} from "../api/generated/api";
+import {TasksApi, TaskCreateDTO, TaskDTO} from "../api/generated/api";
 import styled from "styled-components";
 import CheckBox from "./molecules/checkbox";
 
@@ -70,7 +70,7 @@ const Board = (props: IProps) => {
 
     const deleteTask = async (id: number) => {
         try {
-            await new TaskApi().taskDelete(id);
+            await new TasksApi().taskDelete(id);
         } catch (e) {
             console.log(e);
         }
@@ -97,7 +97,7 @@ async function getTaskList() {
             //headers: {'X-SPECIAL-TOKEN': 'aaaaaa'}
         }
         //const response = await new PetsApi().listPets(10);
-        const response = await new TaskApi().tasksGet();
+        const response = await new TasksApi().tasksGet();
         return response.data;
     } catch (error) {
         throw new Error(`Error! HTTP Status: ${error.response}`);
@@ -106,8 +106,8 @@ async function getTaskList() {
 
 async function createTask(taskCreateDTO: TaskCreateDTO) {
     try {
-        const response = await new TaskApi().taskPost(taskCreateDTO);
-        //const response = await new TaskApi().taskOptions();
+        const response = await new TasksApi().taskPost(taskCreateDTO);
+        //const response = await new TasksApi().taskOptions();
         return response.data;
     } catch (error) {
         console.log(error);

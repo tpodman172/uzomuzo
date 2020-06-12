@@ -4,8 +4,10 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
-import com.tpodman172.tsk2.infra.schema.rds.tables.Tasks;
-import com.tpodman172.tsk2.infra.schema.rds.tables.records.TasksRecord;
+import com.tpodman172.tsk2.infra.schema.rds.tables.ChallengeHistory;
+import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
+import com.tpodman172.tsk2.infra.schema.rds.tables.records.ChallengeHistoryRecord;
+import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskRecord;
 
 import javax.annotation.processing.Generated;
 
@@ -32,13 +34,15 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<TasksRecord, Long> IDENTITY_TASKS = Identities0.IDENTITY_TASKS;
+    public static final Identity<ChallengeHistoryRecord, Long> IDENTITY_CHALLENGE_HISTORY = Identities0.IDENTITY_CHALLENGE_HISTORY;
+    public static final Identity<TaskRecord, Long> IDENTITY_TASK = Identities0.IDENTITY_TASK;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<TasksRecord> KEY_TASKS_PRIMARY = UniqueKeys0.KEY_TASKS_PRIMARY;
+    public static final UniqueKey<ChallengeHistoryRecord> KEY_CHALLENGE_HISTORY_PRIMARY = UniqueKeys0.KEY_CHALLENGE_HISTORY_PRIMARY;
+    public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = UniqueKeys0.KEY_TASK_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -50,10 +54,12 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
-        public static Identity<TasksRecord, Long> IDENTITY_TASKS = Internal.createIdentity(Tasks.TASKS, Tasks.TASKS.ID);
+        public static Identity<ChallengeHistoryRecord, Long> IDENTITY_CHALLENGE_HISTORY = Internal.createIdentity(ChallengeHistory.CHALLENGE_HISTORY, ChallengeHistory.CHALLENGE_HISTORY.CHALLENGE_HISTORY_ID);
+        public static Identity<TaskRecord, Long> IDENTITY_TASK = Internal.createIdentity(Task.TASK, Task.TASK.TASK_ID);
     }
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<TasksRecord> KEY_TASKS_PRIMARY = Internal.createUniqueKey(Tasks.TASKS, "KEY_tasks_PRIMARY", Tasks.TASKS.ID);
+        public static final UniqueKey<ChallengeHistoryRecord> KEY_CHALLENGE_HISTORY_PRIMARY = Internal.createUniqueKey(ChallengeHistory.CHALLENGE_HISTORY, "KEY_challenge_history_PRIMARY", ChallengeHistory.CHALLENGE_HISTORY.CHALLENGE_HISTORY_ID);
+        public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = Internal.createUniqueKey(Task.TASK, "KEY_task_PRIMARY", Task.TASK.TASK_ID);
     }
 }

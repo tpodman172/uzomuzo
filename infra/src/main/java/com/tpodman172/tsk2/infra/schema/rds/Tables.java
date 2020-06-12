@@ -4,7 +4,8 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
-import com.tpodman172.tsk2.infra.schema.rds.tables.Tasks;
+import com.tpodman172.tsk2.infra.schema.rds.tables.ChallengeHistory;
+import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
 
 import javax.annotation.processing.Generated;
 
@@ -23,7 +24,12 @@ import javax.annotation.processing.Generated;
 public class Tables {
 
     /**
-     * The table <code>tsk2.tasks</code>.
+     * The table <code>tsk2.challenge_history</code>.
      */
-    public static final Tasks TASKS = Tasks.TASKS;
+    public static final ChallengeHistory CHALLENGE_HISTORY = ChallengeHistory.CHALLENGE_HISTORY;
+
+    /**
+     * The table <code>tsk2.task</code>.
+     */
+    public static final Task TASK = Task.TASK;
 }

@@ -4,7 +4,8 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
-import com.tpodman172.tsk2.infra.schema.rds.tables.Tasks;
+import com.tpodman172.tsk2.infra.schema.rds.tables.ChallengeHistory;
+import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +31,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tsk2 extends SchemaImpl {
 
-    private static final long serialVersionUID = 1487191753;
+    private static final long serialVersionUID = 1074151806;
 
     /**
      * The reference instance of <code>tsk2</code>
@@ -38,9 +39,14 @@ public class Tsk2 extends SchemaImpl {
     public static final Tsk2 TSK2 = new Tsk2();
 
     /**
-     * The table <code>tsk2.tasks</code>.
+     * The table <code>tsk2.challenge_history</code>.
      */
-    public final Tasks TASKS = com.tpodman172.tsk2.infra.schema.rds.tables.Tasks.TASKS;
+    public final ChallengeHistory CHALLENGE_HISTORY = com.tpodman172.tsk2.infra.schema.rds.tables.ChallengeHistory.CHALLENGE_HISTORY;
+
+    /**
+     * The table <code>tsk2.task</code>.
+     */
+    public final Task TASK = com.tpodman172.tsk2.infra.schema.rds.tables.Task.TASK;
 
     /**
      * No further instances allowed
@@ -64,6 +70,7 @@ public class Tsk2 extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Tasks.TASKS);
+            ChallengeHistory.CHALLENGE_HISTORY,
+            Task.TASK);
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-public class TaskController implements TaskApi {
+public class TaskController implements TasksApi {
 
     @Autowired
     TaskAppService taskAppService;
