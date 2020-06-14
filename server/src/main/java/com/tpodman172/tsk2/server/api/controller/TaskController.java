@@ -5,7 +5,6 @@ import com.tpodman172.tsk2.server.api.appService.model.TaskCreateDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +16,13 @@ import java.util.List;
 @RestController
 public class TaskController implements TasksApi {
 
-    @Autowired
     TaskAppService taskAppService;
+
+    @Override
+    public ResponseEntity<Void> putCompletedTask(Long id) {
+
+        return null;
+    }
 
     @Override
     public ResponseEntity<List<TaskDTO>> tasksGet() {

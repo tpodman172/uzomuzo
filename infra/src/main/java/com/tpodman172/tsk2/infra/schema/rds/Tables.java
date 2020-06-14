@@ -4,8 +4,8 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
-import com.tpodman172.tsk2.infra.schema.rds.tables.CompletedDailyTask;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
+import com.tpodman172.tsk2.infra.schema.rds.tables.TaskDailyProgress;
 
 import javax.annotation.processing.Generated;
 
@@ -24,12 +24,12 @@ import javax.annotation.processing.Generated;
 public class Tables {
 
     /**
-     * The table <code>tsk2.completed_daily_task</code>.
-     */
-    public static final CompletedDailyTask COMPLETED_DAILY_TASK = CompletedDailyTask.COMPLETED_DAILY_TASK;
-
-    /**
      * The table <code>tsk2.task</code>.
      */
     public static final Task TASK = Task.TASK;
+
+    /**
+     * The table <code>tsk2.task_daily_progress</code>.
+     */
+    public static final TaskDailyProgress TASK_DAILY_PROGRESS = TaskDailyProgress.TASK_DAILY_PROGRESS;
 }

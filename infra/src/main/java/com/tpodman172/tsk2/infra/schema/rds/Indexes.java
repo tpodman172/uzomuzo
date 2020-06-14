@@ -4,8 +4,8 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
-import com.tpodman172.tsk2.infra.schema.rds.tables.CompletedDailyTask;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
+import com.tpodman172.tsk2.infra.schema.rds.tables.TaskDailyProgress;
 
 import javax.annotation.processing.Generated;
 
@@ -31,15 +31,15 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index COMPLETED_DAILY_TASK_PRIMARY = Indexes0.COMPLETED_DAILY_TASK_PRIMARY;
     public static final Index TASK_PRIMARY = Indexes0.TASK_PRIMARY;
+    public static final Index TASK_DAILY_PROGRESS_PRIMARY = Indexes0.TASK_DAILY_PROGRESS_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index COMPLETED_DAILY_TASK_PRIMARY = Internal.createIndex("PRIMARY", CompletedDailyTask.COMPLETED_DAILY_TASK, new OrderField[] { CompletedDailyTask.COMPLETED_DAILY_TASK.TASK_ID, CompletedDailyTask.COMPLETED_DAILY_TASK.TARGET_DATE }, true);
         public static Index TASK_PRIMARY = Internal.createIndex("PRIMARY", Task.TASK, new OrderField[] { Task.TASK.TASK_ID }, true);
+        public static Index TASK_DAILY_PROGRESS_PRIMARY = Internal.createIndex("PRIMARY", TaskDailyProgress.TASK_DAILY_PROGRESS, new OrderField[] { TaskDailyProgress.TASK_DAILY_PROGRESS.TASK_ID, TaskDailyProgress.TASK_DAILY_PROGRESS.TARGET_DATE }, true);
     }
 }

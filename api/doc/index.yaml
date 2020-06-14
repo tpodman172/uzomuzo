@@ -134,45 +134,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /task/{id}/complete :
+  /task/{id}/progress :
     put:
-      summary: complete task
-      operationId: putCompletedTask
+      summary: update task status
+      operationId: putTaskProgress
       tags:
         - tasks
       parameters:
         - name: id
           in: path
           required: true
-          description: task_id
+          description: task id
           schema:
             type: integer
             format: int64
+        - name: completed
+          in: query
+          required: true
+          description: task completed
+          schema:
+            type: boolean
       responses:
         '204':
           description: update success # todo return update content
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-    delete:
-      summary: undo completed task
-      operationId: deleteCompletedTask
-      tags:
-        - tasks
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: task_id
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          description: success undo
         default:
           description: unexpected error
           content:

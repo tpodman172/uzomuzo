@@ -7,9 +7,10 @@ CREATE TABLE IF NOT EXISTS tsk2.task
     updated_at TIMESTAMP NOT NULL default current_timestamp on update current_timestamp
 );
 
-CREATE TABLE IF NOT EXISTS tsk2.completed_daily_task
+CREATE TABLE IF NOT EXISTS tsk2.task_daily_progress
 (
     task_id     BIGINT    NOT NULL,
+    completed   BOOLEAN,
     target_date DATE      NOT NULL,
     created_at  TIMESTAMP NOT NULL default current_timestamp,
     updated_at  TIMESTAMP NOT NULL default current_timestamp on update current_timestamp,
