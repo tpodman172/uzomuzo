@@ -32,4 +32,8 @@ public class TaskAppService {
     public Long createTask(TaskEntity taskEntity) {
         return taskRepository.create(taskEntity);
     }
+
+    public void updateProgress(Long taskId, boolean isCompleted){
+
+    }
 }

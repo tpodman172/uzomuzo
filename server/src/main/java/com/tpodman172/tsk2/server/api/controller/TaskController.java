@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,8 +20,7 @@ public class TaskController implements TasksApi {
     TaskAppService taskAppService;
 
     @Override
-    public ResponseEntity<Void> putCompletedTask(Long id) {
-
+    public ResponseEntity<Void> putTaskProgress(Long id, @NotNull @Valid Boolean completed) {
         return null;
     }
 

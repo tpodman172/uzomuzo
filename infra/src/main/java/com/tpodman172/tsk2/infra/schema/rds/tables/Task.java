@@ -9,7 +9,7 @@ import com.tpodman172.tsk2.infra.schema.rds.Keys;
 import com.tpodman172.tsk2.infra.schema.rds.Tsk2;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskRecord;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task extends TableImpl<TaskRecord> {
 
-    private static final long serialVersionUID = 1032925622;
+    private static final long serialVersionUID = -2121273651;
 
     /**
      * The reference instance of <code>tsk2.task</code>
@@ -71,12 +71,12 @@ public class Task extends TableImpl<TaskRecord> {
     /**
      * The column <code>tsk2.task.created_at</code>.
      */
-    public final TableField<TaskRecord, Timestamp> CREATED_AT = createField(DSL.name("created_at"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<TaskRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>tsk2.task.updated_at</code>.
      */
-    public final TableField<TaskRecord, Timestamp> UPDATED_AT = createField(DSL.name("updated_at"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<TaskRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * Create a <code>tsk2.task</code> table reference
@@ -167,7 +167,7 @@ public class Task extends TableImpl<TaskRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, String, Timestamp, Timestamp> fieldsRow() {
+    public Row4<Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row4) super.fieldsRow();
     }
 }

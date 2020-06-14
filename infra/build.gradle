@@ -33,12 +33,22 @@ jooq {
         }
         generator {
             name = 'org.jooq.codegen.DefaultGenerator'
+            generate {
+                javaTimeTypes = true
+            }
             database {
                 //対象とするデータベースを表すクラス名(後述)
                 name = 'org.jooq.meta.mysql.MySQLDatabase'
                 inputSchema = 'tsk2'
                 includes = '.*'
                 excludes = ''
+                forcedTypes {
+                    forcedType {
+                        name = 'BOOLEAN'
+                        expression = '.*'
+                        types = '(?i:TINYINT\\(1\\))'
+                    }
+                }
             }
             target {
                 //生成されるコードのパッケージ名

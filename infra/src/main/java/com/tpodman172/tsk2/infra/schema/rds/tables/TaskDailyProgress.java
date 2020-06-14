@@ -9,8 +9,8 @@ import com.tpodman172.tsk2.infra.schema.rds.Keys;
 import com.tpodman172.tsk2.infra.schema.rds.Tsk2;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskDailyProgressRecord;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,7 +43,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TaskDailyProgress extends TableImpl<TaskDailyProgressRecord> {
 
-    private static final long serialVersionUID = 1006754877;
+    private static final long serialVersionUID = -288715086;
 
     /**
      * The reference instance of <code>tsk2.task_daily_progress</code>
@@ -66,22 +66,22 @@ public class TaskDailyProgress extends TableImpl<TaskDailyProgressRecord> {
     /**
      * The column <code>tsk2.task_daily_progress.completed</code>.
      */
-    public final TableField<TaskDailyProgressRecord, Byte> COMPLETED = createField(DSL.name("completed"), org.jooq.impl.SQLDataType.TINYINT, this, "");
+    public final TableField<TaskDailyProgressRecord, Boolean> COMPLETED = createField(DSL.name("completed"), org.jooq.impl.SQLDataType.BOOLEAN, this, "");
 
     /**
      * The column <code>tsk2.task_daily_progress.target_date</code>.
      */
-    public final TableField<TaskDailyProgressRecord, Date> TARGET_DATE = createField(DSL.name("target_date"), org.jooq.impl.SQLDataType.DATE.nullable(false), this, "");
+    public final TableField<TaskDailyProgressRecord, LocalDate> TARGET_DATE = createField(DSL.name("target_date"), org.jooq.impl.SQLDataType.LOCALDATE.nullable(false), this, "");
 
     /**
      * The column <code>tsk2.task_daily_progress.created_at</code>.
      */
-    public final TableField<TaskDailyProgressRecord, Timestamp> CREATED_AT = createField(DSL.name("created_at"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<TaskDailyProgressRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>tsk2.task_daily_progress.updated_at</code>.
      */
-    public final TableField<TaskDailyProgressRecord, Timestamp> UPDATED_AT = createField(DSL.name("updated_at"), org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<TaskDailyProgressRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * Create a <code>tsk2.task_daily_progress</code> table reference
@@ -176,7 +176,7 @@ public class TaskDailyProgress extends TableImpl<TaskDailyProgressRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Long, Byte, Date, Timestamp, Timestamp> fieldsRow() {
+    public Row5<Long, Boolean, LocalDate, LocalDateTime, LocalDateTime> fieldsRow() {
         return (Row5) super.fieldsRow();
     }
 }

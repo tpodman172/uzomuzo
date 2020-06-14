@@ -17,4 +17,3 @@ CREATE TABLE IF NOT EXISTS tsk2.task_daily_progress
     PRIMARY KEY (task_id, target_date),
     FOREIGN KEY task_task_id_completed_daily_task_task_id (task_id)
     REFERENCES tsk2.task (task_id)
-);
