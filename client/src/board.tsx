@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
-import {TasksApi, TaskCreateDTO, TaskDTO} from "../api/generated/api";
+import {TaskCreateDTO, TaskDTO, TasksApi} from "../api/generated";
 import styled from "styled-components";
 import CheckBox from "./molecules/checkbox";
 
@@ -41,17 +41,22 @@ const Board = (props: IProps) => {
     }
 
     const registerButtonClick = () => {
-        createTask({title: newTask});
+        createTask({title: newTask}).then(() => {
+            // todo show toast?
+        });
     }
 
-    const onCheck = (checked: boolean, id: number) => {
-        // checkboxのチェックでrenderを走らせたくないのでmutableにしている
+    const handleCheck = (checked: boolean, taskId: number) => {
+        updateProgress(taskId, checked).catch((e) => {
+            console.log(e);
+            // todo checkを元に戻す...？
+        });
         if (checked) {
-            setCheckedList((prev) => prev.add(id));
+            setCheckedList((prev) => new Set(prev.add(taskId)));
         } else {
             setCheckedList((prev) => {
-                prev.delete(id);
-                return prev;
+                prev.delete(taskId);
+                return new Set(prev);
             });
         }
     }
@@ -61,7 +66,8 @@ const Board = (props: IProps) => {
 
             return <StyledDiv>
                 <li key={task.id}>
-                    <CheckBox key={task.id} checked={checkedList.has(task.id)} onCheck={(checked) => onCheck(checked, task.id)}/>
+                    <CheckBox key={task.id} checked={checkedList.has(task.id)}
+                              onCheck={(checked) => handleCheck(checked, task.id)}/>
                     {task.title}
                 </li>
             </StyledDiv>
@@ -104,6 +110,7 @@ async function getTaskList() {
     }
 }
 
+// todo move...
 async function createTask(taskCreateDTO: TaskCreateDTO) {
     try {
         const response = await new TasksApi().taskPost(taskCreateDTO);
@@ -113,6 +120,10 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
         console.log(error);
         //throw new Error(`Error! HTTP Status: ${error.response}`);
     }
+}
+
+const updateProgress = async (taskId: number, isCompleted: boolean) => {
+    new TasksApi().putTaskProgress(taskId, isCompleted);
 }
 
 const StyledDiv = styled.label`

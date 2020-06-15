@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+// todo error handling by AOP
 @AllArgsConstructor
 @RestController
 public class TaskController implements TasksApi {
@@ -21,11 +22,12 @@ public class TaskController implements TasksApi {
 
     @Override
     public ResponseEntity<Void> putTaskProgress(Long id, @NotNull @Valid Boolean completed) {
-        return null;
+        taskAppService.updateTaskProgress(id, completed);
+        return new ResponseEntity(null, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<TaskDTO>> tasksGet() {
+    public ResponseEntity<List<TaskDTO>> tasksGet() { // todo rename getTasks
 //        HttpHeaders header = new HttpHeaders();
 //        header.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
@@ -35,7 +37,7 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<Long> taskPost(@Valid TaskCreateDTO taskCreateDTO) {
+    public ResponseEntity<Long> taskPost(@Valid TaskCreateDTO taskCreateDTO) { // todo rename postTask
         return new ResponseEntity(taskAppService.createTask(new TaskEntity(null, taskCreateDTO.getTitle())), null, HttpStatus.OK);
     }
 

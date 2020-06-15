@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+import static com.tpodman172.tsk2.infra.schema.rds.Tables.TASK_DAILY_PROGRESS;
+
 @Component //todo -> @Repository
 public class TaskProgressRepository implements ITaskProgressRepository {
 
@@ -13,13 +15,15 @@ public class TaskProgressRepository implements ITaskProgressRepository {
     private DSLContext jooq;
 
     @Override
-    public void update(Long taskId, LocalDate targetDate, Boolean isCompleted) {
-
+    public void update(TaskProgressEntity entity) {
+        jooq.insertInto(
+                TASK_DAILY_PROGRESS,
+                TASK_DAILY_PROGRESS.TASK_ID,
+                TASK_DAILY_PROGRESS.TARGET_DATE,
+                TASK_DAILY_PROGRESS.COMPLETED)
+                .values(entity.getTaskId(), entity.getTargetDate(), entity.isCompleted())
+                .onDuplicateKeyUpdate()
+                .set(TASK_DAILY_PROGRESS.COMPLETED, entity.isCompleted())
+                .execute();
     }
-//    @Override
-//    public void update(Long taskId, Date targetDate, boolean isCompleted) {
-//        byte b = 0x01;
-//        jooq.insertInto(TASK_DAILY_PROGRESS, TASK_DAILY_PROGRESS.TASK_ID, TASK_DAILY_PROGRESS.TARGET_DATE, TASK_DAILY_PROGRESS.COMPLETED)
-//                .values(taskId, targetDate, b).execute();
-//    }
 }

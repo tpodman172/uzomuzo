@@ -7,14 +7,11 @@ interface Props {
 }
 
 const CheckBox = ({checked, onCheck}: Props) => {
-    const [localChecked, setLocalChecked] = useState<boolean>(checked);
-    const handleChecked = () => {
-        setLocalChecked(!localChecked);
-        onCheck(!localChecked);
-    }
+    // todo 内部にstateを持つことは正しいのだろうか
+    // 親にチェックボックスのstateを持つこともできるが親側でcheckedの制御もしてあげないといけない（いずれにせよ初期化でやってるか…）
     return (
         <>
-            <input onChange={() => handleChecked()} checked={localChecked} type="checkbox"/>
+            <input onChange={() => onCheck(!checked)} checked={checked} type="checkbox"/>
         </>
     )
 }
