@@ -98,37 +98,29 @@ paths:
       responses:
         '204':
           description: delete success
-  /task/history:
-    options:
-      tags:
-        - tasks
-      responses:
-        200:
-          description: "200 response"
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: "string"
-            Access-Control-Allow-Methods:
-              schema:
-                type: "string"
-            Access-Control-Allow-Headers:
-              schema:
-                type: "string"
-          content: {}
+  /task/progress/{date}:
     get:
-      summary: List task history
-      operationId: getTaskHistory
+      summary: get task progress by date
+      operationId: getTaskProgress
       tags:
         - tasks
+      parameters:
+        - name: date
+          in: path
+          required: false # todo 未指定の場合は全部とる実装
+          description: target date. [wip]When not specified, all progress returned.
+          schema:
+            type: string
+            format: date
+            example: '2020-05-01'
       responses:
         '200':
-          description: array of task history
+          description: array of task progress
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskHistoryDTO"
-        default: # todo 200で定義されている
+                $ref: "#/components/schemas/TaskProgressDTO"
+        default:
           description: unexpected error
           content:
             application/json:
@@ -185,7 +177,7 @@ components:
       properties:
         title:
           type: string
-    TaskHistoryDTO:
+    TaskProgressDTO:
       required:
         - id
         - taskTitle
@@ -195,7 +187,7 @@ components:
         id:
           type: integer
           format: int64
-          description: challenge history id
+          description: task id
         taskTitle:
           type: string
         targetDate:
