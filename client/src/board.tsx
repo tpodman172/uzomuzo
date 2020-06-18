@@ -40,22 +40,22 @@ const Board = (props: IProps) => {
         setNewTask(e.currentTarget.value);
     }
 
-    const registerButtonClick = () => {
+    const register = () => {
         createTask({title: newTask}).then(() => {
             // todo show toast?
         });
     }
 
-    const handleCheck = (checked: boolean, taskId: number) => {
-        updateProgress(taskId, checked).catch((e) => {
+    const handleCheck = (checked: boolean, id: number) => {
+        updateProgress(id, checked).catch((e) => {
             console.log(e);
             // todo checkを元に戻す...？
         });
         if (checked) {
-            setCheckedList((prev) => new Set(prev.add(taskId)));
+            setCheckedList((prev) => new Set(prev.add(id)));
         } else {
             setCheckedList((prev) => {
-                prev.delete(taskId);
+                prev.delete(id);
                 return new Set(prev);
             });
         }
@@ -88,9 +88,10 @@ const Board = (props: IProps) => {
             <h2>{props.name}</h2>
             <ul>{listTask(taskList)}</ul>
             <button onClick={() => showList()}>表示</button>
+            <button onClick={() => showList()}>昨日</button>
             <div>
                 <input type="text" onChange={e => textChange(e)}/>
-                <button onClick={() => registerButtonClick()}>登録</button>
+                <button onClick={() => register()}>登録</button>
                 <button onClick={() => showList()}>削除</button>
             </div>
         </div>
@@ -103,7 +104,7 @@ async function getTaskList() {
             //headers: {'X-SPECIAL-TOKEN': 'aaaaaa'}
         }
         //const response = await new PetsApi().listPets(10);
-        const response = await new TasksApi().tasksGet();
+        const response = await new TasksApi().getTasks();
         return response.data;
     } catch (error) {
         throw new Error(`Error! HTTP Status: ${error.response}`);
@@ -113,7 +114,7 @@ async function getTaskList() {
 // todo move...
 async function createTask(taskCreateDTO: TaskCreateDTO) {
     try {
-        const response = await new TasksApi().taskPost(taskCreateDTO);
+        const response = await new TasksApi().postTask(taskCreateDTO);
         //const response = await new TasksApi().taskOptions();
         return response.data;
     } catch (error) {

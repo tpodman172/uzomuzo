@@ -47,7 +47,7 @@ paths:
           content: {}
     get:
       summary: List all tasks
-      operationId: tasksGet
+      operationId: getTasks
       tags:
         - tasks
       responses:
@@ -67,7 +67,7 @@ paths:
       tags:
         - tasks
       description: やることの登録
-      operationId: taskPost
+      operationId: postTask
       requestBody:
         content:
           application/json:

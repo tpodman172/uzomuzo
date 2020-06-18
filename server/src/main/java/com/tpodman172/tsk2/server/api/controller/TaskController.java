@@ -27,7 +27,7 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<List<TaskDTO>> tasksGet() { // todo rename getTasks
+    public ResponseEntity<List<TaskDTO>> getTasks() {
 //        HttpHeaders header = new HttpHeaders();
 //        header.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 
@@ -37,7 +37,7 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<Long> taskPost(@Valid TaskCreateDTO taskCreateDTO) { // todo rename postTask
+    public ResponseEntity<Long> postTask(@Valid TaskCreateDTO taskCreateDTO) {
         return new ResponseEntity(taskAppService.createTask(new TaskEntity(null, taskCreateDTO.getTitle())), null, HttpStatus.OK);
     }
 
