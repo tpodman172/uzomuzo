@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
-import {TaskCreateDTO, TaskDTO, TaskProgressDTO, TasksApi} from "../api/generated";
-import styled from "styled-components";
-import CheckBox from "./molecules/checkbox";
-import {Simulate} from "react-dom/test-utils";
+import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
+import styled from 'styled-components';
+import CheckBox from './molecules/checkbox';
+import {format, addDays} from 'date-fns'
 
 // Propsの型定義
 type IProps = {
@@ -38,12 +38,9 @@ const Board = (props: IProps) => {
     }
 
     const showTaskProgressList = () => {
-        // todo specify yesterday(using date-fns)
-        fetchTaskProgress(new Date()).then(taskProgressDTO => {
-            if (taskProgressDTO) {
-                taskProgressDTO.tasks.forEach(value => console.log(value.id + ":" + value.taskTitle));
-                setTaskList(taskProgressDTO.tasks);
-            }
+        fetchTaskProgress(addDays(new Date(), -1)).then(taskProgressDTO => {
+            setTaskList(taskProgressDTO.tasks);
+            setCheckedList(new Set(taskProgressDTO.completedTaskIds));
         });
     }
 
@@ -72,7 +69,7 @@ const Board = (props: IProps) => {
         }
     }
 
-    const listTask = (taskList: Array<Task>) => {
+    const listTask = () => {
         return taskList.map(task => {
             return <StyledDiv>
                 <li key={task.id}>
@@ -96,7 +93,7 @@ const Board = (props: IProps) => {
     return (
         <div>
             <h2>{props.name}</h2>
-            <ul>{listTask(taskList)}</ul>
+            <ul>{listTask()}</ul>
             <button onClick={() => showList()}>表示</button>
             <button onClick={() => showTaskProgressList()}>昨日</button>
             <div>
@@ -122,13 +119,8 @@ async function getTaskList() {
 }
 
 const fetchTaskProgress = async (targetDate: Date) => {
-    try {
-        // todo format date (using date-fns)
-        const response = await new TasksApi().getTaskProgress('2020-06-20');
-        return response.data;
-    } catch (e) {
-        console.log(e);
-    }
+    const response = await new TasksApi().getTaskProgress(format(targetDate, 'yyyy-MM-dd'));
+    return response.data;
 }
 
 // todo move...
