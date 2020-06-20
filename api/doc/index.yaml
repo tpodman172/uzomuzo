@@ -119,9 +119,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/TaskProgressDTO"
+                $ref: "#/components/schemas/TaskProgressDTO"
         default:
           description: unexpected error
           content:
@@ -181,23 +179,23 @@ components:
           type: string
     TaskProgressDTO:
       required:
-        - id
-        - taskTitle
         - targetDate
-        - completed
+        - tasks
+        - completedTaskId
       properties:
-        id:
-          type: integer
-          format: int64
-          description: task id
-        taskTitle:
-          type: string
         targetDate:
           type: string
           format: date
           example: '2020-05-03'
-        completed:
-          type: boolean
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/TaskDTO"
+        completedTaskId:
+          type: array
+          items:
+            type: integer
+            format: int64
     Error:
       required:
         - code

@@ -1,7 +1,6 @@
 package com.tpodman172.tsk2.server.api.appService;
 
 
-import com.tpodman172.tsk2.infra.schema.rds.tables.TaskProgress;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskProgressDTO;
 import com.tpodman172.tsk2.server.context.task.ITaskRepository;
@@ -10,7 +9,6 @@ import com.tpodman172.tsk2.server.context.taskProgress.ITaskProgressRepository;
 import com.tpodman172.tsk2.server.context.taskProgress.TaskProgressEntity;
 import lombok.AllArgsConstructor;
 import lombok.val;
-import org.apache.tomcat.util.http.fileupload.FileItemStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,15 +39,14 @@ public class TaskAppService {
                 .collect(Collectors.toList());
     }
 
-    public List<TaskProgressDTO> fetchTaskProgress(LocalDate targetDate) {
+    public TaskProgressDTO fetchTaskProgress(LocalDate targetDate) {
         val taskProgressEntityMap = taskProgressRepository.findByTargetDate(targetDate)
                 .stream()
                 .collect(Collectors.toMap(TaskProgressEntity::getTaskId, Function.identity()));
 
-        return taskRepository.findByIds(taskProgressEntityMap.keySet())
-                .stream()
-                .map(taskEntity -> mapToTaskProgressDTO(taskEntity, taskProgressEntityMap))
-                .collect(Collectors.toList());
+        val taskEntities = taskRepository.find().stream().collect(Collectors.toList());
+
+        return convertToTaskProgressDTO(targetDate, taskEntities, taskProgressEntityMap);
     }
 
     public Long createTask(TaskEntity taskEntity) {
@@ -58,15 +55,23 @@ public class TaskAppService {
 
     public void updateTaskProgress(Long taskId, boolean isCompleted) {
         taskProgressRepository.update(new TaskProgressEntity(taskId, LocalDate.now(), isCompleted));
-        return;
     }
 
-    private TaskProgressDTO mapToTaskProgressDTO(TaskEntity taskEntity, Map<Long, TaskProgressEntity> taskProgressEntityMap){
+    private TaskProgressDTO convertToTaskProgressDTO(LocalDate targetDate, List<TaskEntity> taskEntities, Map<Long, TaskProgressEntity> taskProgressEntityMap) {
         val taskProgressDTO = new TaskProgressDTO();
-        taskProgressDTO.setId(taskEntity.getId());
-        taskProgressDTO.setTaskTitle(taskEntity.getTitle());
-        taskProgressDTO.setCompleted(taskProgressEntityMap.get(taskEntity.getId()).isCompleted());
-        taskProgressDTO.setTargetDate(taskProgressEntityMap.get(taskEntity.getId()).getTargetDate());
+        taskProgressDTO.setTargetDate(targetDate);
+        taskProgressDTO.setTasks(taskEntities
+                .stream()
+                .map(this::mapToTaskDTO)
+                .collect(Collectors.toList()));
+        taskProgressDTO.setCompletedTaskId(taskProgressEntityMap.keySet().stream().collect(Collectors.toList()));
         return taskProgressDTO;
+    }
+
+    private TaskDTO mapToTaskDTO(TaskEntity taskEntity) {
+        val taskDTO = new TaskDTO();
+        taskDTO.setId(taskEntity.getId());
+        taskDTO.setTitle(taskEntity.getTitle());
+        return taskDTO;
     }
 }

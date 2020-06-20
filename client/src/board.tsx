@@ -23,7 +23,6 @@ type Task = {
 const Board = (props: IProps) => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
-    const [taskProgressList, setTaskProgressList] = useState<TaskProgressDTO[]>([]);
     const [newTask, setNewTask] = useState<string>("");
     const [checkedList, setCheckedList] = useState(new Set<number>());
     const showList = () => {
@@ -40,10 +39,10 @@ const Board = (props: IProps) => {
 
     const showTaskProgressList = () => {
         // todo specify yesterday(using date-fns)
-        fetchTaskProgress(new Date()).then(list => {
-            if (list) {
-                list.forEach(value => console.log(value.id + ":" + value.taskTitle));
-                setTaskProgressList(list);
+        fetchTaskProgress(new Date()).then(taskProgressDTO => {
+            if (taskProgressDTO) {
+                taskProgressDTO.tasks.forEach(value => console.log(value.id + ":" + value.taskTitle));
+                setTaskList(taskProgressDTO.tasks);
             }
         });
     }
@@ -75,7 +74,6 @@ const Board = (props: IProps) => {
 
     const listTask = (taskList: Array<Task>) => {
         return taskList.map(task => {
-
             return <StyledDiv>
                 <li key={task.id}>
                     <CheckBox key={task.id} checked={checkedList.has(task.id)}
@@ -86,18 +84,6 @@ const Board = (props: IProps) => {
         });
     }
 
-    const listTaskProgress = (taskList: Array<TaskProgressDTO>) => {
-        return taskList.map(taskProgress => {
-
-            return <StyledDiv>
-                <li key={taskProgress.id}>
-                    <CheckBox key={taskProgress.id} checked={checkedList.has(taskProgress.id)}
-                              onCheck={(checked) => handleCheck(checked, taskProgress.id)}/>
-                    {taskProgress.taskTitle}
-                </li>
-            </StyledDiv>
-        });
-    }
     const deleteTask = async (id: number) => {
         try {
             await new TasksApi().taskDelete(id);
@@ -110,7 +96,7 @@ const Board = (props: IProps) => {
     return (
         <div>
             <h2>{props.name}</h2>
-            <ul>{listTaskProgress(taskProgressList)}</ul>
+            <ul>{listTask(taskList)}</ul>
             <button onClick={() => showList()}>表示</button>
             <button onClick={() => showTaskProgressList()}>昨日</button>
             <div>

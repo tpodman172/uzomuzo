@@ -40,7 +40,7 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<List<TaskProgressDTO>> getTaskProgress(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<TaskProgressDTO> getTaskProgress(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return new ResponseEntity(taskAppService.fetchTaskProgress(date), null, HttpStatus.OK);
     }
 

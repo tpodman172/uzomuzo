@@ -10,3 +10,8 @@
     * 日、id、
 * 昨日のデータを表示する導線（ボタン）
 * 昨日のtaskを結果付きで返すAPI
+* serverのprogress取ってくるところはtaskをベースに（記録がなくても取れるように）
+* フロントで取得時のチェックボックスの制御
+* progressのAPI呼ぶときのパラメータを固定値ではなく動的に（date-fns）入れる
+* refactor
+    * フロントのtaskDtoを使って表示されているところをtaskProgressDtoに置き換え
