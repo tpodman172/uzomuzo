@@ -119,7 +119,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskProgressDTO"
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskProgressDTO"
         default:
           description: unexpected error
           content:
@@ -167,7 +169,7 @@ components:
           format: int64
         title:
           type: string
-    TasksDTO:
+    TasksDTO: # todo TasksDTOいる？
       type: array
       items:
         $ref: "#/components/schemas/TaskDTO"

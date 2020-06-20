@@ -3,14 +3,17 @@ package com.tpodman172.tsk2.server.api.controller;
 import com.tpodman172.tsk2.server.api.appService.TaskAppService;
 import com.tpodman172.tsk2.server.api.appService.model.TaskCreateDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
+import com.tpodman172.tsk2.server.api.appService.model.TaskProgressDTO;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 // todo error handling by AOP
@@ -34,6 +37,11 @@ public class TaskController implements TasksApi {
         List<TaskDTO> tasks = taskAppService.fetchTasks();
 
         return new ResponseEntity(tasks, null, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<TaskProgressDTO>> getTaskProgress(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return new ResponseEntity(taskAppService.fetchTaskProgress(date), null, HttpStatus.OK);
     }
 
     @Override

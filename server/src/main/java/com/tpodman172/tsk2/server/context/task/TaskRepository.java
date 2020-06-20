@@ -1,13 +1,15 @@
 package com.tpodman172.tsk2.server.context.task;
 
-import com.tpodman172.tsk2.infra.schema.rds.Tables;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskRecord;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.tpodman172.tsk2.infra.schema.rds.Tables.TASK;
 
 
 @Component
@@ -17,15 +19,23 @@ public class TaskRepository implements ITaskRepository {
     private DSLContext jooq;
 
     @Override
+    public List<TaskEntity> findByIds(Collection<Long> taskIds) {
+        return jooq.selectFrom(TASK).where(TASK.TASK_ID.in(taskIds))
+                .fetchStream()
+                .map(taskRecord -> new TaskEntity(taskRecord.getTaskId(), taskRecord.getTitle()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<TaskEntity> find() {
         // そういえばコネクションのクローズはだれがやってくれるんだっけ…AOPか…
         System.out.println(jooq.configuration());
-        List<TaskEntity> taskList = jooq.select().from(Tables.TASK)
+        List<TaskEntity> taskList = jooq.select().from(TASK)
                 .fetch()
                 .stream()
                 .map(record -> new TaskEntity(
-                        record.get(Tables.TASK.TASK_ID).longValue(),
-                        record.get(Tables.TASK.TITLE)))
+                        record.get(TASK.TASK_ID).longValue(),
+                        record.get(TASK.TITLE)))
                 .collect(Collectors.toList());
 
         return taskList;
@@ -34,9 +44,9 @@ public class TaskRepository implements ITaskRepository {
     @Override
     public Long create(TaskEntity taskEntity) {
         final TaskRecord tasksRecord =
-                jooq.insertInto(Tables.TASK, Tables.TASK.TITLE)
+                jooq.insertInto(TASK, TASK.TITLE)
                         .values(taskEntity.getTitle())
-                        .returning(Tables.TASK.TASK_ID)
+                        .returning(TASK.TASK_ID)
                         .fetchOne();
         return tasksRecord.getTaskId();
     }

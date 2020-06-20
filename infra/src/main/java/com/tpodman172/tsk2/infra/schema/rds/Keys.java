@@ -5,8 +5,8 @@ package com.tpodman172.tsk2.infra.schema.rds;
 
 
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
-import com.tpodman172.tsk2.infra.schema.rds.tables.TaskDailyProgress;
-import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskDailyProgressRecord;
+import com.tpodman172.tsk2.infra.schema.rds.tables.TaskProgress;
+import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskProgressRecord;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskRecord;
 
 import javax.annotation.processing.Generated;
@@ -42,13 +42,13 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = UniqueKeys0.KEY_TASK_PRIMARY;
-    public static final UniqueKey<TaskDailyProgressRecord> KEY_TASK_DAILY_PROGRESS_PRIMARY = UniqueKeys0.KEY_TASK_DAILY_PROGRESS_PRIMARY;
+    public static final UniqueKey<TaskProgressRecord> KEY_TASK_PROGRESS_PRIMARY = UniqueKeys0.KEY_TASK_PROGRESS_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<TaskDailyProgressRecord, TaskRecord> TASK_DAILY_PROGRESS_IBFK_1 = ForeignKeys0.TASK_DAILY_PROGRESS_IBFK_1;
+    public static final ForeignKey<TaskProgressRecord, TaskRecord> TASK_PROGRESS_IBFK_1 = ForeignKeys0.TASK_PROGRESS_IBFK_1;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -60,10 +60,10 @@ public class Keys {
 
     private static class UniqueKeys0 {
         public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = Internal.createUniqueKey(Task.TASK, "KEY_task_PRIMARY", Task.TASK.TASK_ID);
-        public static final UniqueKey<TaskDailyProgressRecord> KEY_TASK_DAILY_PROGRESS_PRIMARY = Internal.createUniqueKey(TaskDailyProgress.TASK_DAILY_PROGRESS, "KEY_task_daily_progress_PRIMARY", TaskDailyProgress.TASK_DAILY_PROGRESS.TASK_ID, TaskDailyProgress.TASK_DAILY_PROGRESS.TARGET_DATE);
+        public static final UniqueKey<TaskProgressRecord> KEY_TASK_PROGRESS_PRIMARY = Internal.createUniqueKey(TaskProgress.TASK_PROGRESS, "KEY_task_progress_PRIMARY", TaskProgress.TASK_PROGRESS.TASK_ID, TaskProgress.TASK_PROGRESS.TARGET_DATE);
     }
 
     private static class ForeignKeys0 {
-        public static final ForeignKey<TaskDailyProgressRecord, TaskRecord> TASK_DAILY_PROGRESS_IBFK_1 = Internal.createForeignKey(com.tpodman172.tsk2.infra.schema.rds.Keys.KEY_TASK_PRIMARY, TaskDailyProgress.TASK_DAILY_PROGRESS, "task_daily_progress_ibfk_1", TaskDailyProgress.TASK_DAILY_PROGRESS.TASK_ID);
+        public static final ForeignKey<TaskProgressRecord, TaskRecord> TASK_PROGRESS_IBFK_1 = Internal.createForeignKey(com.tpodman172.tsk2.infra.schema.rds.Keys.KEY_TASK_PRIMARY, TaskProgress.TASK_PROGRESS, "task_progress_ibfk_1", TaskProgress.TASK_PROGRESS.TASK_ID);
     }
 }

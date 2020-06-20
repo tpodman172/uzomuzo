@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
-import {TaskCreateDTO, TaskDTO, TasksApi} from "../api/generated";
+import {TaskCreateDTO, TaskDTO, TaskProgressDTO, TasksApi} from "../api/generated";
 import styled from "styled-components";
 import CheckBox from "./molecules/checkbox";
+import {Simulate} from "react-dom/test-utils";
 
 // Propsの型定義
 type IProps = {
@@ -22,6 +23,7 @@ type Task = {
 const Board = (props: IProps) => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
+    const [taskProgressList, setTaskProgressList] = useState<TaskProgressDTO[]>([]);
     const [newTask, setNewTask] = useState<string>("");
     const [checkedList, setCheckedList] = useState(new Set<number>());
     const showList = () => {
@@ -33,6 +35,16 @@ const Board = (props: IProps) => {
             }
         }).catch(err => {
             console.log(err.message);
+        });
+    }
+
+    const showTaskProgressList = () => {
+        // todo specify yesterday(using date-fns)
+        fetchTaskProgress(new Date()).then(list => {
+            if (list) {
+                list.forEach(value => console.log(value.id + ":" + value.taskTitle));
+                setTaskProgressList(list);
+            }
         });
     }
 
@@ -74,6 +86,18 @@ const Board = (props: IProps) => {
         });
     }
 
+    const listTaskProgress = (taskList: Array<TaskProgressDTO>) => {
+        return taskList.map(taskProgress => {
+
+            return <StyledDiv>
+                <li key={taskProgress.id}>
+                    <CheckBox key={taskProgress.id} checked={checkedList.has(taskProgress.id)}
+                              onCheck={(checked) => handleCheck(checked, taskProgress.id)}/>
+                    {taskProgress.taskTitle}
+                </li>
+            </StyledDiv>
+        });
+    }
     const deleteTask = async (id: number) => {
         try {
             await new TasksApi().taskDelete(id);
@@ -86,9 +110,9 @@ const Board = (props: IProps) => {
     return (
         <div>
             <h2>{props.name}</h2>
-            <ul>{listTask(taskList)}</ul>
+            <ul>{listTaskProgress(taskProgressList)}</ul>
             <button onClick={() => showList()}>表示</button>
-            <button onClick={() => showList()}>昨日</button>
+            <button onClick={() => showTaskProgressList()}>昨日</button>
             <div>
                 <input type="text" onChange={e => textChange(e)}/>
                 <button onClick={() => register()}>登録</button>
@@ -108,6 +132,16 @@ async function getTaskList() {
         return response.data;
     } catch (error) {
         throw new Error(`Error! HTTP Status: ${error.response}`);
+    }
+}
+
+const fetchTaskProgress = async (targetDate: Date) => {
+    try {
+        // todo format date (using date-fns)
+        const response = await new TasksApi().getTaskProgress('2020-06-20');
+        return response.data;
+    } catch (e) {
+        console.log(e);
     }
 }
 

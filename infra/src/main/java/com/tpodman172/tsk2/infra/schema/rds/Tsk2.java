@@ -5,7 +5,7 @@ package com.tpodman172.tsk2.infra.schema.rds;
 
 
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
-import com.tpodman172.tsk2.infra.schema.rds.tables.TaskDailyProgress;
+import com.tpodman172.tsk2.infra.schema.rds.tables.TaskProgress;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tsk2 extends SchemaImpl {
 
-    private static final long serialVersionUID = 1848609306;
+    private static final long serialVersionUID = 1888359002;
 
     /**
      * The reference instance of <code>tsk2</code>
@@ -44,9 +44,9 @@ public class Tsk2 extends SchemaImpl {
     public final Task TASK = com.tpodman172.tsk2.infra.schema.rds.tables.Task.TASK;
 
     /**
-     * The table <code>tsk2.task_daily_progress</code>.
+     * The table <code>tsk2.task_progress</code>.
      */
-    public final TaskDailyProgress TASK_DAILY_PROGRESS = com.tpodman172.tsk2.infra.schema.rds.tables.TaskDailyProgress.TASK_DAILY_PROGRESS;
+    public final TaskProgress TASK_PROGRESS = com.tpodman172.tsk2.infra.schema.rds.tables.TaskProgress.TASK_PROGRESS;
 
     /**
      * No further instances allowed
@@ -71,6 +71,6 @@ public class Tsk2 extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             Task.TASK,
-            TaskDailyProgress.TASK_DAILY_PROGRESS);
+            TaskProgress.TASK_PROGRESS);
     }
 }

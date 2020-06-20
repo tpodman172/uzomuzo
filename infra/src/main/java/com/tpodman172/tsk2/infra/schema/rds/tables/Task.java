@@ -7,6 +7,7 @@ package com.tpodman172.tsk2.infra.schema.rds.tables;
 import com.tpodman172.tsk2.infra.schema.rds.Indexes;
 import com.tpodman172.tsk2.infra.schema.rds.Keys;
 import com.tpodman172.tsk2.infra.schema.rds.Tsk2;
+import com.tpodman172.tsk2.infra.schema.rds.enums.TaskCycleType;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskRecord;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row4;
+import org.jooq.Row5;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -43,7 +44,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Task extends TableImpl<TaskRecord> {
 
-    private static final long serialVersionUID = -2121273651;
+    private static final long serialVersionUID = 349583084;
 
     /**
      * The reference instance of <code>tsk2.task</code>
@@ -66,7 +67,12 @@ public class Task extends TableImpl<TaskRecord> {
     /**
      * The column <code>tsk2.task.title</code>.
      */
-    public final TableField<TaskRecord, String> TITLE = createField(DSL.name("title"), org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
+    public final TableField<TaskRecord, String> TITLE = createField(DSL.name("title"), org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "");
+
+    /**
+     * The column <code>tsk2.task.cycle_type</code>.
+     */
+    public final TableField<TaskRecord, TaskCycleType> CYCLE_TYPE = createField(DSL.name("cycle_type"), org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("DAIRY", org.jooq.impl.SQLDataType.VARCHAR)).asEnumDataType(com.tpodman172.tsk2.infra.schema.rds.enums.TaskCycleType.class), this, "");
 
     /**
      * The column <code>tsk2.task.created_at</code>.
@@ -163,11 +169,11 @@ public class Task extends TableImpl<TaskRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Long, String, LocalDateTime, LocalDateTime> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row5<Long, String, TaskCycleType, LocalDateTime, LocalDateTime> fieldsRow() {
+        return (Row5) super.fieldsRow();
     }
 }
