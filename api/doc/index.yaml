@@ -181,7 +181,7 @@ components:
       required:
         - targetDate
         - tasks
-        - completedTaskId
+        - completedTaskIds
       properties:
         targetDate:
           type: string
@@ -191,7 +191,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TaskDTO"
-        completedTaskId:
+        completedTaskIds:
           type: array
           items:
             type: integer

@@ -64,7 +64,11 @@ public class TaskAppService {
                 .stream()
                 .map(this::mapToTaskDTO)
                 .collect(Collectors.toList()));
-        taskProgressDTO.setCompletedTaskId(taskProgressEntityMap.keySet().stream().collect(Collectors.toList()));
+        taskProgressDTO.setCompletedTaskIds(taskProgressEntityMap.entrySet()
+                .stream()
+                .filter(map -> map.getValue().isCompleted())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList()));
         return taskProgressDTO;
     }
 
