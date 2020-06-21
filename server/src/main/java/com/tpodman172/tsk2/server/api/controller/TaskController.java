@@ -25,7 +25,7 @@ public class TaskController implements TasksApi {
 
     @Override
     public ResponseEntity<Void> putTaskChallengeRecord(Long id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull @Valid LocalDate targetDate, @NotNull @Valid Boolean completed) {
-        taskAppService.updateTaskProgress(id, targetDate, completed);
+        taskAppService.updateTaskChallengeRecord(id, targetDate, completed);
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
@@ -41,7 +41,7 @@ public class TaskController implements TasksApi {
 
     @Override
     public ResponseEntity<TaskChallengeRecordDTO> getTaskChallengeRecord(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return new ResponseEntity(taskAppService.fetchTaskProgress(date), null, HttpStatus.OK);
+        return new ResponseEntity(taskAppService.fetchTaskChallengeRecord(date), null, HttpStatus.OK);
     }
 
     @Override

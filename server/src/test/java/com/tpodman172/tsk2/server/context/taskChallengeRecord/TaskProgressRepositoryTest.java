@@ -1,4 +1,4 @@
-package com.tpodman172.tsk2.server.context.taskProgress;
+package com.tpodman172.tsk2.server.context.taskChallengeRecord;
 
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static com.tpodman172.tsk2.infra.schema.rds.tables.TaskDailyProgress.TASK_DAILY_PROGRESS;
 

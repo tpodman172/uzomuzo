@@ -1,4 +1,4 @@
-package com.tpodman172.tsk2.server.context.taskProgress;
+package com.tpodman172.tsk2.server.context.taskChallengeRecord;
 
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -12,24 +12,24 @@ import static com.tpodman172.tsk2.infra.schema.rds.Tables.TASK_PROGRESS;
 
 @Repository
 @RequiredArgsConstructor
-public class TaskProgressRepository implements ITaskProgressRepository {
+public class TaskChallengeRecordRepository implements ITaskChallengeRecordRepository {
 
     private final DSLContext jooq;
 
     @Override
-    public List<TaskProgressEntity> findByTargetDate(LocalDate targetDate) {
+    public List<TaskChallengeRecordEntity> findByTargetDate(LocalDate targetDate) {
         return jooq.selectFrom(TASK_PROGRESS)
                 .where(TASK_PROGRESS.TARGET_DATE.eq(targetDate))
                 .fetchStream()
                 .map(taskProgressRecord ->
-                        new TaskProgressEntity(taskProgressRecord.getTaskId(),
+                        new TaskChallengeRecordEntity(taskProgressRecord.getTaskId(),
                                 taskProgressRecord.getTargetDate(),
                                 taskProgressRecord.getCompleted()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void update(TaskProgressEntity entity) {
+    public void update(TaskChallengeRecordEntity entity) {
         jooq.insertInto(
                 TASK_PROGRESS,
                 TASK_PROGRESS.TASK_ID,
