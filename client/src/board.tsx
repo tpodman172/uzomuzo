@@ -111,7 +111,7 @@ async function getTaskList() {
 }
 
 const fetchTaskProgress = async (targetDate: Date) => {
-    const response = await new TasksApi().getTaskChallengeRecord(format(targetDate, 'yyyy-MM-dd'));
+    const response = await new TasksApi().getTaskChallengeResult(format(targetDate, 'yyyy-MM-dd'));
     return response.data;
 }
 
@@ -128,7 +128,7 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
 }
 
 const updateProgress = async (taskId: number, isCompleted: boolean) => {
-    new TasksApi().putTaskChallengeRecord(taskId, format(new Date(), 'yyyy-MM-dd'), isCompleted); // todo implement
+    new TasksApi().putTaskChallengeResult(taskId, format(new Date(), 'yyyy-MM-dd'), isCompleted); // todo implement
 }
 
 const StyledDiv = styled.label`

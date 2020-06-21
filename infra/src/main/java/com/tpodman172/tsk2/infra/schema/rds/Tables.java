@@ -5,7 +5,7 @@ package com.tpodman172.tsk2.infra.schema.rds;
 
 
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
-import com.tpodman172.tsk2.infra.schema.rds.tables.TaskProgress;
+import com.tpodman172.tsk2.infra.schema.rds.tables.TaskChallengeResult;
 
 import javax.annotation.processing.Generated;
 
@@ -29,7 +29,7 @@ public class Tables {
     public static final Task TASK = Task.TASK;
 
     /**
-     * The table <code>tsk2.task_progress</code>.
+     * The table <code>tsk2.task_challenge_result</code>.
      */
-    public static final TaskProgress TASK_PROGRESS = TaskProgress.TASK_PROGRESS;
+    public static final TaskChallengeResult TASK_CHALLENGE_RESULT = TaskChallengeResult.TASK_CHALLENGE_RESULT;
 }

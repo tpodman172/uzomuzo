@@ -1,12 +1,12 @@
 package com.tpodman172.tsk2.server.api.appService;
 
 
-import com.tpodman172.tsk2.server.api.appService.model.TaskChallengeRecordDTO;
+import com.tpodman172.tsk2.server.api.appService.model.TaskChallengeResultDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
 import com.tpodman172.tsk2.server.context.task.ITaskRepository;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
-import com.tpodman172.tsk2.server.context.taskChallengeRecord.ITaskChallengeRecordRepository;
-import com.tpodman172.tsk2.server.context.taskChallengeRecord.TaskChallengeRecordEntity;
+import com.tpodman172.tsk2.server.context.taskChallengeResult.ITaskChallengeResultRepository;
+import com.tpodman172.tsk2.server.context.taskChallengeResult.TaskChallengeResultEntity;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class TaskAppService {
     private ITaskRepository taskRepository;
 
     @Autowired
-    private ITaskChallengeRecordRepository taskChallengeRecordRepository;
+    private ITaskChallengeResultRepository taskChallengeResultRepository;
 
     public List<TaskDTO> fetchTasks() {
         return taskRepository.find().stream()
@@ -39,37 +39,37 @@ public class TaskAppService {
                 .collect(Collectors.toList());
     }
 
-    public TaskChallengeRecordDTO fetchTaskChallengeRecord(LocalDate targetDate) {
-        val taskChallengeRecordEntityMap = taskChallengeRecordRepository.findByTargetDate(targetDate)
+    public TaskChallengeResultDTO fetchTaskChallengeResult(LocalDate targetDate) {
+        val taskChallengeResultEntityMap = taskChallengeResultRepository.findByTargetDate(targetDate)
                 .stream()
-                .collect(Collectors.toMap(TaskChallengeRecordEntity::getTaskId, Function.identity()));
+                .collect(Collectors.toMap(TaskChallengeResultEntity::getTaskId, Function.identity()));
 
         val taskEntities = taskRepository.find().stream().collect(Collectors.toList());
 
-        return convertToTaskChallengeRecordDTO(targetDate, taskEntities, taskChallengeRecordEntityMap);
+        return convertToTaskChallengeResultDTO(targetDate, taskEntities, taskChallengeResultEntityMap);
     }
 
     public Long createTask(TaskEntity taskEntity) {
         return taskRepository.create(taskEntity);
     }
 
-    public void updateTaskChallengeRecord(Long taskId, LocalDate targetDate, boolean isCompleted) {
-        taskChallengeRecordRepository.update(new TaskChallengeRecordEntity(taskId, targetDate, isCompleted));
+    public void updateTaskChallengeResult(Long taskId, LocalDate targetDate, boolean isCompleted) {
+        taskChallengeResultRepository.update(new TaskChallengeResultEntity(taskId, targetDate, isCompleted));
     }
 
-    private TaskChallengeRecordDTO convertToTaskChallengeRecordDTO(LocalDate targetDate, List<TaskEntity> taskEntities, Map<Long, TaskChallengeRecordEntity> taskChallengeRecordEntityMap) {
-        val taskChallengeRecordDTO = new TaskChallengeRecordDTO();
-        taskChallengeRecordDTO.setTargetDate(targetDate);
-        taskChallengeRecordDTO.setTasks(taskEntities
+    private TaskChallengeResultDTO convertToTaskChallengeResultDTO(LocalDate targetDate, List<TaskEntity> taskEntities, Map<Long, TaskChallengeResultEntity> taskChallengeResultEntityMap) {
+        val taskChallengeResultDTO = new TaskChallengeResultDTO();
+        taskChallengeResultDTO.setTargetDate(targetDate);
+        taskChallengeResultDTO.setTasks(taskEntities
                 .stream()
                 .map(this::mapToTaskDTO)
                 .collect(Collectors.toList()));
-        taskChallengeRecordDTO.setCompletedTaskIds(taskChallengeRecordEntityMap.entrySet()
+        taskChallengeResultDTO.setCompletedTaskIds(taskChallengeResultEntityMap.entrySet()
                 .stream()
                 .filter(map -> map.getValue().isCompleted())
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList()));
-        return taskChallengeRecordDTO;
+        return taskChallengeResultDTO;
     }
 
     private TaskDTO mapToTaskDTO(TaskEntity taskEntity) {

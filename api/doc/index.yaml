@@ -98,38 +98,38 @@ paths:
       responses:
         '204':
           description: delete success
-  /task/challengeRecord/{date}:
+  /task/challengeResult/{date}:
     get:
-      summary: get task challenge record by date
-      operationId: getTaskChallengeRecord
+      summary: get task challenge result by date
+      operationId: getTaskChallengeResult
       tags:
         - tasks
       parameters:
         - name: date
           in: path
           required: false # todo 未指定の場合は全部とる実装
-          description: target date. [wip]When not specified, all challenge record returned.
+          description: target date. [wip]When not specified, all challenge result returned.
           schema:
             type: string
             format: date
             example: '2020-05-01'
       responses:
         '200':
-          description: array of task challenge record
+          description: array of task challenge result
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskChallengeRecordDTO"
+                $ref: "#/components/schemas/TaskChallengeResultDTO"
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /task/{id}/challengeRecord :
+  /task/{id}/challengeResult :
     put:
       summary: update task status
-      operationId: putTaskChallengeRecord
+      operationId: putTaskChallengeResult
       tags:
         - tasks
       parameters:
@@ -185,7 +185,7 @@ components:
       properties:
         title:
           type: string
-    TaskChallengeRecordDTO:
+    TaskChallengeResultDTO:
       required:
         - targetDate
         - tasks

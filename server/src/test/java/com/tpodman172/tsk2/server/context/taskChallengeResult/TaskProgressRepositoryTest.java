@@ -1,4 +1,4 @@
-package com.tpodman172.tsk2.server.context.taskChallengeRecord;
+package com.tpodman172.tsk2.server.context.taskChallengeResult;
 
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;

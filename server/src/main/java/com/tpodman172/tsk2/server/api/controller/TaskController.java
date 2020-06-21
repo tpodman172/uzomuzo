@@ -1,7 +1,7 @@
 package com.tpodman172.tsk2.server.api.controller;
 
 import com.tpodman172.tsk2.server.api.appService.TaskAppService;
-import com.tpodman172.tsk2.server.api.appService.model.TaskChallengeRecordDTO;
+import com.tpodman172.tsk2.server.api.appService.model.TaskChallengeResultDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskCreateDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
@@ -24,8 +24,8 @@ public class TaskController implements TasksApi {
     TaskAppService taskAppService;
 
     @Override
-    public ResponseEntity<Void> putTaskChallengeRecord(Long id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull @Valid LocalDate targetDate, @NotNull @Valid Boolean completed) {
-        taskAppService.updateTaskChallengeRecord(id, targetDate, completed);
+    public ResponseEntity<Void> putTaskChallengeResult(Long id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull @Valid LocalDate targetDate, @NotNull @Valid Boolean completed) {
+        taskAppService.updateTaskChallengeResult(id, targetDate, completed);
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
@@ -40,8 +40,8 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<TaskChallengeRecordDTO> getTaskChallengeRecord(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return new ResponseEntity(taskAppService.fetchTaskChallengeRecord(date), null, HttpStatus.OK);
+    public ResponseEntity<TaskChallengeResultDTO> getTaskChallengeResult(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return new ResponseEntity(taskAppService.fetchTaskChallengeResult(date), null, HttpStatus.OK);
     }
 
     @Override
