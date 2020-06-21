@@ -119,7 +119,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskChallengeResultDTO"
+                type: array
+                items:
+                  $ref: "#/components/schemas/TaskChallengeResultDTO"
         default:
           description: unexpected error
           content:
@@ -187,23 +189,19 @@ components:
           type: string
     TaskChallengeResultDTO:
       required:
+        - taskId
         - targetDate
-        - tasks
-        - completedTaskIds
+        - completed
       properties:
+        taskId:
+          type: integer
+          format: int64
         targetDate:
           type: string
           format: date
           example: '2020-05-03'
-        tasks:
-          type: array
-          items:
-            $ref: "#/components/schemas/TaskDTO"
-        completedTaskIds:
-          type: array
-          items:
-            type: integer
-            format: int64
+        completed:
+          type: boolean
     Error:
       required:
         - code

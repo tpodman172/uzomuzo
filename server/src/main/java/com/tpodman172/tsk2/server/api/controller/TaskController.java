@@ -40,7 +40,7 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<TaskChallengeResultDTO> getTaskChallengeResult(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<List<TaskChallengeResultDTO>> getTaskChallengeResult(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return new ResponseEntity(taskAppService.fetchTaskChallengeResult(date), null, HttpStatus.OK);
     }
 

@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -39,14 +37,11 @@ public class TaskAppService {
                 .collect(Collectors.toList());
     }
 
-    public TaskChallengeResultDTO fetchTaskChallengeResult(LocalDate targetDate) {
-        val taskChallengeResultEntityMap = taskChallengeResultRepository.findByTargetDate(targetDate)
+    public List<TaskChallengeResultDTO> fetchTaskChallengeResult(LocalDate targetDate) {
+        return taskChallengeResultRepository.findByTargetDate(targetDate)
                 .stream()
-                .collect(Collectors.toMap(TaskChallengeResultEntity::getTaskId, Function.identity()));
-
-        val taskEntities = taskRepository.find().stream().collect(Collectors.toList());
-
-        return convertToTaskChallengeResultDTO(targetDate, taskEntities, taskChallengeResultEntityMap);
+                .map(this::mapToTaskChallengeResultDTO)
+                .collect(Collectors.toList());
     }
 
     public Long createTask(TaskEntity taskEntity) {
@@ -57,25 +52,11 @@ public class TaskAppService {
         taskChallengeResultRepository.update(new TaskChallengeResultEntity(taskId, targetDate, isCompleted));
     }
 
-    private TaskChallengeResultDTO convertToTaskChallengeResultDTO(LocalDate targetDate, List<TaskEntity> taskEntities, Map<Long, TaskChallengeResultEntity> taskChallengeResultEntityMap) {
-        val taskChallengeResultDTO = new TaskChallengeResultDTO();
-        taskChallengeResultDTO.setTargetDate(targetDate);
-        taskChallengeResultDTO.setTasks(taskEntities
-                .stream()
-                .map(this::mapToTaskDTO)
-                .collect(Collectors.toList()));
-        taskChallengeResultDTO.setCompletedTaskIds(taskChallengeResultEntityMap.entrySet()
-                .stream()
-                .filter(map -> map.getValue().isCompleted())
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList()));
+    private TaskChallengeResultDTO mapToTaskChallengeResultDTO(TaskChallengeResultEntity entity) {
+        final val taskChallengeResultDTO = new TaskChallengeResultDTO();
+        taskChallengeResultDTO.setTaskId(entity.getTaskId());
+        taskChallengeResultDTO.setTargetDate(entity.getTargetDate());
+        taskChallengeResultDTO.setCompleted(entity.isCompleted());
         return taskChallengeResultDTO;
-    }
-
-    private TaskDTO mapToTaskDTO(TaskEntity taskEntity) {
-        val taskDTO = new TaskDTO();
-        taskDTO.setId(taskEntity.getId());
-        taskDTO.setTitle(taskEntity.getTitle());
-        return taskDTO;
     }
 }

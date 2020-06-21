@@ -16,25 +16,40 @@ const Board = (props: IProps) => {
     const [targetDate, setTargetDate] = useState<Date>(new Date());
     const [newTask, setNewTask] = useState<string>("");
     const [checkedList, setCheckedList] = useState(new Set<number>());
-    const showList = () => {
+    const showList = async () => {
         console.log('クリックされました');
-        getTaskList().then(list => {
-            if (list) {
-                list.forEach(value => console.log(value.id + ":" + value.title));
-                setTaskList(list);
-            }
-        }).catch(err => {
-            console.log(err.message);
-        });
+        const taskDTOs = await getTaskList();
+        setTaskList(taskDTOs);
+        const targetDate = format(new Date(), 'yyyy-MM-dd'); // todo implements
+        const taskChallengeResultDTOs = await fetchTaskChallengeResults(targetDate);
+
+        console.log(taskChallengeResultDTOs);
+        console.log('targetDate === ');
+        taskChallengeResultDTOs.forEach(value => console.log(value.targetDate));
+
+
+
+        const completedTaskIds = taskChallengeResultDTOs
+            .filter(value => value.targetDate === targetDate)
+            .filter(value => value.completed)
+            .reduce((prev, current) => {
+                console.log(current);
+                prev.add(current.taskId);
+                return prev;
+            }, new Set<number>());
+
+        console.log(completedTaskIds);
+
+        setCheckedList(completedTaskIds);
     }
 
-    const showTaskProgressList = (targetDate: Date) => {
-        setTargetDate(targetDate);
-        fetchTaskProgress(targetDate).then(taskProgressDTO => {
-            setTaskList(taskProgressDTO.tasks);
-            setCheckedList(new Set(taskProgressDTO.completedTaskIds));
-        });
-    }
+    // const showTaskProgressList = (targetDate: Date) => {
+    //     setTargetDate(targetDate);
+    //     fetchTaskChallengeResults(targetDate).then(taskProgressDTO => {
+    //         setTaskList(taskProgressDTO.tasks);
+    //         setCheckedList(new Set(taskProgressDTO.completedTaskIds));
+    //     });
+    // }
 
     const textChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.currentTarget.value);
@@ -86,8 +101,8 @@ const Board = (props: IProps) => {
         <div>
             <h2>{props.name}</h2>
             <ul>{listTask()}</ul>
-            <button onClick={() => showTaskProgressList(new Date())}>今日</button>
-            <button onClick={() => showTaskProgressList(addDays(new Date(), -1))}>昨日</button>
+            <button onClick={() => showList()}>今日</button>
+            <button onClick={() => fetchTaskChallengeResults(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
             <div>
                 <input type="text" onChange={e => textChange(e)}/>
                 <button onClick={() => register()}>登録</button>
@@ -110,8 +125,8 @@ async function getTaskList() {
     }
 }
 
-const fetchTaskProgress = async (targetDate: Date) => {
-    const response = await new TasksApi().getTaskChallengeResult(format(targetDate, 'yyyy-MM-dd'));
+const fetchTaskChallengeResults = async (targetDate: string) => {
+    const response = await new TasksApi().getTaskChallengeResult(targetDate);
     return response.data;
 }
 
