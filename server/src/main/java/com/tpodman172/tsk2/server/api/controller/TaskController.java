@@ -1,9 +1,9 @@
 package com.tpodman172.tsk2.server.api.controller;
 
 import com.tpodman172.tsk2.server.api.appService.TaskAppService;
+import com.tpodman172.tsk2.server.api.appService.model.TaskChallengeRecordDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskCreateDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
-import com.tpodman172.tsk2.server.api.appService.model.TaskProgressDTO;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,8 +24,8 @@ public class TaskController implements TasksApi {
     TaskAppService taskAppService;
 
     @Override
-    public ResponseEntity<Void> putTaskProgress(Long id, @NotNull @Valid Boolean completed) {
-        taskAppService.updateTaskProgress(id, completed);
+    public ResponseEntity<Void> putTaskChallengeRecord(Long id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull @Valid LocalDate targetDate, @NotNull @Valid Boolean completed) {
+        taskAppService.updateTaskProgress(id, targetDate, completed);
         return new ResponseEntity(null, HttpStatus.OK);
     }
 
@@ -40,7 +40,7 @@ public class TaskController implements TasksApi {
     }
 
     @Override
-    public ResponseEntity<TaskProgressDTO> getTaskProgress(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public ResponseEntity<TaskChallengeRecordDTO> getTaskChallengeRecord(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return new ResponseEntity(taskAppService.fetchTaskProgress(date), null, HttpStatus.OK);
     }
 

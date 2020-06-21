@@ -3,26 +3,17 @@ import {ChangeEvent, useState} from 'react';
 import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
 import styled from 'styled-components';
 import CheckBox from './molecules/checkbox';
-import {format, addDays} from 'date-fns'
+import {addDays, format} from 'date-fns'
 
 // Propsの型定義
 type IProps = {
     name: string;
 }
 
-type IState = {
-    taskList: Array<Task>;
-    newTask: string
-}
-
-type Task = {
-    id: number,
-    title: string,
-}
-
 const Board = (props: IProps) => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
+    const [targetDate, setTargetDate] = useState<Date>(new Date());
     const [newTask, setNewTask] = useState<string>("");
     const [checkedList, setCheckedList] = useState(new Set<number>());
     const showList = () => {
@@ -37,8 +28,9 @@ const Board = (props: IProps) => {
         });
     }
 
-    const showTaskProgressList = () => {
-        fetchTaskProgress(addDays(new Date(), -1)).then(taskProgressDTO => {
+    const showTaskProgressList = (targetDate: Date) => {
+        setTargetDate(targetDate);
+        fetchTaskProgress(targetDate).then(taskProgressDTO => {
             setTaskList(taskProgressDTO.tasks);
             setCheckedList(new Set(taskProgressDTO.completedTaskIds));
         });
@@ -94,8 +86,8 @@ const Board = (props: IProps) => {
         <div>
             <h2>{props.name}</h2>
             <ul>{listTask()}</ul>
-            <button onClick={() => showList()}>表示</button>
-            <button onClick={() => showTaskProgressList()}>昨日</button>
+            <button onClick={() => showTaskProgressList(new Date())}>今日</button>
+            <button onClick={() => showTaskProgressList(addDays(new Date(), -1))}>昨日</button>
             <div>
                 <input type="text" onChange={e => textChange(e)}/>
                 <button onClick={() => register()}>登録</button>
@@ -119,7 +111,7 @@ async function getTaskList() {
 }
 
 const fetchTaskProgress = async (targetDate: Date) => {
-    const response = await new TasksApi().getTaskProgress(format(targetDate, 'yyyy-MM-dd'));
+    const response = await new TasksApi().getTaskChallengeRecord(format(targetDate, 'yyyy-MM-dd'));
     return response.data;
 }
 
@@ -136,7 +128,7 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
 }
 
 const updateProgress = async (taskId: number, isCompleted: boolean) => {
-    new TasksApi().putTaskProgress(taskId, isCompleted);
+    new TasksApi().putTaskChallengeRecord(taskId, format(new Date(), 'yyyy-MM-dd'), isCompleted); // todo implement
 }
 
 const StyledDiv = styled.label`

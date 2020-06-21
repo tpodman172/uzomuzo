@@ -13,5 +13,6 @@
 * serverのprogress取ってくるところはtaskをベースに（記録がなくても取れるように）
 * フロントで取得時のチェックボックスの制御
 * progressのAPI呼ぶときのパラメータを固定値ではなく動的に（date-fns）入れる
+* progress更新するときに日付指定
 * refactor
     * フロントのtaskDtoを使って表示されているところをtaskProgressDtoに置き換え

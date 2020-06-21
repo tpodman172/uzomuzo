@@ -1,8 +1,8 @@
 package com.tpodman172.tsk2.server.api.appService;
 
 
+import com.tpodman172.tsk2.server.api.appService.model.TaskChallengeRecordDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
-import com.tpodman172.tsk2.server.api.appService.model.TaskProgressDTO;
 import com.tpodman172.tsk2.server.context.task.ITaskRepository;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
 import com.tpodman172.tsk2.server.context.taskProgress.ITaskProgressRepository;
@@ -39,7 +39,7 @@ public class TaskAppService {
                 .collect(Collectors.toList());
     }
 
-    public TaskProgressDTO fetchTaskProgress(LocalDate targetDate) {
+    public TaskChallengeRecordDTO fetchTaskProgress(LocalDate targetDate) {
         val taskProgressEntityMap = taskProgressRepository.findByTargetDate(targetDate)
                 .stream()
                 .collect(Collectors.toMap(TaskProgressEntity::getTaskId, Function.identity()));
@@ -53,12 +53,12 @@ public class TaskAppService {
         return taskRepository.create(taskEntity);
     }
 
-    public void updateTaskProgress(Long taskId, boolean isCompleted) {
-        taskProgressRepository.update(new TaskProgressEntity(taskId, LocalDate.now(), isCompleted));
+    public void updateTaskProgress(Long taskId, LocalDate targetDate, boolean isCompleted) {
+        taskProgressRepository.update(new TaskProgressEntity(taskId, targetDate, isCompleted));
     }
 
-    private TaskProgressDTO convertToTaskProgressDTO(LocalDate targetDate, List<TaskEntity> taskEntities, Map<Long, TaskProgressEntity> taskProgressEntityMap) {
-        val taskProgressDTO = new TaskProgressDTO();
+    private TaskChallengeRecordDTO convertToTaskProgressDTO(LocalDate targetDate, List<TaskEntity> taskEntities, Map<Long, TaskProgressEntity> taskProgressEntityMap) {
+        val taskProgressDTO = new TaskChallengeRecordDTO();
         taskProgressDTO.setTargetDate(targetDate);
         taskProgressDTO.setTasks(taskEntities
                 .stream()

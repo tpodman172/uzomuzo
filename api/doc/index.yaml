@@ -98,38 +98,38 @@ paths:
       responses:
         '204':
           description: delete success
-  /task/progress/{date}:
+  /task/challengeRecord/{date}:
     get:
-      summary: get task progress by date
-      operationId: getTaskProgress
+      summary: get task challenge record by date
+      operationId: getTaskChallengeRecord
       tags:
         - tasks
       parameters:
         - name: date
           in: path
           required: false # todo 未指定の場合は全部とる実装
-          description: target date. [wip]When not specified, all progress returned.
+          description: target date. [wip]When not specified, all challenge record returned.
           schema:
             type: string
             format: date
             example: '2020-05-01'
       responses:
         '200':
-          description: array of task progress
+          description: array of task challenge record
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TaskProgressDTO"
+                $ref: "#/components/schemas/TaskChallengeRecordDTO"
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /task/{id}/progress :
+  /task/{id}/challengeRecord :
     put:
       summary: update task status
-      operationId: putTaskProgress
+      operationId: putTaskChallengeRecord
       tags:
         - tasks
       parameters:
@@ -140,6 +140,14 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: targetDate
+          in: query
+          required: true
+          description: target date
+          schema:
+            type: string
+            format: date
+            example: '2020-05-03'
         - name: completed
           in: query
           required: true
@@ -177,7 +185,7 @@ components:
       properties:
         title:
           type: string
-    TaskProgressDTO:
+    TaskChallengeRecordDTO:
       required:
         - targetDate
         - tasks
