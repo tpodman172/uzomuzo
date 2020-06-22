@@ -13,32 +13,20 @@ type IProps = {
 const Board = (props: IProps) => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
-    const [targetDate, setTargetDate] = useState<Date>(new Date());
     const [newTask, setNewTask] = useState<string>("");
     const [checkedList, setCheckedList] = useState(new Set<number>());
-    const showList = async () => {
-        console.log('クリックされました');
+    const showList = async (targetDate:string) => {
         const taskDTOs = await getTaskList();
         setTaskList(taskDTOs);
-        const targetDate = format(new Date(), 'yyyy-MM-dd'); // todo implements
         const taskChallengeResultDTOs = await fetchTaskChallengeResults(targetDate);
-
-        console.log(taskChallengeResultDTOs);
-        console.log('targetDate === ');
-        taskChallengeResultDTOs.forEach(value => console.log(value.targetDate));
-
-
 
         const completedTaskIds = taskChallengeResultDTOs
             .filter(value => value.targetDate === targetDate)
             .filter(value => value.completed)
             .reduce((prev, current) => {
-                console.log(current);
                 prev.add(current.taskId);
                 return prev;
             }, new Set<number>());
-
-        console.log(completedTaskIds);
 
         setCheckedList(completedTaskIds);
     }
@@ -101,12 +89,11 @@ const Board = (props: IProps) => {
         <div>
             <h2>{props.name}</h2>
             <ul>{listTask()}</ul>
-            <button onClick={() => showList()}>今日</button>
-            <button onClick={() => fetchTaskChallengeResults(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
+            <button onClick={() => showList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>
+            <button onClick={() => showList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
             <div>
                 <input type="text" onChange={e => textChange(e)}/>
                 <button onClick={() => register()}>登録</button>
-                <button onClick={() => showList()}>削除</button>
             </div>
         </div>
     );
