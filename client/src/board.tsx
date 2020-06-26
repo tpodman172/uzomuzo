@@ -4,6 +4,7 @@ import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
 import styled from 'styled-components';
 import {addDays, format} from 'date-fns'
 import TaskLi from "./molecules/TaskLi";
+import BoardTemplate from "./template/BoardTemplate";
 
 // Propsの型定義
 type IProps = {
@@ -87,20 +88,13 @@ const Board = ({name}: IProps) => {
 
     console.log('render: board');
     return (
-        <StyledDiv>
-            <h2>{name}</h2>
-            <ButtonArea>
-                <button onClick={() => handleShowList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>
-                <button onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
-            </ButtonArea>
-            <TaskArea>
-                {taskList.length != 0 && <TaskUl>{listTask()}</TaskUl>}
-            </TaskArea>
-            <CreateNewArea>
-                <input type="text" onChange={e => textChange(e)}/>
-                <button onClick={() => handleRegister()}>登録</button>
-            </CreateNewArea>
-        </StyledDiv>
+        <BoardTemplate
+            handleShowList={handleShowList}
+            targetDate={selectedDate}
+            taskList={taskList}
+            handleListTask={listTask}
+            handleCreateTextChange={textChange}
+            handleRegister={handleRegister}/>
     );
 }
 
@@ -138,23 +132,4 @@ const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: 
     new TasksApi().putTaskChallengeResult(taskId, targetDate, isCompleted);
 }
 
-const StyledDiv = styled.div`
-    margin-top:12px;
-`;
-const ButtonArea = styled.div`
-    margin-top:12px;
-    button:not(:first-child){
-        margin-left:12px
-    }
-`;
-const CreateNewArea = styled.div`
-    margin-top:12px;
-`;
-const TaskArea = styled.div`
-`
-const TaskUl = styled.ul`
-    display:flex;
-    flex-wrap:wrap;
-    justify-content: space-between;
-`;
 export default Board;
