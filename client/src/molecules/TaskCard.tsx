@@ -7,7 +7,7 @@ interface Props {
     onCheck: (checked: boolean) => void;
 }
 
-const TaskLi = ({checked, onCheck, taskTitle}: Props) => {
+const TaskCard = ({checked, onCheck, taskTitle}: Props) => {
     return (
         <StyledLi
             checked={checked}
@@ -25,4 +25,4 @@ const StyledLi = styled.li<{ checked: boolean }>`
     border: solid;
 `;
 
-export default TaskLi;
+export default TaskCard;

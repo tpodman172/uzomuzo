@@ -2,15 +2,9 @@ import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
 import {format} from 'date-fns'
-import TaskLi from "./molecules/TaskLi";
 import BoardTemplate from "./template/BoardTemplate";
 
-// Propsの型定義
-type IProps = {
-    name: string;
-}
-
-const Board = ({name}: IProps) => {
+const Board = () => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [newTask, setNewTask] = useState<string>("");
@@ -74,16 +68,6 @@ const Board = ({name}: IProps) => {
             console.log(e);
         }
     };
-
-    const listTask = () => {
-        return taskList.map(task => {
-            return <TaskLi
-                key={task.id}
-                taskTitle={task.title}
-                checked={checkedList.has(task.id)}
-                onCheck={(checked => handleCheck(checked, task.id))}/>
-        });
-    }
 
     console.log('render: board');
     return (

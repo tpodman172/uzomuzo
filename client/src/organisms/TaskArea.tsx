@@ -1,7 +1,7 @@
-import * as React from 'React';
+import * as React from 'react';
 import {TaskDTO} from "../../api/generated";
 import styled from "styled-components";
-import TaskLi from "../molecules/TaskLi";
+import TaskCard from "../molecules/TaskCard";
 
 interface Props {
     taskList: TaskDTO[];
@@ -13,9 +13,9 @@ const TaskArea = ({taskList, checkedList, handleCheck}: Props) => {
     return <> {taskList.length != 0 && <TaskUl>{listTask(taskList, checkedList, handleCheck)}</TaskUl>} </>
 }
 
-const listTask = (taskList: TaskDTO[], checkedList: Set<number>, handleCheck: (checked:boolean, taskId:number) => void) => {
+const listTask = (taskList: TaskDTO[], checkedList: Set<number>, handleCheck: (checked: boolean, taskId: number) => void) => {
     return taskList.map(task => {
-        return <TaskLi
+        return <TaskCard
             key={task.id}
             taskTitle={task.title}
             checked={checkedList.has(task.id)}

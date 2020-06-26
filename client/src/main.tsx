@@ -10,7 +10,7 @@ class App extends React.Component {
             <StyledDiv>
                 <GlobalStyle/>
                 <h2>こうへい君、おはようございます！！</h2>
-                <Board name="あさおきたらやることリスト"/>
+                <Board/>
             </StyledDiv>
         );
     }

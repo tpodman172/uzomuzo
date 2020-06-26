@@ -1,4 +1,4 @@
-import * as React from 'React';
+import * as React from 'react';
 import styled from "styled-components";
 import {addDays, format} from "date-fns"
 import {TaskDTO} from "../../api/generated";
@@ -44,11 +44,6 @@ const ButtonArea = styled.div`
 `;
 const CreateNewArea = styled.div`
     margin-top:12px;
-`;
-const TaskUl = styled.ul`
-    display:flex;
-    flex-wrap:wrap;
-    justify-content: space-between;
 `;
 
 export default BoardTemplate;
