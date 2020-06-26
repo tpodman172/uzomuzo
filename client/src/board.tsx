@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
-import styled from 'styled-components';
-import {addDays, format} from 'date-fns'
+import {format} from 'date-fns'
 import TaskLi from "./molecules/TaskLi";
 import BoardTemplate from "./template/BoardTemplate";
 
@@ -92,9 +91,11 @@ const Board = ({name}: IProps) => {
             handleShowList={handleShowList}
             targetDate={selectedDate}
             taskList={taskList}
-            handleListTask={listTask}
             handleCreateTextChange={textChange}
-            handleRegister={handleRegister}/>
+            handleRegister={handleRegister}
+            handleCheck={handleCheck}
+            checkedList={checkedList}
+        />
     );
 }
 
