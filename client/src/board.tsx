@@ -2,20 +2,22 @@ import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
 import styled from 'styled-components';
-import CheckBox from './molecules/checkbox';
 import {addDays, format} from 'date-fns'
+import TaskLi from "./molecules/TaskLi";
 
 // Propsの型定義
 type IProps = {
     name: string;
 }
 
-const Board = (props: IProps) => {
+const Board = ({name}: IProps) => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [newTask, setNewTask] = useState<string>("");
+    const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'))
     const [checkedList, setCheckedList] = useState(new Set<number>());
-    const showList = async (targetDate:string) => {
+    const handleShowList = async (targetDate: string) => {
+        setSelectedDate(targetDate);
         const taskDTOs = await getTaskList();
         setTaskList(taskDTOs);
         const taskChallengeResultDTOs = await fetchTaskChallengeResults(targetDate);
@@ -43,14 +45,15 @@ const Board = (props: IProps) => {
         setNewTask(e.currentTarget.value);
     }
 
-    const register = () => {
+    const handleRegister = () => {
         createTask({title: newTask}).then(() => {
             // todo show toast?
         });
     }
 
     const handleCheck = (checked: boolean, id: number) => {
-        updateProgress(id, checked).catch((e) => {
+        console.log(selectedDate);
+        updateProgress(id, checked, selectedDate).catch((e) => {
             console.log(e);
             // todo checkを元に戻す...？
         });
@@ -64,18 +67,6 @@ const Board = (props: IProps) => {
         }
     }
 
-    const listTask = () => {
-        return taskList.map(task => {
-            return <StyledDiv>
-                <li key={task.id}>
-                    <CheckBox key={task.id} checked={checkedList.has(task.id)}
-                              onCheck={(checked) => handleCheck(checked, task.id)}/>
-                    {task.title}
-                </li>
-            </StyledDiv>
-        });
-    }
-
     const deleteTask = async (id: number) => {
         try {
             await new TasksApi().taskDelete(id);
@@ -84,18 +75,32 @@ const Board = (props: IProps) => {
         }
     };
 
+    const listTask = () => {
+        return taskList.map(task => {
+            return <TaskLi
+                key={task.id}
+                taskTitle={task.title}
+                checked={checkedList.has(task.id)}
+                onCheck={(checked => handleCheck(checked, task.id))}/>
+        });
+    }
+
     console.log('render: board');
     return (
-        <div>
-            <h2>{props.name}</h2>
-            <ul>{listTask()}</ul>
-            <button onClick={() => showList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>
-            <button onClick={() => showList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
-            <div>
+        <StyledDiv>
+            <h2>{name}</h2>
+            <ButtonArea>
+                <button onClick={() => handleShowList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>
+                <button onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
+            </ButtonArea>
+            <TaskArea>
+                {taskList.length != 0 && <TaskUl>{listTask()}</TaskUl>}
+            </TaskArea>
+            <CreateNewArea>
                 <input type="text" onChange={e => textChange(e)}/>
-                <button onClick={() => register()}>登録</button>
-            </div>
-        </div>
+                <button onClick={() => handleRegister()}>登録</button>
+            </CreateNewArea>
+        </StyledDiv>
     );
 }
 
@@ -129,11 +134,27 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
     }
 }
 
-const updateProgress = async (taskId: number, isCompleted: boolean) => {
-    new TasksApi().putTaskChallengeResult(taskId, format(new Date(), 'yyyy-MM-dd'), isCompleted); // todo implement
+const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: string) => {
+    new TasksApi().putTaskChallengeResult(taskId, targetDate, isCompleted);
 }
 
-const StyledDiv = styled.label`
-    display:flex
+const StyledDiv = styled.div`
+    margin-top:12px;
+`;
+const ButtonArea = styled.div`
+    margin-top:12px;
+    button:not(:first-child){
+        margin-left:12px
+    }
+`;
+const CreateNewArea = styled.div`
+    margin-top:12px;
+`;
+const TaskArea = styled.div`
 `
+const TaskUl = styled.ul`
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+`;
 export default Board;
