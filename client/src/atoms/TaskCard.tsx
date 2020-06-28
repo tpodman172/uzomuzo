@@ -20,7 +20,8 @@ const StyledLi = styled.li<{ checked: boolean }>`
     background: ${(props) => props.checked ? 'palevioletred' : 'white'};
     list-style: none;
     height : 100px;
-    width: calc(50% - 12px);
+    box-sizing: border-box;
+    width: calc(50% - 6px);
     border: solid;
 `;
 
