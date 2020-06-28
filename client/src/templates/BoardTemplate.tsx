@@ -5,14 +5,14 @@ import styled from "styled-components";
 interface Props {
     handleCreateTextChange: (e: ChangeEvent<HTMLInputElement>) => void;
     handleRegister: () => void;
-    tasksArea: any;
+    taskListWithSearch: JSX.Element;
 }
 
-const BoardTemplate = ({tasksArea, handleCreateTextChange, handleRegister}: Props) => {
+const BoardTemplate = ({taskListWithSearch, handleCreateTextChange, handleRegister}: Props) => {
     return <StyledDiv>
         <h2>あさおきたらやることリスト</h2>
         <TasksArea>
-            {tasksArea}
+            {taskListWithSearch}
         </TasksArea>
         <CreateNewArea>
             <input type="text" onChange={handleCreateTextChange}/>

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {ChangeEvent, useCallback, useMemo, useState} from 'react';
-import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
+import {TaskCreateDTO, TaskDTO, TasksApi} from '../../api/generated';
 import {addDays, format} from 'date-fns'
-import BoardTemplate from "./template/BoardTemplate";
-import {TaskListWithSearch} from "./organisms/TaskListWithSearch";
+import BoardTemplate from "../templates/BoardTemplate";
+import {TaskListWithSearch} from "../organisms/TaskListWithSearch";
 
-const Board = () => {
+const BoardPage = () => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [newTask, setNewTask] = useState<string>("");
@@ -62,7 +62,7 @@ const Board = () => {
         }
     };
 
-    const tasksArea = useMemo(() => <TaskListWithSearch
+    const taskListWithSearch = useMemo(() => <TaskListWithSearch
         searchButtons={[<button key={1} onClick={() => handleShowList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>,
             <button key={2} onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>]}
         checkedList={checkedList}
@@ -75,7 +75,7 @@ const Board = () => {
         <BoardTemplate
             handleCreateTextChange={textChange}
             handleRegister={handleRegister}
-            tasksArea={tasksArea}
+            taskListWithSearch={taskListWithSearch}
         />
     );
 }
@@ -114,4 +114,4 @@ const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: 
     new TasksApi().putTaskChallengeResult(taskId, targetDate, isCompleted);
 }
 
-export default Board;
+export default BoardPage;
