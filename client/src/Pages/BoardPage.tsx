@@ -94,7 +94,7 @@ async function getTaskList() {
 }
 
 const fetchTaskChallengeResults = async (targetDate: string) => {
-    const response = await new TasksApi().getTaskChallengeResult(targetDate);
+    const response = await new TasksApi().getAchievement(targetDate);
     return response.data;
 }
 
@@ -111,7 +111,7 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
 }
 
 const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: string) => {
-    new TasksApi().putTaskChallengeResult(taskId, targetDate, isCompleted);
+    new TasksApi().putAchievement(taskId, targetDate, isCompleted);
 }
 
 export default BoardPage;

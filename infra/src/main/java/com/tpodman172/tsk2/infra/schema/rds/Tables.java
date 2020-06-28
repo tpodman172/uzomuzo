@@ -4,8 +4,8 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
+import com.tpodman172.tsk2.infra.schema.rds.tables.Achievement;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
-import com.tpodman172.tsk2.infra.schema.rds.tables.TaskChallengeResult;
 
 import javax.annotation.processing.Generated;
 
@@ -24,12 +24,12 @@ import javax.annotation.processing.Generated;
 public class Tables {
 
     /**
+     * The table <code>tsk2.achievement</code>.
+     */
+    public static final Achievement ACHIEVEMENT = Achievement.ACHIEVEMENT;
+
+    /**
      * The table <code>tsk2.task</code>.
      */
     public static final Task TASK = Task.TASK;
-
-    /**
-     * The table <code>tsk2.task_challenge_result</code>.
-     */
-    public static final TaskChallengeResult TASK_CHALLENGE_RESULT = TaskChallengeResult.TASK_CHALLENGE_RESULT;
 }

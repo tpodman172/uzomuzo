@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS tsk2.task
     updated_at TIMESTAMP NOT NULL default current_timestamp on update current_timestamp
 );
 
-CREATE TABLE IF NOT EXISTS tsk2.task_challenge_result
+CREATE TABLE IF NOT EXISTS tsk2.achievement
 (
     task_id     BIGINT    NOT NULL,
     target_date DATE      NOT NULL, -- weeklyのタスクができたら週の初めの日を入れればよい
@@ -16,6 +16,6 @@ CREATE TABLE IF NOT EXISTS tsk2.task_challenge_result
     created_at  TIMESTAMP NOT NULL default current_timestamp,
     updated_at  TIMESTAMP NOT NULL default current_timestamp on update current_timestamp,
     PRIMARY KEY (task_id, target_date),
-    FOREIGN KEY task_task_id_task_challenge_result_task_id (task_id)
+    FOREIGN KEY task_task_id_achievement_task_id (task_id)
     REFERENCES tsk2.task (task_id)
 );

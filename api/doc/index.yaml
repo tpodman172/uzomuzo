@@ -98,10 +98,10 @@ paths:
       responses:
         '204':
           description: delete success
-  /task/challengeResult/{date}:
+  /task/achievement/{date}:
     get:
       summary: get task challenge result by date
-      operationId: getTaskChallengeResult
+      operationId: getAchievement
       tags:
         - tasks
       parameters:
@@ -121,17 +121,17 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/TaskChallengeResultDTO"
+                  $ref: "#/components/schemas/AchievementDTO"
         default:
           description: unexpected error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /task/{id}/challengeResult :
+  /task/{id}/achievement :
     put:
       summary: update task status
-      operationId: putTaskChallengeResult
+      operationId: putAchievement
       tags:
         - tasks
       parameters:
@@ -187,7 +187,7 @@ components:
       properties:
         title:
           type: string
-    TaskChallengeResultDTO:
+    AchievementDTO:
       required:
         - taskId
         - targetDate

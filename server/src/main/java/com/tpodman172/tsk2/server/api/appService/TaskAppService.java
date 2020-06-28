@@ -1,12 +1,12 @@
 package com.tpodman172.tsk2.server.api.appService;
 
 
-import com.tpodman172.tsk2.server.api.appService.model.TaskChallengeResultDTO;
+import com.tpodman172.tsk2.server.api.appService.model.AchievementDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
 import com.tpodman172.tsk2.server.context.task.ITaskRepository;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
-import com.tpodman172.tsk2.server.context.taskChallengeResult.ITaskChallengeResultRepository;
-import com.tpodman172.tsk2.server.context.taskChallengeResult.TaskChallengeResultEntity;
+import com.tpodman172.tsk2.server.context.achievement.IAchievementRepository;
+import com.tpodman172.tsk2.server.context.achievement.AchievementEntity;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class TaskAppService {
     private ITaskRepository taskRepository;
 
     @Autowired
-    private ITaskChallengeResultRepository taskChallengeResultRepository;
+    private IAchievementRepository achievementRepository;
 
     public List<TaskDTO> fetchTasks() {
         return taskRepository.find().stream()
@@ -37,10 +37,10 @@ public class TaskAppService {
                 .collect(Collectors.toList());
     }
 
-    public List<TaskChallengeResultDTO> fetchTaskChallengeResult(LocalDate targetDate) {
-        return taskChallengeResultRepository.findByTargetDate(targetDate)
+    public List<AchievementDTO> fetchAchievement(LocalDate targetDate) {
+        return achievementRepository.findByTargetDate(targetDate)
                 .stream()
-                .map(this::mapToTaskChallengeResultDTO)
+                .map(this::mapToAchievementDTO)
                 .collect(Collectors.toList());
     }
 
@@ -48,12 +48,12 @@ public class TaskAppService {
         return taskRepository.create(taskEntity);
     }
 
-    public void updateTaskChallengeResult(Long taskId, LocalDate targetDate, boolean isCompleted) {
-        taskChallengeResultRepository.update(new TaskChallengeResultEntity(taskId, targetDate, isCompleted));
+    public void updateAchievement(Long taskId, LocalDate targetDate, boolean isCompleted) {
+        achievementRepository.update(new AchievementEntity(taskId, targetDate, isCompleted));
     }
 
-    private TaskChallengeResultDTO mapToTaskChallengeResultDTO(TaskChallengeResultEntity entity) {
-        final val taskChallengeResultDTO = new TaskChallengeResultDTO();
+    private AchievementDTO mapToAchievementDTO(AchievementEntity entity) {
+        final val taskChallengeResultDTO = new AchievementDTO();
         taskChallengeResultDTO.setTaskId(entity.getTaskId());
         taskChallengeResultDTO.setTargetDate(entity.getTargetDate());
         taskChallengeResultDTO.setCompleted(entity.isCompleted());

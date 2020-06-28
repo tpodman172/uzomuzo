@@ -4,9 +4,9 @@
 package com.tpodman172.tsk2.infra.schema.rds;
 
 
+import com.tpodman172.tsk2.infra.schema.rds.tables.Achievement;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
-import com.tpodman172.tsk2.infra.schema.rds.tables.TaskChallengeResult;
-import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskChallengeResultRecord;
+import com.tpodman172.tsk2.infra.schema.rds.tables.records.AchievementRecord;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskRecord;
 
 import javax.annotation.processing.Generated;
@@ -41,14 +41,14 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AchievementRecord> KEY_ACHIEVEMENT_PRIMARY = UniqueKeys0.KEY_ACHIEVEMENT_PRIMARY;
     public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = UniqueKeys0.KEY_TASK_PRIMARY;
-    public static final UniqueKey<TaskChallengeResultRecord> KEY_TASK_CHALLENGE_RESULT_PRIMARY = UniqueKeys0.KEY_TASK_CHALLENGE_RESULT_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<TaskChallengeResultRecord, TaskRecord> TASK_CHALLENGE_RESULT_IBFK_1 = ForeignKeys0.TASK_CHALLENGE_RESULT_IBFK_1;
+    public static final ForeignKey<AchievementRecord, TaskRecord> ACHIEVEMENT_IBFK_1 = ForeignKeys0.ACHIEVEMENT_IBFK_1;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -59,11 +59,11 @@ public class Keys {
     }
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<AchievementRecord> KEY_ACHIEVEMENT_PRIMARY = Internal.createUniqueKey(Achievement.ACHIEVEMENT, "KEY_achievement_PRIMARY", Achievement.ACHIEVEMENT.TASK_ID, Achievement.ACHIEVEMENT.TARGET_DATE);
         public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = Internal.createUniqueKey(Task.TASK, "KEY_task_PRIMARY", Task.TASK.TASK_ID);
-        public static final UniqueKey<TaskChallengeResultRecord> KEY_TASK_CHALLENGE_RESULT_PRIMARY = Internal.createUniqueKey(TaskChallengeResult.TASK_CHALLENGE_RESULT, "KEY_task_challenge_result_PRIMARY", TaskChallengeResult.TASK_CHALLENGE_RESULT.TASK_ID, TaskChallengeResult.TASK_CHALLENGE_RESULT.TARGET_DATE);
     }
 
     private static class ForeignKeys0 {
-        public static final ForeignKey<TaskChallengeResultRecord, TaskRecord> TASK_CHALLENGE_RESULT_IBFK_1 = Internal.createForeignKey(com.tpodman172.tsk2.infra.schema.rds.Keys.KEY_TASK_PRIMARY, TaskChallengeResult.TASK_CHALLENGE_RESULT, "task_challenge_result_ibfk_1", TaskChallengeResult.TASK_CHALLENGE_RESULT.TASK_ID);
+        public static final ForeignKey<AchievementRecord, TaskRecord> ACHIEVEMENT_IBFK_1 = Internal.createForeignKey(com.tpodman172.tsk2.infra.schema.rds.Keys.KEY_TASK_PRIMARY, Achievement.ACHIEVEMENT, "achievement_ibfk_1", Achievement.ACHIEVEMENT.TASK_ID);
     }
 }
