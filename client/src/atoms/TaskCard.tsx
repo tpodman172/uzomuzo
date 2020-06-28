@@ -21,7 +21,6 @@ const StyledLi = styled.li<{ checked: boolean }>`
     list-style: none;
     height : 100px;
     width: 46%;
-    margin-top : 12px;
     border: solid;
 `;
 

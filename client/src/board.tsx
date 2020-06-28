@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useCallback, useMemo, useState} from 'react';
 import {TaskCreateDTO, TaskDTO, TasksApi} from '../api/generated';
-import {format} from 'date-fns'
+import {addDays, format} from 'date-fns'
 import BoardTemplate from "./template/BoardTemplate";
+import {TaskListWithSearch} from "./organisms/TaskListWithSearch";
 
 const Board = () => {
 
@@ -10,7 +11,7 @@ const Board = () => {
     const [newTask, setNewTask] = useState<string>("");
     const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'))
     const [checkedList, setCheckedList] = useState(new Set<number>());
-    const handleShowList = async (targetDate: string) => {
+    const handleShowList = useCallback(async (targetDate: string) => {
         setSelectedDate(targetDate);
         const taskDTOs = await getTaskList();
         setTaskList(taskDTOs);
@@ -25,15 +26,7 @@ const Board = () => {
             }, new Set<number>());
 
         setCheckedList(completedTaskIds);
-    }
-
-    // const showTaskProgressList = (targetDate: Date) => {
-    //     setTargetDate(targetDate);
-    //     fetchTaskChallengeResults(targetDate).then(taskProgressDTO => {
-    //         setTaskList(taskProgressDTO.tasks);
-    //         setCheckedList(new Set(taskProgressDTO.completedTaskIds));
-    //     });
-    // }
+    }, [setSelectedDate, setTaskList, fetchTaskChallengeResults]);
 
     const textChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.currentTarget.value);
@@ -45,7 +38,7 @@ const Board = () => {
         });
     }
 
-    const handleCheck = (checked: boolean, id: number) => {
+    const handleCheck = useCallback((checked: boolean, id: number) => {
         console.log(selectedDate);
         updateProgress(id, checked, selectedDate).catch((e) => {
             console.log(e);
@@ -59,7 +52,7 @@ const Board = () => {
                 return new Set(prev);
             });
         }
-    }
+    }, [selectedDate, setCheckedList]);
 
     const deleteTask = async (id: number) => {
         try {
@@ -69,16 +62,20 @@ const Board = () => {
         }
     };
 
+    const tasksArea = useMemo(() => <TaskListWithSearch
+        searchButtons={[<button key={1} onClick={() => handleShowList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>,
+            <button key={2} onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>]}
+        checkedList={checkedList}
+        handleCheck={handleCheck}
+        taskList={taskList}
+    />, [handleShowList, checkedList, handleCheck, taskList]);
+
     console.log('render: board');
     return (
         <BoardTemplate
-            handleShowList={handleShowList}
-            targetDate={selectedDate}
-            taskList={taskList}
             handleCreateTextChange={textChange}
             handleRegister={handleRegister}
-            handleCheck={handleCheck}
-            checkedList={checkedList}
+            tasksArea={tasksArea}
         />
     );
 }
