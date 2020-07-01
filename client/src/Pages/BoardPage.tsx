@@ -1,9 +1,10 @@
 import * as React from 'react';
 import {ChangeEvent, useCallback, useMemo, useState} from 'react';
-import {TaskCreateDTO, TaskDTO, TasksApi} from '../../api/generated';
+import {TaskCreateDTO, TaskDTO} from '../../api/generated';
 import {addDays, format} from 'date-fns'
 import BoardTemplate from "../templates/BoardTemplate";
 import {TaskListWithSearch} from "../organisms/TaskListWithSearch";
+import {TasksApi} from "../../api";
 
 const BoardPage = () => {
 
@@ -56,7 +57,7 @@ const BoardPage = () => {
 
     const deleteTask = async (id: number) => {
         try {
-            await new TasksApi().taskDelete(id);
+            await TasksApi.taskDelete(id);
         } catch (e) {
             console.log(e);
         }
@@ -86,7 +87,10 @@ async function getTaskList() {
             //headers: {'X-SPECIAL-TOKEN': 'aaaaaa'}
         }
         //const response = await new PetsApi().listPets(10);
-        const response = await new TasksApi().getTasks();
+        const response = await TasksApi.getTasks();
+        // todo implement login
+        localStorage.setItem('authorization', response.headers['authorization']);
+
         return response.data;
     } catch (error) {
         throw new Error(`Error! HTTP Status: ${error.response}`);
@@ -94,15 +98,15 @@ async function getTaskList() {
 }
 
 const fetchTaskChallengeResults = async (targetDate: string) => {
-    const response = await new TasksApi().getAchievement(targetDate);
+    const response = await TasksApi.getAchievement(targetDate);
     return response.data;
 }
 
 // todo move...
 async function createTask(taskCreateDTO: TaskCreateDTO) {
     try {
-        const response = await new TasksApi().postTask(taskCreateDTO);
-        //const response = await new TasksApi().taskOptions();
+        const response = await TasksApi.postTask(taskCreateDTO);
+        //const response = await TasksApi.taskOptions();
         return response.data;
     } catch (error) {
         console.log(error);
@@ -111,7 +115,7 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
 }
 
 const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: string) => {
-    new TasksApi().putAchievement(taskId, targetDate, isCompleted);
+    TasksApi.putAchievement(taskId, targetDate, isCompleted);
 }
 
 export default BoardPage;

@@ -212,3 +212,11 @@ components:
           format: int32
         message:
           type: string
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Credentials or access token for API
+security:
+  - Bearer: []
