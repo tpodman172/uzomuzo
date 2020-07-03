@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {ChangeEvent, useCallback, useMemo, useState} from 'react';
-import {TaskCreateDTO, TaskDTO} from '../../api/generated';
+import {TaskCreateDTO, TaskDTO} from '../../../api/generated';
 import {addDays, format} from 'date-fns'
-import BoardTemplate from "../templates/BoardTemplate";
+import BoardTemplate from "../../templates/BoardTemplate";
 import {TaskListWithSearch} from "../organisms/TaskListWithSearch";
-import {TasksApi} from "../../api";
+import {TasksApi} from "../../../api";
+import { withRouter } from 'react-router-dom';
 
 const BoardPage = () => {
 
@@ -118,4 +119,4 @@ const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: 
     TasksApi.putAchievement(taskId, targetDate, isCompleted);
 }
 
-export default BoardPage;
+export default withRouter(BoardPage);

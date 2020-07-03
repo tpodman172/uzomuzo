@@ -27,6 +27,20 @@ paths:
       responses:
         '200':
           description: OK
+  /login:
+    post:
+      description: login
+      operationId: postLogin
+      tags:
+        - login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: #/components/schema/LoginDTO
+      responses:
+        '204':
+          description: success
   /tasks:
     options:
       tags:
@@ -167,6 +181,15 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    LoginDTO:
+      required:
+        - id
+        - password
+      properties:
+        id:
+          type: string
+        password:
+          type: string
     TaskDTO:
       required:
         - id

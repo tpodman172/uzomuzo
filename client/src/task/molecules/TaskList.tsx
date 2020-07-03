@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import {TaskDTO} from "../../api/generated";
+import {TaskDTO} from "../../../api/generated";
 import TaskCard from "../atoms/TaskCard";
 
 interface Props {

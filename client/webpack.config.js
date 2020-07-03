@@ -8,6 +8,7 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     devServer: {
+        historyApiFallback: true
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

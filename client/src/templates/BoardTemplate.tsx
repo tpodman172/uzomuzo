@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {ChangeEvent} from 'react';
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 interface Props {
     handleCreateTextChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -10,6 +11,8 @@ interface Props {
 
 const BoardTemplate = ({taskListWithSearch, handleCreateTextChange, handleRegister}: Props) => {
     return <StyledDiv>
+        <Link to='/login' >login</Link>
+        <h2>こうへい君、おはようございます！！</h2>
         <h2>あさおきたらやることリスト</h2>
         <TasksArea>
             {taskListWithSearch}
