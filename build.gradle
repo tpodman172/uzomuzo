@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.2.0.RELEASE'
-        jooqVersion = '3.12.3'
+        jooqVersion = '3.13.1'
         mysqlConnectorVersion = '8.0.18'
     }
     repositories {

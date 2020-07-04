@@ -44,8 +44,8 @@ public class TaskRepository implements ITaskRepository {
     @Override
     public Long create(TaskEntity taskEntity) {
         final TaskRecord tasksRecord =
-                jooq.insertInto(TASK, TASK.TITLE)
-                        .values(taskEntity.getTitle())
+                jooq.insertInto(TASK, TASK.USER_ID ,TASK.TITLE)
+                        .values(1L, taskEntity.getTitle()) // todo implement
                         .returning(TASK.TASK_ID)
                         .fetchOne();
         return tasksRecord.getTaskId();

@@ -1,5 +1,5 @@
 plugins {
-    id 'nu.studer.jooq' version '3.0.3'
+    id 'nu.studer.jooq' version '4.2'
 }
 
 jar {
@@ -20,6 +20,7 @@ jooq {
     //jooqのバージョンを指定
     version = jooqVersion
     edition = 'OSS'
+    generateSchemaSourceOnCompilation = false
     tables(sourceSets.main) {
         jdbc {
             //データベースドライバの完全修飾クラス名
@@ -58,4 +59,8 @@ jooq {
             }
         }
     }
+}
+
+generateTablesJooqSchemaSource {
+    dependsOn cleanGenerateTablesJooqSchemaSource
 }

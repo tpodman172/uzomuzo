@@ -6,23 +6,34 @@ hide circle
 ' avoid problems with angled crows feet
 skinparam linetype ortho
 
-entity "tasks" as e01 {
+entity "task" as e01 {
   tasks_id : long
   --
+  user_id : long
   title : string 
   created_at : datetime
   update_at : datetime 
 }
 
-entity "challenge_history" as e02 {
-  challenge_history_id : long
+entity "achievement" as e02 {
+  task_id : long
+  target_date : date
   --
-  task_id : long <<FK>>
-  challenge_date : date
+  completed : boolean
+  created_at : datetime
+  update_at : datetime
+}
+
+entity "user" as e03 {
+  user_id : long
+  --
+  email : string
+  password : date
   created_at : datetime
   update_at : datetime 
 }
 
-e01 ||..o{ e02
+e01 ||-o{ e02
+e03 ||-o{ e01
 
 @enduml

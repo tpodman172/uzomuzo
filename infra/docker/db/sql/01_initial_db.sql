@@ -1,11 +1,24 @@
 CREATE DATABASE IF NOT EXISTS tsk2 DEFAULT CHARACTER SET utf8;
+CREATE TABLE IF NOT EXISTS tsk2.user
+(
+    user_id     BIGINT NOT NULL,
+    email       VARCHAR(100) NOT NULL,
+    password    VARCHAR(256) NOT NULL,
+    created_at  TIMESTAMP NOT NULL default current_timestamp,
+    updated_at  TIMESTAMP NOT NULL default current_timestamp on update current_timestamp,
+    PRIMARY KEY (user_id)
+);
+
 CREATE TABLE IF NOT EXISTS tsk2.task
-( -- todo add column cycle type
+(
     task_id    BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id    BIGINT NOT NULL,
     title      VARCHAR(100) NOT NULL,
     cycle_type ENUM('DAIRY') NOT NULL default 'DAIRY',
     created_at TIMESTAMP NOT NULL default current_timestamp,
-    updated_at TIMESTAMP NOT NULL default current_timestamp on update current_timestamp
+    updated_at TIMESTAMP NOT NULL default current_timestamp on update current_timestamp,
+    FOREIGN KEY user_user_id_task_user_id (user_id)
+    REFERENCES tsk2.user (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS tsk2.achievement
@@ -19,3 +32,4 @@ CREATE TABLE IF NOT EXISTS tsk2.achievement
     FOREIGN KEY task_task_id_achievement_task_id (task_id)
     REFERENCES tsk2.task (task_id)
 );
+
