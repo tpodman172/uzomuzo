@@ -11,7 +11,7 @@ interface Props {
 
 const BoardTemplate = ({taskListWithSearch, handleCreateTextChange, handleRegister}: Props) => {
     return <StyledDiv>
-        <Link to='/login' >login</Link>
+        <Link to='/login'>login</Link>
         <h2>こうへい君、おはようございます！！</h2>
         <h2>あさおきたらやることリスト</h2>
         <TasksArea>

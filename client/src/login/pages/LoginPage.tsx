@@ -1,25 +1,40 @@
 import * as React from "react";
+import {ChangeEvent, useState} from "react";
 import styled from "styled-components";
 import {withRouter} from "react-router-dom";
 import * as H from 'history'
+import {LoginApi} from "../../../api/index";
 
 interface Props {
     history: H.History
 }
 
 const LoginPage = (props: Props) => {
+    const [id, setId] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setId(e.currentTarget.value);
+    }
+    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.currentTarget.value);
+    }
+    const handleLogin = async () => {
+        const aaa = await LoginApi.postLogin({id, password});
+        props.history.push('/');
+    }
     return <StyledDiv>
         <InputArea>
             <label> ID</label>
-            <input type="text"/>
+            <input type="text" onChange={handleIdChange}/>
         </InputArea>
         <InputArea>
             <label>Pass</label>
-            <input type="text"/>
+            <input type="text" onChange={handlePasswordChange}/>
         </InputArea>
-        <button onClick={() => props.history.push('/')}>ログイン</button>
+        <button onClick={() => handleLogin()}>ログイン</button>
     </StyledDiv>;
 }
+
 
 export default withRouter(LoginPage);
 

@@ -12,13 +12,11 @@ class App extends React.Component {
             <Router>
                 <StyledDiv>
                     <GlobalStyle/>
-
+                    <Switch>
+                        <Route path='/login' component={LoginPage}/>
+                        <Route path='/' exact component={BoardPage}/>
+                    </Switch>
                 </StyledDiv>
-                <Switch>
-                    <Route path='/login' component={LoginPage}/>
-                    <Route path='/' exact component={BoardPage}/>
-                </Switch>
-
             </Router>
         );
     }
