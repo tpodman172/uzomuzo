@@ -122,7 +122,7 @@ paths:
       parameters:
         - name: date
           in: path
-          required: false # todo 未指定の場合は全部とる実装
+          required: true # todo 未指定の場合は全部とる実装
           description: target date. [wip]When not specified, all challenge result returned.
           schema:
             type: string
