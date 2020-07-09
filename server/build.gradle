@@ -23,11 +23,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
     compile 'mysql:mysql-connector-java'
     compile 'org.webjars:jquery:1.11.1'
     compile 'org.webjars:bootstrap:3.3.7-1'
     compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.0'
     compile group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.0'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.5'
     implementation 'com.auth0:java-jwt:3.8.1'
 }
 

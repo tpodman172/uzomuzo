@@ -10,16 +10,16 @@ interface Props {
 }
 
 const LoginPage = (props: Props) => {
-    const [id, setId] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setId(e.currentTarget.value);
+        setEmail(e.currentTarget.value);
     }
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.currentTarget.value);
     }
     const handleLogin = async () => {
-        const aaa = await LoginApi.postLogin({id, password});
+        const aaa = await LoginApi.postLogin({email, password});
         props.history.push('/');
     }
     return <StyledDiv>

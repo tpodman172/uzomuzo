@@ -43,24 +43,6 @@ public class TaskController implements TasksApi {
         // todo implements login
         header.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "authorization");
 
-        // jwtを共通鍵で署名して作成する
-        try {
-            // todo set user id
-            Date expireTime = new Date();
-            expireTime.setTime(expireTime.getTime() + 600000l);
-
-            Algorithm algorithm = Algorithm.HMAC256("secret");
-            String token = JWT.create()
-                    .withIssuer("auth0")
-                    .withExpiresAt(expireTime)
-                    .sign(algorithm);
-            header.add("Authorization", token);
-        } catch (JWTCreationException exception){
-            //Invalid Signing configuration / Couldn't convert Claims.
-        }
-        // jwtをclientにわたす
-        // jwtをclientから返してもらう
-        // jwtを公開鍵で戻す
         userSessionService.getUserId();
         List<TaskDTO> tasks = taskAppService.fetchTasks();
 

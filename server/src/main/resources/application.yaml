@@ -17,3 +17,5 @@ spring:
       auto-commit: false
   jooq:
     sql-dialect: mysql
+  liquibase:
+    enabled: false

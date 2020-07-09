@@ -1,12 +1,11 @@
 CREATE DATABASE IF NOT EXISTS tsk2 DEFAULT CHARACTER SET utf8;
 CREATE TABLE IF NOT EXISTS tsk2.user
 (
-    user_id     BIGINT NOT NULL,
-    email       VARCHAR(100) NOT NULL,
+    user_id     BIGINT NOT NULL PRIMARY KEY,
+    email       VARCHAR(100) NOT NULL UNIQUE,
     password    VARCHAR(256) NOT NULL,
     created_at  TIMESTAMP NOT NULL default current_timestamp,
-    updated_at  TIMESTAMP NOT NULL default current_timestamp on update current_timestamp,
-    PRIMARY KEY (user_id)
+    updated_at  TIMESTAMP NOT NULL default current_timestamp on update current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS tsk2.task

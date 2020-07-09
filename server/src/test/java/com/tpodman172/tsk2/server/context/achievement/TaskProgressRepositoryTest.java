@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static com.tpodman172.tsk2.infra.schema.rds.tables.TaskDailyProgress.TASK_DAILY_PROGRESS;
+import static com.tpodman172.tsk2.infra.schema.rds.tables.Achievement.ACHIEVEMENT;
 
 @SpringBootTest
 @Transactional
@@ -19,9 +19,9 @@ class TaskProgressRepositoryTest {
 
     @Test
     public void update() {
-        jooq.insertInto(TASK_DAILY_PROGRESS, TASK_DAILY_PROGRESS.TASK_ID, TASK_DAILY_PROGRESS.TARGET_DATE, TASK_DAILY_PROGRESS.COMPLETED)
+        jooq.insertInto(ACHIEVEMENT, ACHIEVEMENT.TASK_ID, ACHIEVEMENT.TARGET_DATE, ACHIEVEMENT.COMPLETED)
                 .values(4L, LocalDate.now(), false).execute();
 
-        jooq.selectFrom(TASK_DAILY_PROGRESS).fetch();
+        jooq.selectFrom(ACHIEVEMENT).fetch();
     }
 }
