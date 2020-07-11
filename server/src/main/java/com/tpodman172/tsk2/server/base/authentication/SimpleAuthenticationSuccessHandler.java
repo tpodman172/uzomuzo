@@ -1,15 +1,20 @@
-package com.tpodman172.tsk2.server.api.appService;
+package com.tpodman172.tsk2.server.base.authentication;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.tpodman172.tsk2.server.base.exception.AuthenticationFailedException;
-import com.tpodman172.tsk2.server.context.user.IUserRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.val;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
@@ -21,14 +26,10 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
 
-@Service
-@Transactional
-@RequiredArgsConstructor
-public class AuthenticationAppService {
+@Slf4j
+public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final IUserRepository userRepository;
-
-    private static String testTempPrivateKey =
+    private static final String testTempPrivateKey =
             "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCrAHwti7mUCdBw" +
                     "GZa6GHKIlLRUfeVnGUB4bcv8S2vMAusmBVJKLUy5yzSv+Jy+h9cXbpKtbfYrlByq" +
                     "kdKIDD/eZZuJBk67491HdFDXsIWOKi51N8W86av2jLZmnpJYmR/CEyrGzBZi9wAc" +
@@ -56,7 +57,7 @@ public class AuthenticationAppService {
                     "nftJ8Y3Nmw6GPEDWZrfK7xUGVPKRz8EQMFaQH8oRKA/5jYsO041DpMuSN4g3CA+G" +
                     "F/5XzY1TTxA/uqdvJRncbSk=";
 
-    private static String testTempPublicKey =
+    private static final String testTempPublicKey =
             "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqwB8LYu5lAnQcBmWuhhy" +
                     "iJS0VH3lZxlAeG3L/EtrzALrJgVSSi1Mucs0r/icvofXF26SrW32K5QcqpHSiAw/" +
                     "3mWbiQZOu+PdR3RQ17CFjioudTfFvOmr9oy2Zp6SWJkfwhMqxswWYvcAHEEyJLtK" +
@@ -65,10 +66,15 @@ public class AuthenticationAppService {
                     "wUA0oxPU1dFsMNyb7WbgONjtqCUKmGKUngUfvuHawjtxxlwM3mQ51NKqdKAJLjeu" +
                     "mwIDAQAB";
 
-    public String authenticate(String email, String password) throws AuthenticationFailedException {
-        final val userEntity = userRepository.findByEmailAndPassword(email).orElseThrow(AuthenticationFailedException::new);
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication auth) throws IOException, ServletException {
+        if (response.isCommitted()) {
+            log.info("Response has already been committed.");
+            return;
+        }
 
-        // jwtを共通鍵で署名して作成する
         try {
             // todo set user id
             Date expireTime = new Date();
@@ -84,16 +90,35 @@ public class AuthenticationAppService {
             KeySpec publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(testTempPublicKey));
             RSAPublicKey rsaPublicKey = (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
             Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
+            SimpleLoginUser user = (SimpleLoginUser) auth.getPrincipal();
             String token = JWT.create()
-                    .withClaim("tsk2_user_id", userEntity.getUserId())
-                    .withClaim("tsk2_user_email", userEntity.getEmail())
+                    .withClaim("tsk2_user_id", user.getUserId())
+                    .withClaim("tsk2_user_email", user.getUsername())
                     .withIssuer("tsk2.me")
                     .withExpiresAt(expireTime)
                     .withIssuedAt(new Date())
                     .sign(algorithm);
-            return token;
+
+            response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "authorization");
+            response.setHeader(HttpHeaders.AUTHORIZATION, token);
         } catch (JWTCreationException | NoSuchAlgorithmException | InvalidKeySpecException exception) {
             throw new RuntimeException(exception);
         }
+        response.setStatus(HttpStatus.OK.value());
+        clearAuthenticationAttributes(request);
+    }
+
+    /**
+     * Removes temporary authentication-related data which may have been stored in the
+     * session during the authentication process.
+     */
+    private void clearAuthenticationAttributes(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return;
+        }
+        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
 }
+

@@ -2,7 +2,7 @@ package com.tpodman172.tsk2.server.api.controller;
 
 import com.tpodman172.tsk2.server.api.appService.AuthenticationAppService;
 import com.tpodman172.tsk2.server.api.appService.model.LoginDTO;
-import com.tpodman172.tsk2.server.base.AuthenticationFailedException;
+import com.tpodman172.tsk2.server.base.exception.AuthenticationFailedException;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpHeaders;

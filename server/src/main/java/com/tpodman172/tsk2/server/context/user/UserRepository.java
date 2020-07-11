@@ -14,10 +14,11 @@ public class UserRepository implements IUserRepository {
     private final DSLContext jooq;
 
     @Override
-    public Optional<UserEntity> findByEmailAndPassword(String email, String password) {
+    public Optional<UserEntity> findByEmailAndPassword(String email) {
+        System.out.println("findByEmailAndPassword");
+        System.out.println(email);
         return jooq.selectFrom(USER)
                 .where(USER.EMAIL.eq(email))
-                .and(USER.PASSWORD.eq(password))
                 .fetchOptionalInto(USER)
                 .map(record ->
                         new UserEntity(record.getUserId(), record.getPassword(), record.getEmail())

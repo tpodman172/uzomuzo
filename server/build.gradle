@@ -24,6 +24,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     compile 'mysql:mysql-connector-java'
     compile 'org.webjars:jquery:1.11.1'
     compile 'org.webjars:bootstrap:3.3.7-1'
