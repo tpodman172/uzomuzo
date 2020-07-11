@@ -1,9 +1,6 @@
 package com.tpodman172.tsk2.server.base;
 
-import com.tpodman172.tsk2.server.base.authentication.SimpleAccessDeniedHandler;
-import com.tpodman172.tsk2.server.base.authentication.SimpleAuthenticationEntryPoint;
-import com.tpodman172.tsk2.server.base.authentication.SimpleAuthenticationFailureHandler;
-import com.tpodman172.tsk2.server.base.authentication.SimpleAuthenticationSuccessHandler;
+import com.tpodman172.tsk2.server.base.authentication.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,8 +16,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.filter.GenericFilterBean;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,12 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // AUTHORIZE
                 .authorizeRequests()
-                .mvcMatchers("/tasks", "/hello/**")
-                .permitAll()
-//                .mvcMatchers("/user/**")
-//                .hasRole("USER")
-//                .mvcMatchers("/admin/**")
-//                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -54,16 +48,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // LOGOUT
                 .logout()
                 .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
                 .logoutSuccessHandler(logoutSuccessHandler())
-                //.addLogoutHandler(new CookieClearingLogoutHandler())
                 .and()
                 // CSRF
                 .csrf()
                 .disable()
-        //.ignoringAntMatchers("/login")
-        ;
+                .addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                // SESSION
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Autowired
@@ -79,6 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    GenericFilterBean tokenFilter() {
+        return new SimpleTokenFilter();
     }
 
     AuthenticationEntryPoint authenticationEntryPoint() {

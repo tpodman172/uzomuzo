@@ -72,11 +72,12 @@ class AuthenticationAppServiceTest {
         KeySpec publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(testTempPublicKey));
         RSAPublicKey rsaPublicKey = (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
         try {
-            Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
+            Algorithm algorithm = Algorithm.RSA256(null, rsaPrivateKey);
             String token = JWT.create()
                     .withIssuer("tsk2")
                     .sign(algorithm);
-            JWTVerifier verifier = JWT.require(algorithm)
+            Algorithm algorithm2 = Algorithm.RSA256(rsaPublicKey, null);
+            JWTVerifier verifier = JWT.require(algorithm2)
                     .withIssuer("tsk2")
                     .build();
             DecodedJWT jwt = verifier.verify(token);
