@@ -54,9 +54,10 @@ public class SimpleTokenFilter extends GenericFilterBean {
             Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, null);
             JWTVerifier verifier = JWT.require(algorithm).build();
             val jwt = verifier.verify(token);
+            System.out.println(jwt.getClaim("tsk2_user_email").asString());
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(
-                            jwt.getSubject(),
+                            new SimpleLoginUser(Long.valueOf(jwt.getSubject()), jwt.getClaim("tsk2_user_email").asString(), ""),
                             null,
                             AuthorityUtils.NO_AUTHORITIES)
             );
