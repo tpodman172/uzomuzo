@@ -1,7 +1,7 @@
 import * as Generated from "./generated";
-import {config} from "./config";
+import {makeConfiguration} from "./config";
 
-const TasksApi = new Generated.TasksApi(config);
-const LoginApi = new Generated.AuthenticationApi(config);
+const TasksApi = () => new Generated.TasksApi(makeConfiguration());
+const LoginApi = () => new Generated.AuthenticationApi();
 
 export {TasksApi, LoginApi};

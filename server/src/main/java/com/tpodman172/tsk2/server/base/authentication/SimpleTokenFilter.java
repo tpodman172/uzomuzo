@@ -43,7 +43,9 @@ public class SimpleTokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("doFilterが呼ばれました");
         final val token = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
+        // todo loginのときは無視する...filterを追加するやり方が微妙かも
         if (token == null) {
+            System.out.println("tokenがありませんでした");
             chain.doFilter(request, response);
             return;
         }
@@ -53,7 +55,7 @@ public class SimpleTokenFilter extends GenericFilterBean {
             RSAPublicKey rsaPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(publicKeySpec);
             Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, null);
             JWTVerifier verifier = JWT.require(algorithm).build();
-            val jwt = verifier.verify(token);
+            val jwt = verifier.verify(token.replace("Bearer ", ""));
             System.out.println(jwt.getClaim("tsk2_user_email").asString());
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(
@@ -61,7 +63,9 @@ public class SimpleTokenFilter extends GenericFilterBean {
                             null,
                             AuthorityUtils.NO_AUTHORITIES)
             );
+            System.out.println("検証に成功しました");
         } catch (JWTVerificationException e) {
+            System.out.println("検証にしっぱいしました");
             SecurityContextHolder.clearContext();
             ((HttpServletResponse) response).sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
         } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {

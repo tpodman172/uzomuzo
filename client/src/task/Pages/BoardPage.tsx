@@ -58,7 +58,7 @@ const BoardPage = () => {
 
     const deleteTask = async (id: number) => {
         try {
-            await TasksApi.taskDelete(id);
+            await TasksApi().taskDelete(id);
         } catch (e) {
             console.log(e);
         }
@@ -88,9 +88,7 @@ async function getTaskList() {
             //headers: {'X-SPECIAL-TOKEN': 'aaaaaa'}
         }
         //const response = await new PetsApi().listPets(10);
-        const response = await TasksApi.getTasks();
-        // todo implement login
-        localStorage.setItem('authorization', response.headers['authorization']);
+        const response = await TasksApi().getTasks();
 
         return response.data;
     } catch (error) {
@@ -99,14 +97,14 @@ async function getTaskList() {
 }
 
 const fetchTaskChallengeResults = async (targetDate: string) => {
-    const response = await TasksApi.getAchievement(targetDate);
+    const response = await TasksApi().getAchievement(targetDate);
     return response.data;
 }
 
 // todo move...
 async function createTask(taskCreateDTO: TaskCreateDTO) {
     try {
-        const response = await TasksApi.postTask(taskCreateDTO);
+        const response = await TasksApi().postTask(taskCreateDTO);
         //const response = await TasksApi.taskOptions();
         return response.data;
     } catch (error) {
@@ -116,7 +114,7 @@ async function createTask(taskCreateDTO: TaskCreateDTO) {
 }
 
 const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: string) => {
-    TasksApi.putAchievement(taskId, targetDate, isCompleted);
+    TasksApi().putAchievement(taskId, targetDate, isCompleted);
 }
 
 export default withRouter(BoardPage);

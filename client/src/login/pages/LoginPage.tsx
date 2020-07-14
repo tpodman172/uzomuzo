@@ -19,7 +19,9 @@ const LoginPage = (props: Props) => {
         setPassword(e.currentTarget.value);
     }
     const handleLogin = async () => {
-        const aaa = await LoginApi.postLogin({email, password});
+        // todo save token to local storage
+        const response = await LoginApi().postLogin(email, password);
+        localStorage.setItem('authorization', response.headers.authorization)
         props.history.push('/');
     }
     return <StyledDiv>

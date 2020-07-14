@@ -85,7 +85,7 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
                     .withIssuedAt(new Date())
                     .sign(algorithm);
 
-            response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "authorization");
+            response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization");
             response.setHeader(HttpHeaders.AUTHORIZATION, token);
         } catch (JWTCreationException | NoSuchAlgorithmException | InvalidKeySpecException exception) {
             throw new RuntimeException(exception);
