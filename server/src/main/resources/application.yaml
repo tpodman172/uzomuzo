@@ -19,3 +19,6 @@ spring:
     sql-dialect: mysql
   liquibase:
     enabled: false
+rsa-key:
+  public: ${RSA_PUBLIC_KEY:#{null}}
+  private: ${RSA_PRIVATE_KEY:#{null}}

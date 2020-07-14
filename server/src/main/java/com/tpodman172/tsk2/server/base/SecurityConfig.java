@@ -29,6 +29,9 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private KeyConfig keyConfig;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -83,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     GenericFilterBean tokenFilter() {
-        return new SimpleTokenFilter();
+        return new SimpleTokenFilter(keyConfig);
     }
 
     AuthenticationEntryPoint authenticationEntryPoint() {
@@ -95,7 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new SimpleAuthenticationSuccessHandler();
+        return new SimpleAuthenticationSuccessHandler(keyConfig);
     }
 
     AuthenticationFailureHandler authenticationFailureHandler() {
