@@ -18,7 +18,6 @@ public class SimpleUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(final String email) {
         System.out.println("loadUserByUserNameが呼ばれました");
-        // emailでデータベースからユーザーエンティティを検索する
         return userRepository.findByEmailAndPassword(email)
                 .map(user -> new SimpleLoginUser(user.getUserId(), user.getEmail(), user.getPassword()))
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));

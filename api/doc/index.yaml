@@ -184,10 +184,10 @@ components:
   schemas:
     LoginDTO:
       required:
-        - email
+        - userName
         - password
       properties:
-        email:
+        userName:
           type: string
         password:
           type: string

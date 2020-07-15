@@ -8,6 +8,7 @@ import com.tpodman172.tsk2.server.context.task.TaskEntity;
 import com.tpodman172.tsk2.server.context.achievement.IAchievementRepository;
 import com.tpodman172.tsk2.server.context.achievement.AchievementEntity;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@AllArgsConstructor
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TaskAppService {
 
-    @Autowired
-    private ITaskRepository taskRepository;
+    private final ITaskRepository taskRepository;
 
-    @Autowired
-    private IAchievementRepository achievementRepository;
+    private final IAchievementRepository achievementRepository;
 
     public List<TaskDTO> fetchTasks() {
         return taskRepository.find().stream()

@@ -1,6 +1,7 @@
-package com.tpodman172.tsk2.server.base;
+package com.tpodman172.tsk2.server.base.authentication;
 
 import com.tpodman172.tsk2.server.base.authentication.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -27,10 +28,10 @@ import org.springframework.web.filter.GenericFilterBean;
 import java.util.Arrays;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private KeyConfig keyConfig;
+    private final KeyConfig keyConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // LOGIN
                 .formLogin()
                 .loginProcessingUrl("/login").permitAll()
-                .usernameParameter("email")
+                .usernameParameter("userName")
                 .passwordParameter("password")
                 .successHandler(authenticationSuccessHandler())
                 .failureHandler(authenticationFailureHandler())
@@ -66,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                // CORS
                 .cors()
                 .configurationSource(corsConfigurationSource());
     }

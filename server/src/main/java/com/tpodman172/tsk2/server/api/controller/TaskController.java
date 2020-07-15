@@ -35,9 +35,6 @@ public class TaskController implements TasksApi {
     @Override
     public ResponseEntity<List<TaskDTO>> getTasks() {
         HttpHeaders header = new HttpHeaders();
-//        header.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-        // todo implements login
-        header.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "authorization");
 
         userSessionService.getUserId();
         List<TaskDTO> tasks = taskAppService.fetchTasks();

@@ -10,17 +10,17 @@ interface Props {
 }
 
 const LoginPage = (props: Props) => {
-    const [email, setEmail] = useState<string>("");
+    const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.currentTarget.value);
+        setUserName(e.currentTarget.value);
     }
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.currentTarget.value);
     }
     const handleLogin = async () => {
         // todo save token to local storage
-        const response = await LoginApi().postLogin(email, password);
+        const response = await LoginApi().postLogin(userName, password);
         localStorage.setItem('authorization', response.headers.authorization)
         props.history.push('/');
     }

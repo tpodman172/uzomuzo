@@ -7,13 +7,11 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -34,7 +32,6 @@ public class SimpleTokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("doFilterが呼ばれました");
         final val token = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
-        // todo loginのときは無視する...filterを追加するやり方が微妙かも
         if (token == null) {
             System.out.println("tokenがありませんでした");
             chain.doFilter(request, response);
@@ -42,15 +39,13 @@ public class SimpleTokenFilter extends GenericFilterBean {
         }
 
         try {
-//            KeySpec publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(testTempPublicKey));
-//            RSAPublicKey rsaPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(publicKeySpec);
             Algorithm algorithm = Algorithm.RSA256(keyConfig.getPublicKey(), null);
             JWTVerifier verifier = JWT.require(algorithm).build();
             val jwt = verifier.verify(token.replace("Bearer ", ""));
-            System.out.println(jwt.getClaim("tsk2_user_email").asString());
+            System.out.println(jwt.getClaim("tsk2_user_name").asString());
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(
-                            new SimpleLoginUser(Long.valueOf(jwt.getSubject()), jwt.getClaim("tsk2_user_email").asString(), ""),
+                            new SimpleLoginUser(Long.valueOf(jwt.getSubject()), jwt.getClaim("tsk2_user_name").asString(), ""),
                             null,
                             AuthorityUtils.NO_AUTHORITIES)
             );
