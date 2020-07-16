@@ -17,9 +17,9 @@ const BoardPage = () => {
         setSelectedDate(targetDate);
         const taskDTOs = await getTaskList();
         setTaskList(taskDTOs);
-        const taskChallengeResultDTOs = await fetchTaskChallengeResults(targetDate);
+        const achievementDTOs = await fetchAchievements(targetDate);
 
-        const completedTaskIds = taskChallengeResultDTOs
+        const completedTaskIds = achievementDTOs
             .filter(value => value.targetDate === targetDate)
             .filter(value => value.completed)
             .reduce((prev, current) => {
@@ -28,7 +28,7 @@ const BoardPage = () => {
             }, new Set<number>());
 
         setCheckedList(completedTaskIds);
-    }, [setSelectedDate, setTaskList, fetchTaskChallengeResults]);
+    }, [setSelectedDate, setTaskList, fetchAchievements]);
 
     const textChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.currentTarget.value);
@@ -96,7 +96,7 @@ async function getTaskList() {
     }
 }
 
-const fetchTaskChallengeResults = async (targetDate: string) => {
+const fetchAchievements = async (targetDate: string) => {
     const response = await TasksApi().getAchievement(targetDate);
     return response.data;
 }

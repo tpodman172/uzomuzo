@@ -21,7 +21,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record5<Long, String, String, LocalDateTime, LocalDateTime> {
 
-    private static final long serialVersionUID = 1954747530;
+    private static final long serialVersionUID = -367563017;
 
     /**
      * Setter for <code>tsk2.user.user_id</code>.
@@ -38,16 +38,16 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     /**
-     * Setter for <code>tsk2.user.email</code>.
+     * Setter for <code>tsk2.user.user_name</code>.
      */
-    public void setEmail(String value) {
+    public void setUserName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>tsk2.user.email</code>.
+     * Getter for <code>tsk2.user.user_name</code>.
      */
-    public String getEmail() {
+    public String getUserName() {
         return (String) get(1);
     }
 
@@ -123,7 +123,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public Field<String> field2() {
-        return User.USER.EMAIL;
+        return User.USER.USER_NAME;
     }
 
     @Override
@@ -148,7 +148,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public String component2() {
-        return getEmail();
+        return getUserName();
     }
 
     @Override
@@ -173,7 +173,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public String value2() {
-        return getEmail();
+        return getUserName();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public UserRecord value2(String value) {
-        setEmail(value);
+        setUserName(value);
         return this;
     }
 
@@ -245,11 +245,11 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long userId, String email, String password, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public UserRecord(Long userId, String userName, String password, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(User.USER);
 
         set(0, userId);
-        set(1, email);
+        set(1, userName);
         set(2, password);
         set(3, createdAt);
         set(4, updatedAt);

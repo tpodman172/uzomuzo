@@ -3,8 +3,8 @@ USE tsk2;
 SET CHARACTER_SET_CLIENT = utf8;
 SET CHARACTER_SET_CONNECTION = utf8;
 START TRANSACTION;
-INSERT INTO user(user_id, email, password)
-VALUES (1, 'abede@example.com', '$2a$10$rPwqW8yxLztYPp.yZ9WlWuNcnKdr1SkMXt9w6y0RF6CcVJUFWQ1.W');
+INSERT INTO user(user_name, password)
+VALUES ('user', '$2a$10$rPwqW8yxLztYPp.yZ9WlWuNcnKdr1SkMXt9w6y0RF6CcVJUFWQ1.W');
 INSERT INTO task(title, user_id, cycle_type)
 VALUES ('きがえる', 1, 'DAIRY');
 INSERT INTO task(title, user_id, cycle_type)

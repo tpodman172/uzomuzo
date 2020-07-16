@@ -10,6 +10,7 @@ import com.tpodman172.tsk2.infra.schema.rds.tables.User;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.AchievementRecord;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.TaskRecord;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.UserRecord;
+
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.TableField;
@@ -38,7 +39,7 @@ public class Keys {
     public static final UniqueKey<AchievementRecord> KEY_ACHIEVEMENT_PRIMARY = UniqueKeys0.KEY_ACHIEVEMENT_PRIMARY;
     public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = UniqueKeys0.KEY_TASK_PRIMARY;
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = UniqueKeys0.KEY_USER_PRIMARY;
-    public static final UniqueKey<UserRecord> KEY_USER_EMAIL = UniqueKeys0.KEY_USER_EMAIL;
+    public static final UniqueKey<UserRecord> KEY_USER_USER_NAME = UniqueKeys0.KEY_USER_USER_NAME;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -60,7 +61,7 @@ public class Keys {
         public static final UniqueKey<AchievementRecord> KEY_ACHIEVEMENT_PRIMARY = Internal.createUniqueKey(Achievement.ACHIEVEMENT, "KEY_achievement_PRIMARY", new TableField[] { Achievement.ACHIEVEMENT.TASK_ID, Achievement.ACHIEVEMENT.TARGET_DATE }, true);
         public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = Internal.createUniqueKey(Task.TASK, "KEY_task_PRIMARY", new TableField[] { Task.TASK.TASK_ID }, true);
         public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER, "KEY_user_PRIMARY", new TableField[] { User.USER.USER_ID }, true);
-        public static final UniqueKey<UserRecord> KEY_USER_EMAIL = Internal.createUniqueKey(User.USER, "KEY_user_email", new TableField[] { User.USER.EMAIL }, true);
+        public static final UniqueKey<UserRecord> KEY_USER_USER_NAME = Internal.createUniqueKey(User.USER, "KEY_user_user_name", new TableField[] { User.USER.USER_NAME }, true);
     }
 
     private static class ForeignKeys0 {

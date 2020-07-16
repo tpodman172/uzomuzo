@@ -7,12 +7,13 @@ package com.tpodman172.tsk2.infra.schema.rds;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Achievement;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
 import com.tpodman172.tsk2.infra.schema.rds.tables.User;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
