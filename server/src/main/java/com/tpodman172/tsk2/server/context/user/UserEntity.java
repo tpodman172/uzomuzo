@@ -6,8 +6,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class UserEntity{
+public class UserEntity {
    private Long userId;
    private String password;
    private String email;
+
+   public static UserEntity createUser(String email, String password) {
+      return new UserEntity(null, password, email);
+   }
 }

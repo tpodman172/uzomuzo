@@ -5,17 +5,14 @@ package com.tpodman172.tsk2.infra.schema.rds;
 
 
 import com.tpodman172.tsk2.infra.schema.rds.tables.Achievement;
-import com.tpodman172.tsk2.infra.schema.rds.tables.Databasechangelog;
-import com.tpodman172.tsk2.infra.schema.rds.tables.Databasechangeloglock;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
 import com.tpodman172.tsk2.infra.schema.rds.tables.User;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -24,7 +21,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tsk2 extends SchemaImpl {
 
-    private static final long serialVersionUID = 807213146;
+    private static final long serialVersionUID = -2125040230;
 
     /**
      * The reference instance of <code>tsk2</code>
@@ -35,16 +32,6 @@ public class Tsk2 extends SchemaImpl {
      * The table <code>tsk2.achievement</code>.
      */
     public final Achievement ACHIEVEMENT = Achievement.ACHIEVEMENT;
-
-    /**
-     * The table <code>tsk2.DATABASECHANGELOG</code>.
-     */
-    public final Databasechangelog DATABASECHANGELOG = Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>tsk2.DATABASECHANGELOGLOCK</code>.
-     */
-    public final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
 
     /**
      * The table <code>tsk2.task</code>.
@@ -73,8 +60,6 @@ public class Tsk2 extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             Achievement.ACHIEVEMENT,
-            Databasechangelog.DATABASECHANGELOG,
-            Databasechangeloglock.DATABASECHANGELOGLOCK,
             Task.TASK,
             User.USER);
     }

@@ -27,6 +27,21 @@ paths:
       responses:
         '200':
           description: OK
+  /user:
+    put:
+      description: create new user account
+      operationId: putUser
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutUserDto"
+      responses:
+        '204':
+          description: success
   /login:
     post:
       description: login
@@ -191,6 +206,15 @@ components:
           type: string
         password:
           type: string
+    PutUserDto:
+      required:
+        - userName
+        - password
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
     TaskDTO:
       required:
         - id
@@ -201,7 +225,7 @@ components:
           format: int64
         title:
           type: string
-    TasksDTO: # todo TasksDTOいる？
+    TasksDTO:
       type: array
       items:
         $ref: "#/components/schemas/TaskDTO"

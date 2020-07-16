@@ -7,23 +7,13 @@ package com.tpodman172.tsk2.infra.schema.rds.tables;
 import com.tpodman172.tsk2.infra.schema.rds.Keys;
 import com.tpodman172.tsk2.infra.schema.rds.Tsk2;
 import com.tpodman172.tsk2.infra.schema.rds.tables.records.UserRecord;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row5;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
 
 /**
@@ -32,7 +22,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-    private static final long serialVersionUID = 1641815587;
+    private static final long serialVersionUID = 840624850;
 
     /**
      * The reference instance of <code>tsk2.user</code>
@@ -50,7 +40,7 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>tsk2.user.user_id</code>.
      */
-    public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>tsk2.user.email</code>.
@@ -108,6 +98,11 @@ public class User extends TableImpl<UserRecord> {
     @Override
     public Schema getSchema() {
         return Tsk2.TSK2;
+    }
+
+    @Override
+    public Identity<UserRecord, Long> getIdentity() {
+        return Keys.IDENTITY_USER;
     }
 
     @Override

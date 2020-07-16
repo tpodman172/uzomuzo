@@ -24,4 +24,11 @@ public class UserRepository implements IUserRepository {
                         new UserEntity(record.getUserId(), record.getPassword(), record.getEmail())
                 );
     }
+
+    @Override
+    public void insert(UserEntity userEntity) {
+        jooq.insertInto(USER, USER.EMAIL, USER.PASSWORD)
+                .values(userEntity.getEmail(), userEntity.getPassword())
+                .execute();
+    }
 }

@@ -5,8 +5,6 @@ package com.tpodman172.tsk2.infra.schema.rds;
 
 
 import com.tpodman172.tsk2.infra.schema.rds.tables.Achievement;
-import com.tpodman172.tsk2.infra.schema.rds.tables.Databasechangelog;
-import com.tpodman172.tsk2.infra.schema.rds.tables.Databasechangeloglock;
 import com.tpodman172.tsk2.infra.schema.rds.tables.Task;
 import com.tpodman172.tsk2.infra.schema.rds.tables.User;
 
@@ -21,16 +19,6 @@ public class Tables {
      * The table <code>tsk2.achievement</code>.
      */
     public static final Achievement ACHIEVEMENT = Achievement.ACHIEVEMENT;
-
-    /**
-     * The table <code>tsk2.DATABASECHANGELOG</code>.
-     */
-    public static final Databasechangelog DATABASECHANGELOG = Databasechangelog.DATABASECHANGELOG;
-
-    /**
-     * The table <code>tsk2.DATABASECHANGELOGLOCK</code>.
-     */
-    public static final Databasechangeloglock DATABASECHANGELOGLOCK = Databasechangeloglock.DATABASECHANGELOGLOCK;
 
     /**
      * The table <code>tsk2.task</code>.

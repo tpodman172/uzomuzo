@@ -1,4 +1,8 @@
 package com.tpodman172.tsk2.server.base.authentication;
 
-public class SimplePasswordEncoder {
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SimplePasswordEncoder extends BCryptPasswordEncoder {
 }
