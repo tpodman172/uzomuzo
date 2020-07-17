@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import BoardPage from "./task/component/pages/BoardPage";
 import LoginPage from "./login/component/pages/LoginPage";
 import UserRegistrationPage from "./user/component/pages/UserRegistrationPage";
+import Auth from "./base/Auth";
 
 class App extends React.Component {
     render() {
@@ -16,7 +17,11 @@ class App extends React.Component {
                     <Switch>
                         <Route path='/login' exact component={LoginPage}/>
                         <Route path='/signUp' exact component={UserRegistrationPage}/>
-                        <Route path='/' exact component={BoardPage}/>
+                        <Auth>
+                            <>
+                                <Route path='/board' exact component={BoardPage}/>
+                            </>
+                        </Auth>
                     </Switch>
                 </StyledDiv>
             </Router>

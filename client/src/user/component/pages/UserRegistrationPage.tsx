@@ -14,10 +14,9 @@ const UserRegistrationPage = (props: Props) => {
     const [userName, setUserName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const handleSignUp = () => {
-        console.log('aaaaaaaaaa');
         UserApi().putUser({userName, password}).then((response) => {
             localStorage.setItem('authorization', response.headers.authorization)
-            props.history.push('/');
+            props.history.push('/board');
         }).catch((e) => {
             console.log(e.response); // todo error handling
         });

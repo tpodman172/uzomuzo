@@ -17,7 +17,7 @@ const LoginPage = (props: Props) => {
     const handleLogin = async () => {
         const response = await LoginApi().postLogin(userName, password);
         localStorage.setItem('authorization', response.headers.authorization)
-        props.history.push('/');
+        props.history.push('/board');
     }
     return <StyledDiv>
         <h1>ログイン</h1>
