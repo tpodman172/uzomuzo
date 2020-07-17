@@ -9,9 +9,13 @@ import lombok.val;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +27,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<Void> putUser(@Valid PutUserDto putUserDto) {
+        System.out.println(putUserDto);
         val userId = userAppService.createUser(putUserDto.getUserName(), putUserDto.getPassword());
         val token = JwtTokenUtil.createJwtToken(keyConfig, userId, putUserDto.getUserName());
         HttpHeaders headers = new HttpHeaders();
@@ -30,4 +35,13 @@ public class UserController implements UserApi {
         headers.add(HttpHeaders.AUTHORIZATION, token);
         return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
+
+    // 入力チェックによるエラーはこれで拾えるみたい
+    @ExceptionHandler(value = { MethodArgumentNotValidException.class })
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public String handleResourceNotFoundException(MethodArgumentNotValidException e) {
+        System.out.println(e.getBindingResult().getFieldError());
+        return e.getMessage();
+    }
+
 }

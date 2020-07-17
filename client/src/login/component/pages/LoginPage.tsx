@@ -13,16 +13,27 @@ interface Props {
 const LoginPage = (props: Props) => {
     const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
     const handleLogin = async () => {
-        const response = await LoginApi().postLogin(userName, password);
-        localStorage.setItem('authorization', response.headers.authorization)
-        props.history.push('/board');
+        setErrorMessage(undefined);
+        LoginApi().postLogin(userName, password).then(response => {
+            localStorage.setitem('authorization', response.headers.authorization)
+            props.history.push('/board');
+        }).catch(e => {
+            if (e.response?.status === 401) {
+                setErrorMessage('「なまえ」か「あいことば」がまちがっているよ')
+            } else {
+                setErrorMessage('なんかぐあいがわるいみたい😪')
+            }
+        });
     }
+
     return <StyledDiv>
         <h1>ログイン</h1>
-        <InputWithLabel label={'user name'} setValue={setUserName}/>
-        <InputWithLabel label={'password'} setValue={setPassword}/>
+        {errorMessage && <div>{errorMessage}</div>}
+        <InputWithLabel label={'なまえ'} setValue={setUserName}/>
+        <InputWithLabel label={'あいことば'} setValue={setPassword}/>
         <button onClick={() => handleLogin()}>ログイン</button>
         <div>
             <Link to="/signUp">新規登録</Link>
