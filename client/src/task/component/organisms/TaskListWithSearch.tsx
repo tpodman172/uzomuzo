@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TaskDTO} from "../../../api/generated";
+import {TaskDTO} from "../../../../api/generated";
 import {SearchButtons} from "../molecules/SearchButtons";
 import {TaskList} from "../molecules/TaskList";
 import styled from "styled-components";

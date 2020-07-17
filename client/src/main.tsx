@@ -3,9 +3,9 @@ import * as ReactDOM from 'react-dom';
 import reset from 'styled-reset'
 import styled, {createGlobalStyle} from "styled-components";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import BoardPage from "./task/Pages/BoardPage";
-import LoginPage from "./login/pages/LoginPage";
-import UserRegistrationPage from "./user/pages/UserRegistrationPage";
+import BoardPage from "./task/component/pages/BoardPage";
+import LoginPage from "./login/component/pages/LoginPage";
+import UserRegistrationPage from "./user/component/pages/UserRegistrationPage";
 
 class App extends React.Component {
     render() {

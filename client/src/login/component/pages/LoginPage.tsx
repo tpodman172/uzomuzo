@@ -3,8 +3,8 @@ import {useState} from "react";
 import styled from "styled-components";
 import {Link, withRouter} from "react-router-dom";
 import * as H from 'history'
-import {LoginApi} from "../../../api/index";
-import {InputWithLabel} from "../../base/molecules/InputWithLabel";
+import {LoginApi} from "../../../../api";
+import {InputWithLabel} from "../../../base/component/molecules/InputWithLabel";
 
 interface Props {
     history: H.History

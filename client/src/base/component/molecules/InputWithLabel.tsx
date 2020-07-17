@@ -7,7 +7,6 @@ interface Props{
     setValue: (userName:string) => void;
 }
 
-
 export const InputWithLabel = ({label, setValue}: Props) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value);

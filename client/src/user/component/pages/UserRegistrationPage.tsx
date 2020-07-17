@@ -1,8 +1,8 @@
 import * as React from "react";
 import {useState} from "react";
 import {Link, withRouter} from "react-router-dom";
-import {InputWithLabel} from "../../base/molecules/InputWithLabel";
-import {UserApi} from "../../../api";
+import {InputWithLabel} from "../../../base/component/molecules/InputWithLabel";
+import {UserApi} from "../../../../api";
 import styled from "styled-components";
 import * as H from 'history'
 
