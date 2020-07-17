@@ -42,6 +42,8 @@ paths:
       responses:
         '204':
           description: success
+        '409':
+          description: The user already exists
   /login:
     post:
       description: login

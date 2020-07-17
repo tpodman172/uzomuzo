@@ -1,9 +1,10 @@
 import * as React from "react";
-import {ChangeEvent, useState} from "react";
+import {useState} from "react";
 import styled from "styled-components";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import * as H from 'history'
 import {LoginApi} from "../../../api/index";
+import {InputWithLabel} from "../../base/molecules/InputWithLabel";
 
 interface Props {
     history: H.History
@@ -12,43 +13,27 @@ interface Props {
 const LoginPage = (props: Props) => {
     const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const handleIdChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setUserName(e.currentTarget.value);
-    }
-    const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.currentTarget.value);
-    }
+
     const handleLogin = async () => {
-        // todo save token to local storage
         const response = await LoginApi().postLogin(userName, password);
         localStorage.setItem('authorization', response.headers.authorization)
         props.history.push('/');
     }
     return <StyledDiv>
-        <InputArea>
-            <label> ID</label>
-            <input type="text" onChange={handleIdChange}/>
-        </InputArea>
-        <InputArea>
-            <label>Pass</label>
-            <input type="text" onChange={handlePasswordChange}/>
-        </InputArea>
+        <h1>ログイン</h1>
+        <InputWithLabel label={'user name'} setValue={setUserName}/>
+        <InputWithLabel label={'password'} setValue={setPassword}/>
         <button onClick={() => handleLogin()}>ログイン</button>
+        <div>
+            <Link to="/signUp">新規登録</Link>
+        </div>
     </StyledDiv>;
 }
 
-
 export default withRouter(LoginPage);
 
-const InputArea = styled.div`
-    margin-top : 12px;
-    margin-bottom : 12px;
-    display: flex;
-    label {
-        width: 50px; 
-    }
-`
-
 const StyledDiv = styled.div`
-    margin : 12px:
+    > * {
+       margin-bottom: 12px;
+    }
 `

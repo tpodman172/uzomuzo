@@ -7,8 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -18,13 +16,8 @@ public class UserAppService {
 
    private final IUserRepository userRepository;
 
-   public void createUser(String userName, String password) {
-      userRepository
+   public Long createUser(String userName, String password) {
+      return userRepository
               .insert(UserEntity.createUser(userName, passwordEncoder.encode(password)));
-   }
-
-   @PostConstruct
-   public void init() {
-      System.out.println("UserAppServiceが読み込まれました");
    }
 }

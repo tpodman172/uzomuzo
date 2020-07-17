@@ -53,7 +53,7 @@ public class SimpleTokenFilter extends GenericFilterBean {
         } catch (JWTVerificationException e) {
             System.out.println("検証にしっぱいしました");
             SecurityContextHolder.clearContext();
-            ((HttpServletResponse) response).sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+//            ((HttpServletResponse) response).sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
         }
 
         chain.doFilter(request, response);
