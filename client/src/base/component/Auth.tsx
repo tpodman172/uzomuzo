@@ -2,7 +2,7 @@ import * as React from "react";
 import {Redirect} from 'react-router-dom'
 import jwt_decode from "jwt-decode";
 
-const Auth: React.FC<{}> = ({children}) => {
+const Auth: React.FC = ({children}) => {
     return <>{isAuthenticated() ? children : <Redirect to="/login"/>}</>;
 }
 
