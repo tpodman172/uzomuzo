@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.tpodman172.tsk2.infra.schema.rds.Tables.ACHIEVEMENT;
+import static com.tpodman172.tsk2.infra.schema.rds.tables.Task.TASK;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,10 +18,13 @@ public class AchievementRepository implements IAchievementRepository {
     private final DSLContext jooq;
 
     @Override
-    public List<AchievementEntity> findByTargetDate(LocalDate targetDate) {
-        return jooq.selectFrom(ACHIEVEMENT)
+    public List<AchievementEntity> findByTargetDateAndUserId(LocalDate targetDate, Long userId) {
+        return jooq.select(ACHIEVEMENT.asterisk())
+                .from(ACHIEVEMENT)
+                .innerJoin(TASK).on(ACHIEVEMENT.TASK_ID.eq(TASK.TASK_ID))
                 .where(ACHIEVEMENT.TARGET_DATE.eq(targetDate))
-                .fetchStream()
+                .and(TASK.USER_ID.eq(userId))
+                .fetchStreamInto(ACHIEVEMENT)
                 .map(taskProgressRecord ->
                         new AchievementEntity(taskProgressRecord.getTaskId(),
                                 taskProgressRecord.getTargetDate(),

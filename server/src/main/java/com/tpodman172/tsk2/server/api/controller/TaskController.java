@@ -7,6 +7,7 @@ import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
 import com.tpodman172.tsk2.server.config.UserSessionService;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
 import lombok.AllArgsConstructor;
+import lombok.val;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,20 +37,20 @@ public class TaskController implements TasksApi {
     public ResponseEntity<List<TaskDTO>> getTasks() {
         HttpHeaders header = new HttpHeaders();
 
-        userSessionService.getUserId();
-        List<TaskDTO> tasks = taskAppService.fetchTasks();
+        val userId = userSessionService.getUserId();
+        List<TaskDTO> tasks = taskAppService.fetchTasks(userId);
 
         return new ResponseEntity(tasks, header, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<List<AchievementDTO>> getAchievement(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return new ResponseEntity(taskAppService.fetchAchievement(date), null, HttpStatus.OK);
+        return new ResponseEntity(taskAppService.fetchAchievement(date, userSessionService.getUserId()), null, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Long> postTask(@Valid TaskCreateDTO taskCreateDTO) {
-        return new ResponseEntity(taskAppService.createTask(new TaskEntity(null, taskCreateDTO.getTitle())), null, HttpStatus.OK);
+        return new ResponseEntity(taskAppService.createTask(TaskEntity.createNew(userSessionService.getUserId(), taskCreateDTO.getTitle())), null, HttpStatus.OK);
     }
 
 
