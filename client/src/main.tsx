@@ -8,6 +8,7 @@ import LoginPage from "./login/component/pages/LoginPage";
 import UserRegistrationPage from "./user/component/pages/UserRegistrationPage";
 import Auth from "./base/component/Auth";
 import {UserTokenContextProvider} from "./base/hooks/useToken";
+import {BoardAdminPage} from "./admin/component/pages/BoardAdminPage";
 
 class App extends React.Component {
     render() {
@@ -22,6 +23,7 @@ class App extends React.Component {
                             <Auth>
                                 <>
                                     <Route path='/board' exact component={BoardPage}/>
+                                    <Route path='/boardAdmin' exact component={BoardAdminPage}/>
                                 </>
                             </Auth>
                         </Switch>

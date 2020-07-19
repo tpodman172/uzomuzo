@@ -6,6 +6,8 @@ import BoardTemplate from "../templates/BoardTemplate";
 import {TaskListWithSearch} from "../organisms/TaskListWithSearch";
 import {TasksApi} from "../../../../api";
 import {withRouter} from 'react-router-dom';
+import TaskCard from "../atoms/TaskCard";
+import {TaskList} from "../molecules/TaskList";
 
 const BoardPage = () => {
 
@@ -64,12 +66,20 @@ const BoardPage = () => {
         }
     };
 
+    const makeTaskCards = (taskList: TaskDTO[], checkedList: Set<number>, handleCheck: (checked: boolean, taskId: number) => void) => {
+        return taskList.map(task =>
+            <TaskCard
+                key={task.id}
+                taskTitle={task.title}
+                checked={checkedList.has(task.id)}
+                onCheck={(checked => handleCheck(checked, task.id))}/>
+        );
+    }
+
     const taskListWithSearch = useMemo(() => <TaskListWithSearch
         searchButtons={[<button key={1} onClick={() => handleShowList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>,
             <button key={2} onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>]}
-        checkedList={checkedList}
-        handleCheck={handleCheck}
-        taskList={taskList}
+        taskList={<TaskList taskCards={makeTaskCards(taskList, checkedList, handleCheck)}/>}
     />, [handleShowList, checkedList, handleCheck, taskList]);
 
     console.log('render: board');

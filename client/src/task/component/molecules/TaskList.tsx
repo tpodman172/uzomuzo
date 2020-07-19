@@ -1,29 +1,14 @@
 import * as React from "react";
 import styled from "styled-components";
-import {TaskDTO} from "../../../../api/generated";
-import TaskCard from "../atoms/TaskCard";
 
 interface Props {
-    taskList: TaskDTO[];
-    checkedList: Set<number>;
-    handleCheck: (checked: boolean, taskId: number) => void;
+    taskCards: JSX.Element[];
 }
 
-export const TaskList = ({checkedList, handleCheck, taskList}: Props) => {
+export const TaskList = ({taskCards}: Props) => {
     return <>
-        {taskList.length != 0 &&
-        <TaskUl>{displayTaskCards(taskList, checkedList, handleCheck)}</TaskUl>}
+        <TaskUl>{taskCards}</TaskUl>
     </>;
-}
-
-const displayTaskCards = (taskList: TaskDTO[], checkedList: Set<number>, handleCheck: (checked: boolean, taskId: number) => void) => {
-    return taskList.map(task => {
-        return <TaskCard
-            key={task.id}
-            taskTitle={task.title}
-            checked={checkedList.has(task.id)}
-            onCheck={(checked => handleCheck(checked, task.id))}/>
-    });
 }
 
 const TaskUl = styled.ul`
