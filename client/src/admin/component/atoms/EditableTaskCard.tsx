@@ -4,13 +4,14 @@ import styled from "styled-components";
 import {Buttons} from "../../../task/component/molecules/Buttons";
 
 interface Props {
+    taskId: number;
     taskTitle: string;
-    onUpdate: (title: string) => void;
-    onDelete: () => void;
+    onUpdate: (taskId: number, title: string) => void;
+    onDelete: (taskId: number) => void;
     onCancel: () => void;
 }
 
-const EditableTaskCard = ({onUpdate, onDelete, onCancel, taskTitle}: Props) => {
+const EditableTaskCard = ({taskId, onUpdate, onDelete, onCancel, taskTitle}: Props) => {
     const [updateTitle, setUpdateTitle] = useState<string>(taskTitle);
 
     const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,9 +22,9 @@ const EditableTaskCard = ({onUpdate, onDelete, onCancel, taskTitle}: Props) => {
         <StyledLi>
             <StyledText value={updateTitle} onChange={handleTextChange}/>
             <ButtonArea>
-                <Buttons buttons={[<button onClick={() => onUpdate(updateTitle)}>update</button>,
-                    <button onClick={onDelete}>delete</button>,
-                    <button onClick={onCancel}>cancel</button>
+                <Buttons buttons={[<button key={1} onClick={() => onUpdate(taskId, updateTitle)}>update</button>,
+                    <button key={2} onClick={() => onDelete(taskId)}>delete</button>,
+                    <button key={3} onClick={onCancel}>cancel</button>
                 ]}/>
             </ButtonArea>
         </StyledLi>

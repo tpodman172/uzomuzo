@@ -15,15 +15,18 @@ const BoardPage = () => {
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'))
     const [checkedList, setCheckedList] = useState(new Set<number>());
-    const handleShowList = useCallback(async (targetDate?: string) => {
+    const handleDisplayButtonClick = (targetDate?: string) => {
         targetDate = targetDate || format(new Date(), 'yyyy-MM-dd');
         setSelectedDate(targetDate);
+    }
+    const fetchTasks = async () => {
+        // setSelectedDate(targetDate);
         const taskDTOs = await getTaskList();
         setTaskList(taskDTOs);
-        const achievementDTOs = await fetchAchievements(targetDate);
+        const achievementDTOs = await fetchAchievements(selectedDate);
 
         const completedTaskIds = achievementDTOs
-            .filter(value => value.targetDate === targetDate)
+            .filter(value => value.targetDate === selectedDate)
             .filter(value => value.completed)
             .reduce((prev, current) => {
                 prev.add(current.taskId);
@@ -31,14 +34,14 @@ const BoardPage = () => {
             }, new Set<number>());
 
         setCheckedList(completedTaskIds);
-    }, [setSelectedDate, setTaskList, fetchAchievements]);
+    };
 
     useEffect(() => {
-        handleShowList().then(() => {
+        fetchTasks().then(() => {
         })
-    }, [])
+    }, [selectedDate])
 
-    const handleCheck = useCallback((checked: boolean, id: number) => {
+    const handleCheck = useCallback((id: number, checked: boolean) => {
         console.log(selectedDate);
         updateProgress(id, checked, selectedDate).catch((e) => {
             console.log(e);
@@ -54,30 +57,31 @@ const BoardPage = () => {
         }
     }, [selectedDate, setCheckedList]);
 
-    const makeTaskCards = (taskList: TaskDTO[], checkedList: Set<number>, handleCheck: (checked: boolean, taskId: number) => void) => {
+    const taskCards = useMemo(() => {
         let taskCards = taskList.map(task =>
             <TaskCard
                 key={task.id}
+                taskId={task.id}
                 taskTitle={task.title}
                 checked={checkedList.has(task.id)}
-                // todo 即時関数を渡している...
-                onCheck={(checked => handleCheck(checked, task.id))}/>
+                onCheck={handleCheck}/>
         );
         return <TaskList taskCards={taskCards}/>;
-    }
+    }, [taskList, checkedList, handleCheck]);
 
-    const makeButtons = useCallback(() => {
-        let buttons = [
-            <button key={1} onClick={() => handleShowList()}>今日</button>,
-            <button key={2} onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
+    const buttons = useMemo(() => {
+        const buttons = [
+            <button key={1} onClick={() => handleDisplayButtonClick()}>今日</button>,
+            <button key={2}
+                    onClick={() => handleDisplayButtonClick(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
         ];
         return <Buttons buttons={buttons}/>;
-    }, [handleShowList]);
+    }, [handleDisplayButtonClick]);
 
     const taskListWithSearch = useMemo(() => <TaskListWithSearch
-        searchButtons={makeButtons()}
-        taskList={makeTaskCards(taskList, checkedList, handleCheck)}
-    />, [checkedList, handleCheck, taskList, makeButtons]);
+        searchButtons={buttons}
+        taskList={taskCards}
+    />, [taskCards, buttons]);
 
     console.log('render: board');
     return (

@@ -2,16 +2,17 @@ import * as React from "react";
 import styled from "styled-components";
 
 interface Props {
+    taskId: number;
     taskTitle: string;
     checked: boolean;
-    onCheck: (checked: boolean) => void;
+    onCheck: (id: number, checked: boolean) => void;
 }
 
-const TaskCard = ({checked, onCheck, taskTitle}: Props) => {
+const TaskCard = ({taskId, checked, onCheck, taskTitle}: Props) => {
     return (
         <StyledLi
             checked={checked}
-            onClick={() => onCheck(!checked)}>
+            onClick={() => onCheck(taskId, !checked)}>
             {taskTitle}
         </StyledLi>
     );

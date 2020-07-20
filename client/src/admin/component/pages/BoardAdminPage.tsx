@@ -1,5 +1,5 @@
 import * as React from "react";
-import {ChangeEvent, useEffect, useState} from "react";
+import {ChangeEvent, useCallback, useEffect, useMemo, useState} from "react";
 import {TasksApi} from "../../../../api";
 import {TaskCreateDTO, TaskDTO} from "../../../../api/generated";
 import TaskCard from "../../../task/component/atoms/TaskCard";
@@ -9,87 +9,65 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 
 export const BoardAdminPage = () => {
-    // useEffectでtask一覧取ってくる
-    // 一覧コンポーネントを作成（カードのデザインと一覧はtaskから取ってくる）
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [editingTaskId, setEditingTaskId] = useState<number>();
     const [newTask, setNewTask] = useState<string>("");
 
-    const fetchTasks = async () => {
-        const result = await TasksApi().getTasks();
-        return result;
-    }
-
     useEffect(() => {
-            fetchTasks().then(result => {
-                setTaskList(result.data);
-            });
-        }
-        , [])
+        fetchTasks().then(result => {
+            setTaskList(result.data);
+        });
+    }, [])
 
-    const handleCheck = (id: number) => {
-        // todo チェックされたコンポーネントをEditableTaskCardに置き換える
-        // チェックされている状態をuseStateでもつ必要がある
-        // makeTaskCardsはチェックされているものはEditableで返すという分岐処理を追加する
+    const handleCheck = useCallback((id: number, checked: boolean) => {
         setEditingTaskId(id);
-        makeTaskCards(taskList);
-    }
+    }, [setEditingTaskId]);
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = useCallback(async (id: number) => {
         await TasksApi().deleteTask(id);
         setEditingTaskId(undefined);
         fetchTasks().then(result => setTaskList(result.data));
-    }
+    }, [setEditingTaskId]);
 
-    const handleUpdate = async (id: number, title: string) => {
+    const handleUpdate = useCallback(async (id: number, title: string) => {
         await TasksApi().putTask(id, {title: title});
         setEditingTaskId(undefined);
         fetchTasks().then(result => setTaskList(result.data));
-    }
+    }, [setEditingTaskId, setTaskList]);
 
-    const makeTaskCards = (taskList: TaskDTO[]) => {
+    const taskCards = useMemo(() => {
         return taskList.map(task => {
             if (task.id !== editingTaskId) {
-                return <TaskCard key={task.id} taskTitle={task.title} checked={false} onCheck={checked => {
-                    handleCheck(task.id);
-                }}/>
+                return <TaskCard key={task.id} taskId={task.id} taskTitle={task.title} checked={false}
+                                 onCheck={handleCheck}/>
             } else {
-                return <EditableTaskCard key={task.id} taskTitle={task.title} onCancel={() => {
-                    setEditingTaskId(undefined)
-                }} onUpdate={(title: string) => {
-                    handleUpdate(task.id, title);
-                }} onDelete={() => {
-                    handleDelete(task.id).then(() => setEditingTaskId(undefined));
-                }}/>
+                return <EditableTaskCard
+                    key={task.id}
+                    taskId={task.id}
+                    taskTitle={task.title}
+                    onCancel={() => {
+                        setEditingTaskId(undefined)
+                    }}
+                    onUpdate={handleUpdate}
+                    onDelete={handleDelete}/>
             }
         })
-    }
+    }, [taskList, handleUpdate, handleCheck, handleDelete, editingTaskId]);
 
-    async function createTask(taskCreateDTO: TaskCreateDTO) {
-        try {
-            const response = await TasksApi().postTask(taskCreateDTO);
-            //const response = await TasksApi.taskOptions();
-            return response.data;
-        } catch (error) {
-            console.log(error);
-            //throw new Error(`Error! HTTP Status: ${error.response}`);
-        }
-    }
-
-    const handleCreateNewTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleCreateTextChange = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTask(e.currentTarget.value);
-    }
+    };
 
     const handleRegister = () => {
         createTask({title: newTask}).then(() => {
             fetchTasks().then(result => setTaskList(result.data));
         });
-    }
+    };
 
     return <StyledDiv>
-        <TaskList taskCards={makeTaskCards(taskList)}/>
+        <TaskList taskCards={taskCards}/>
         <CreateNewArea>
-            <input type="text" onChange={handleCreateNewTextChange}/>
+            <input type="text" onChange={handleCreateTextChange}/>
             <button onClick={handleRegister}>登録</button>
         </CreateNewArea>
         <div>
@@ -97,6 +75,20 @@ export const BoardAdminPage = () => {
         </div>
     </StyledDiv>;
 };
+
+const createTask = async (taskCreateDTO: TaskCreateDTO) => {
+    try {
+        const response = await TasksApi().postTask(taskCreateDTO);
+        return response.data;
+    } catch (error) {
+        console.log(error); //todo
+    }
+}
+
+const fetchTasks = async () => {
+    const result = await TasksApi().getTasks();
+    return result;
+}
 
 const StyledDiv = styled.div`
     > *:not(:first-child){
