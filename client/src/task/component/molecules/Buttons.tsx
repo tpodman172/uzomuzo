@@ -4,7 +4,7 @@ import styled from "styled-components";
 interface Props {
     buttons: JSX.Element[];
 }
-export const SearchButtons = ({buttons}:Props) => {
+export const Buttons = ({buttons}: Props) => {
     return <StyledDiv>
         {buttons}
     </StyledDiv>;
@@ -12,7 +12,7 @@ export const SearchButtons = ({buttons}:Props) => {
 
 
 const StyledDiv = styled.div`
-button:not(:first-child){
-margin-left:12px;
+    button:not(:first-child){
+    margin-left:12px;
 }
 `

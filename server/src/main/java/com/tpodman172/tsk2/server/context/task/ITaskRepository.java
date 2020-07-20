@@ -6,4 +6,8 @@ public interface ITaskRepository {
     List<TaskEntity> findByUserId(Long userId);
 
     Long create(TaskEntity taskEntity);
+
+    void update(TaskEntity taskEntity);
+
+    void delete(TaskEntity taskEntity);
 }

@@ -118,18 +118,39 @@ paths:
       tags:
         - tasks
       description: やることの削除
-      operationId: taskDelete
+      operationId: deleteTask
       parameters:
         - name: id
           in: path
           required: true
-          description: tasks id
+          description: task id
           schema:
             type: integer
             format: int64
       responses:
         '204':
           description: delete success
+    put:
+      tags:
+        - tasks
+      description: やることの更新
+      operationId: putTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: task id
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdateDTO'
+      responses:
+        '204':
+          description: やることの更新成功
   /task/achievement/{date}:
     get:
       summary: get task challenge result by date
@@ -235,6 +256,12 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/TaskDTO"
+    TaskUpdateDTO:
+      required:
+        - title
+      properties:
+        title:
+          type: string
     TaskCreateDTO:
       required:
         - title

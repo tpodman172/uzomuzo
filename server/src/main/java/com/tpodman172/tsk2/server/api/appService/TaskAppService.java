@@ -49,6 +49,15 @@ public class TaskAppService {
         achievementRepository.update(new AchievementEntity(taskId, targetDate, isCompleted));
     }
 
+    public void updateTask(TaskEntity taskEntity) {
+        taskRepository.update(taskEntity);
+    }
+
+    public void deleteTask(TaskEntity taskEntity) {
+        taskRepository.delete(taskEntity);
+
+    }
+
     private AchievementDTO mapToAchievementDTO(AchievementEntity entity) {
         final val taskChallengeResultDTO = new AchievementDTO();
         taskChallengeResultDTO.setTaskId(entity.getTaskId());

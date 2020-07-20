@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {ChangeEvent, useCallback, useMemo, useState} from 'react';
-import {TaskCreateDTO, TaskDTO} from '../../../../api/generated';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+import {TaskDTO} from '../../../../api/generated';
 import {addDays, format} from 'date-fns'
 import BoardTemplate from "../templates/BoardTemplate";
 import {TaskListWithSearch} from "../organisms/TaskListWithSearch";
@@ -8,14 +8,15 @@ import {TasksApi} from "../../../../api";
 import {withRouter} from 'react-router-dom';
 import TaskCard from "../atoms/TaskCard";
 import {TaskList} from "../molecules/TaskList";
+import {Buttons} from "../molecules/Buttons";
 
 const BoardPage = () => {
 
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
-    const [newTask, setNewTask] = useState<string>("");
     const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'))
     const [checkedList, setCheckedList] = useState(new Set<number>());
-    const handleShowList = useCallback(async (targetDate: string) => {
+    const handleShowList = useCallback(async (targetDate?: string) => {
+        targetDate = targetDate || format(new Date(), 'yyyy-MM-dd');
         setSelectedDate(targetDate);
         const taskDTOs = await getTaskList();
         setTaskList(taskDTOs);
@@ -32,15 +33,10 @@ const BoardPage = () => {
         setCheckedList(completedTaskIds);
     }, [setSelectedDate, setTaskList, fetchAchievements]);
 
-    const textChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTask(e.currentTarget.value);
-    }
-
-    const handleRegister = () => {
-        createTask({title: newTask}).then(() => {
-            // todo show toast?
-        });
-    }
+    useEffect(() => {
+        handleShowList().then(() => {
+        })
+    }, [])
 
     const handleCheck = useCallback((checked: boolean, id: number) => {
         console.log(selectedDate);
@@ -58,35 +54,34 @@ const BoardPage = () => {
         }
     }, [selectedDate, setCheckedList]);
 
-    const deleteTask = async (id: number) => {
-        try {
-            await TasksApi().taskDelete(id);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
     const makeTaskCards = (taskList: TaskDTO[], checkedList: Set<number>, handleCheck: (checked: boolean, taskId: number) => void) => {
-        return taskList.map(task =>
+        let taskCards = taskList.map(task =>
             <TaskCard
                 key={task.id}
                 taskTitle={task.title}
                 checked={checkedList.has(task.id)}
+                // todo 即時関数を渡している...
                 onCheck={(checked => handleCheck(checked, task.id))}/>
         );
+        return <TaskList taskCards={taskCards}/>;
     }
 
+    const makeButtons = useCallback(() => {
+        let buttons = [
+            <button key={1} onClick={() => handleShowList()}>今日</button>,
+            <button key={2} onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
+        ];
+        return <Buttons buttons={buttons}/>;
+    }, [handleShowList]);
+
     const taskListWithSearch = useMemo(() => <TaskListWithSearch
-        searchButtons={[<button key={1} onClick={() => handleShowList(format(new Date(), 'yyyy-MM-dd'))}>今日</button>,
-            <button key={2} onClick={() => handleShowList(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>]}
-        taskList={<TaskList taskCards={makeTaskCards(taskList, checkedList, handleCheck)}/>}
-    />, [handleShowList, checkedList, handleCheck, taskList]);
+        searchButtons={makeButtons()}
+        taskList={makeTaskCards(taskList, checkedList, handleCheck)}
+    />, [checkedList, handleCheck, taskList, makeButtons]);
 
     console.log('render: board');
     return (
         <BoardTemplate
-            handleCreateTextChange={textChange}
-            handleRegister={handleRegister}
             taskListWithSearch={taskListWithSearch}
         />
     );
@@ -109,18 +104,6 @@ async function getTaskList() {
 const fetchAchievements = async (targetDate: string) => {
     const response = await TasksApi().getAchievement(targetDate);
     return response.data;
-}
-
-// todo move...
-async function createTask(taskCreateDTO: TaskCreateDTO) {
-    try {
-        const response = await TasksApi().postTask(taskCreateDTO);
-        //const response = await TasksApi.taskOptions();
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        //throw new Error(`Error! HTTP Status: ${error.response}`);
-    }
 }
 
 const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: string) => {

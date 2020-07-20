@@ -20,7 +20,7 @@ const StyledLi = styled.li<{ checked: boolean }>`
     background: ${(props) => props.checked ? '#ff9800' : 'white'};
     list-style: none;
     height : 100px;
-    padding : 6px;
+    padding : 8px;
     filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.6));
     box-sizing: border-box;
     width: calc(50% - 6px);

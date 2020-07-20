@@ -1,16 +1,15 @@
 import * as React from 'react';
-import {SearchButtons} from "../molecules/SearchButtons";
 import styled from "styled-components";
 
 interface Props {
-    searchButtons: JSX.Element[];
+    searchButtons: JSX.Element;
     taskList: JSX.Element;
 }
 
 export const TaskListWithSearch = ({searchButtons, taskList}: Props) => {
     console.log('render taskListWithSearch');
     return <>
-        <SearchButtons buttons={searchButtons}/>
+        {searchButtons}
         <StyledDiv>
             {taskList}
         </StyledDiv>

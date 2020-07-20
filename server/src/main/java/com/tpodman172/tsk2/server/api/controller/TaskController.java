@@ -4,6 +4,7 @@ import com.tpodman172.tsk2.server.api.appService.TaskAppService;
 import com.tpodman172.tsk2.server.api.appService.model.AchievementDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskCreateDTO;
 import com.tpodman172.tsk2.server.api.appService.model.TaskDTO;
+import com.tpodman172.tsk2.server.api.appService.model.TaskUpdateDTO;
 import com.tpodman172.tsk2.server.config.UserSessionService;
 import com.tpodman172.tsk2.server.context.task.TaskEntity;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,18 @@ public class TaskController implements TasksApi {
     private UserSessionService userSessionService;
 
     @Override
+    public ResponseEntity<Void> deleteTask(Long id) {
+        taskAppService.deleteTask(TaskEntity.ofUpdate(id, userSessionService.getUserId(), null));
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> putTask(Long id, @Valid TaskUpdateDTO taskUpdateDTO) {
+        taskAppService.updateTask(TaskEntity.ofUpdate(id, userSessionService.getUserId(), taskUpdateDTO.getTitle()));
+        return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+    }
+
+    @Override
     public ResponseEntity<Void> putAchievement(Long id, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotNull @Valid LocalDate targetDate, @NotNull @Valid Boolean completed) {
         taskAppService.updateAchievement(id, targetDate, completed);
         return new ResponseEntity(null, HttpStatus.OK);
@@ -50,7 +63,7 @@ public class TaskController implements TasksApi {
 
     @Override
     public ResponseEntity<Long> postTask(@Valid TaskCreateDTO taskCreateDTO) {
-        return new ResponseEntity(taskAppService.createTask(TaskEntity.createNew(userSessionService.getUserId(), taskCreateDTO.getTitle())), null, HttpStatus.OK);
+        return new ResponseEntity(taskAppService.createTask(TaskEntity.ofNew(userSessionService.getUserId(), taskCreateDTO.getTitle())), null, HttpStatus.OK);
     }
 
 

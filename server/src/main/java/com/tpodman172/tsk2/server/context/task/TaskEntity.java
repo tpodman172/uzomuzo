@@ -12,7 +12,11 @@ public class TaskEntity {
 
     private final String title;
 
-    public static TaskEntity createNew(Long userId, String title) {
+    public static TaskEntity ofNew(Long userId, String title) {
         return new TaskEntity(null, userId, title);
+    }
+
+    public static TaskEntity ofUpdate(Long taskId, Long userId, String title) {
+        return new TaskEntity(taskId, userId, title);
     }
 }
