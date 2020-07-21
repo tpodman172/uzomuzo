@@ -24,6 +24,7 @@ class App extends React.Component {
                                 <>
                                     <Route path='/board' exact component={BoardPage}/>
                                     <Route path='/boardAdmin' exact component={BoardAdminPage}/>
+                                    <Route path='/' component={BoardPage}/>
                                 </>
                             </Auth>
                         </Switch>
