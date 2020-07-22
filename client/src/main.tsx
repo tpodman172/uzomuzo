@@ -21,11 +21,11 @@ class App extends React.Component {
                             <Route path='/login' exact component={LoginPage}/>
                             <Route path='/signUp' exact component={UserRegistrationPage}/>
                             <Auth>
-                                <>
+                                <Switch>
                                     <Route path='/board' exact component={BoardPage}/>
                                     <Route path='/boardAdmin' exact component={BoardAdminPage}/>
-                                    <Route path='/' component={BoardPage}/>
-                                </>
+                                    <Route component={BoardPage}/>
+                                </Switch>
                             </Auth>
                         </Switch>
                     </UserTokenContextProvider>
