@@ -36,8 +36,8 @@ const UserRegistrationPage = (props: Props) => {
     return <StyledDiv>
         <h1>新規登録</h1>
         {errorMessage && <div>{errorMessage}</div>}
-        <InputWithLabel label={'なまえ'} setValue={setUserName}/>
-        <InputWithLabel label={'あいことば'} setValue={setPassword}/>
+        <InputWithLabel label={'なまえ'} setValue={setUserName} placeholder={'例）こうへい'}/>
+        <InputWithLabel label={'あいことば'} setValue={setPassword} placeholder={'例）やまのてせん'}/>
         <button onClick={() => handleSignUp()}>新規登録</button>
         <div>
             <Link to="/login">ログイン</Link>

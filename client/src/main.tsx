@@ -43,6 +43,9 @@ const GlobalStyle = createGlobalStyle`
   h2 {
     font-size:16px;
   }
+  input[type='text']{
+    font-size:16px;
+  }
   /* other styles */
 `
 const StyledDiv = styled.div`
