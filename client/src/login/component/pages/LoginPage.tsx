@@ -6,6 +6,7 @@ import * as H from 'history'
 import {LoginApi} from "../../../../api";
 import {InputWithLabel} from "../../../base/component/molecules/InputWithLabel";
 import {useToken} from "../../../base/hooks/useToken";
+import {ErrorMessage} from "../../../base/component/molecules/ErrorMessage";
 
 interface Props {
     history: H.History
@@ -40,7 +41,7 @@ const LoginPage = (props: Props) => {
 
     return <StyledDiv>
         <h1>ログイン</h1>
-        {errorMessage && <div>{errorMessage}</div>}
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         <InputWithLabel label={'なまえ'} setValue={setUserName}/>
         <InputWithLabel label={'あいことば'} setValue={setPassword}/>
         <button onClick={() => handleLogin()}>ログイン</button>
