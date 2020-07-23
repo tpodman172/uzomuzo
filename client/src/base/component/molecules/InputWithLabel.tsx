@@ -1,23 +1,22 @@
 import * as React from "react";
-import styled from "styled-components";
 import {ChangeEvent} from "react";
+import styled from "styled-components";
 
 interface Props{
     label: string;
-    setValue: (userName:string) => void;
-    placeholder?: string
+    setValue: (userName: string) => void;
+    value?: string;
+    placeholder?: string;
 }
 
-export const InputWithLabel = ({label, setValue, placeholder}: Props) => {
+export const InputWithLabel = ({label, value, setValue, placeholder}: Props) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value);
     }
 
-    console.log(placeholder);
-
     return <InputArea>
         <label> {label}</label>
-        <input type='text' onChange={handleChange} placeholder={placeholder}/>
+        <input type='text' onChange={handleChange} value={value} placeholder={placeholder}/>
     </InputArea>
 }
 

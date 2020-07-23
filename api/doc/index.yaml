@@ -28,8 +28,24 @@ paths:
         '200':
           description: OK
   /user:
-    put:
+    post:
       description: create new user account
+      operationId: postUser
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostUserDto"
+      responses:
+        '204':
+          description: success
+        '409':
+          description: The user already exists
+    put:
+      description: update new user account
       operationId: putUser
       tags:
         - user
@@ -231,7 +247,7 @@ components:
         password:
           type: string
           minLength: 1
-    PutUserDto:
+    PostUserDto:
       required:
         - userName
         - password
@@ -242,6 +258,15 @@ components:
         password:
           type: string
           minLength: 1
+    PutUserDto:
+      required:
+        - userName
+      properties:
+        userName:
+          type: string
+          minLength: 1
+        password:
+          type: string
     TaskDTO:
       required:
         - id

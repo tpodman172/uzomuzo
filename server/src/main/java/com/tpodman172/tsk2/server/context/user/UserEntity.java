@@ -14,4 +14,14 @@ public class UserEntity {
    public static UserEntity createUser(String email, String password) {
       return new UserEntity(null, password, email);
    }
+
+   public void updatePassword(String password) {
+      if (password != null) {
+         this.password = password;
+      }
+   }
+
+   public void updateUserName(String userName) {
+      this.email = userName;
+   }
 }

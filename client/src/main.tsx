@@ -9,6 +9,7 @@ import UserRegistrationPage from "./user/component/pages/UserRegistrationPage";
 import Auth from "./base/component/Auth";
 import {UserTokenContextProvider} from "./base/hooks/useToken";
 import {BoardAdminPage} from "./admin/component/pages/BoardAdminPage";
+import {ProfilePage} from "./user/component/pages/ProfilePage";
 
 class App extends React.Component {
     render() {
@@ -24,6 +25,7 @@ class App extends React.Component {
                                 <Switch>
                                     <Route path='/board' exact component={BoardPage}/>
                                     <Route path='/boardAdmin' exact component={BoardAdminPage}/>
+                                    <Route path='/profile' exact component={ProfilePage}/>
                                     <Route component={BoardPage}/>
                                 </Switch>
                             </Auth>

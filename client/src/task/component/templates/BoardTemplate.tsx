@@ -15,9 +15,10 @@ const BoardTemplate = ({taskListWithSearch}: Props) => {
     return <StyledDiv>
         <h2>{jwtTokenClaims?.tsk2_user_name} のやることリスト</h2>
         {taskListWithSearch}
-        <div>
+        <LinkArea>
             <Link to='/boardAdmin'>やることの管理</Link>
-        </div>
+            <Link to='/profile'>プロフィール</Link>
+        </LinkArea>
     </StyledDiv>;
 }
 const StyledDiv = styled.div`
@@ -26,4 +27,10 @@ const StyledDiv = styled.div`
     }
 `;
 
+const LinkArea = styled.div`
+    > * {
+        display:block;
+        margin-bottom:12px;
+    }
+`;
 export default BoardTemplate;
