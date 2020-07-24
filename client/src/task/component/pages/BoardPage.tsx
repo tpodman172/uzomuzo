@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {TaskDTO} from '../../../../api/generated';
-import {addDays, format} from 'date-fns'
+import {format} from 'date-fns'
 import BoardTemplate from "../templates/BoardTemplate";
 import {TaskListWithSearch} from "../organisms/TaskListWithSearch";
 import {TasksApi} from "../../../../api";
 import {withRouter} from 'react-router-dom';
 import TaskCard from "../atoms/TaskCard";
 import {TaskList} from "../molecules/TaskList";
-import {Buttons} from "../molecules/Buttons";
+import {SelectedDateButtons} from "../molecules/SelectedDateButtons";
 
 const BoardPage = () => {
 
@@ -70,12 +70,10 @@ const BoardPage = () => {
     }, [taskList, checkedList, handleCheck]);
 
     const buttons = useMemo(() => {
-        const buttons = [
-            <button key={1} onClick={() => handleDisplayButtonClick()}>今日</button>,
-            <button key={2}
-                    onClick={() => handleDisplayButtonClick(format(addDays(new Date(), -1), 'yyyy-MM-dd'))}>昨日</button>
-        ];
-        return <Buttons buttons={buttons}/>;
+        const element = <SelectedDateButtons
+            onClick={handleDisplayButtonClick}
+            selectedDate={selectedDate}/>
+        return element;
     }, [handleDisplayButtonClick]);
 
     const taskListWithSearch = useMemo(() => <TaskListWithSearch
