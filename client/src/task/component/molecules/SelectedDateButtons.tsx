@@ -23,5 +23,5 @@ const StyledDiv = styled.div`
     align-items: center;
     *:not(:first-child){
         margin-left:12px;
-}
+    }
 `
