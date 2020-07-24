@@ -39,14 +39,22 @@ class App extends React.Component {
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  body {
+      font-family: "Helvetica Neue",
+      Arial,
+      "Hiragino Kaku Gothic ProN",
+      "Hiragino Sans",
+      Meiryo,
+      sans-serif;
+  }
   h1 {
-    font-size:20px;
+      font-size:20px;
   }
   h2 {
-    font-size:16px;
+      font-size:16px;
   }
   input[type='text']{
-    font-size:16px;
+      font-size:16px;
   }
   /* other styles */
 `
