@@ -6,14 +6,18 @@ interface Props {
     taskTitle: string;
     checked: boolean;
     onCheck: (id: number, checked: boolean) => void;
+    continueCount?: number;
 }
 
-const TaskCard = ({taskId, checked, onCheck, taskTitle}: Props) => {
+const TaskCard = ({taskId, checked, onCheck, taskTitle, continueCount}: Props) => {
     return (
         <StyledLi
             checked={checked}
             onClick={() => onCheck(taskId, !checked)}>
-            {taskTitle}
+            <div>
+                {taskTitle}
+            </div>
+            {continueCount && <div>{continueCount}</div>}
         </StyledLi>
     );
 }

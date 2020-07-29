@@ -38,6 +38,7 @@ public class AchievementRepository implements IAchievementRepository {
                 .from(ACHIEVEMENT)
                 .innerJoin(TASK).on(ACHIEVEMENT.TASK_ID.eq(TASK.TASK_ID))
                 .where(TASK.USER_ID.eq(userId))
+                .orderBy(ACHIEVEMENT.TASK_ID.asc(), ACHIEVEMENT.TARGET_DATE.asc())
                 .fetchStreamInto(ACHIEVEMENT)
                 .map(taskProgressRecord ->
                         new AchievementEntity(taskProgressRecord.getTaskId(),

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {TaskDTO} from '../../../../api/generated';
-import {format} from 'date-fns'
+import {addDays, compareAsc, format, isToday, isYesterday, parse} from 'date-fns'
 import BoardTemplate from "../templates/BoardTemplate";
 import {TaskListWithSearch} from "../organisms/TaskListWithSearch";
 import {TasksApi} from "../../../../api";
@@ -15,6 +15,7 @@ const BoardPage = () => {
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'))
     const [checkedList, setCheckedList] = useState(new Set<number>());
+    const [taskAchievementMap, setTaskAchievementMap] = useState<{ [taskId: number]: Date[] }>([]);
     const handleDisplayButtonClick = useCallback((targetDate?: string) => {
         targetDate = targetDate || format(new Date(), 'yyyy-MM-dd');
         setSelectedDate(targetDate);
@@ -35,6 +36,34 @@ const BoardPage = () => {
             }, new Set<number>());
 
         setCheckedList(completedTaskIds);
+
+        // const map = achievementDTOs.reduce((prev, current) => {
+        //     (prev.get(current.taskId) || (prev.set(current.taskId, []).get(current.taskId)) as Date[]).push(parse(current.targetDate, 'yyyy-MM-dd', new Date()));
+        //     return prev;
+        // }, new Map<number, Date[]>())
+
+        const map1 = achievementDTOs
+            .filter(value => value.completed)
+            .reduce((prev, current) => {
+                (prev[current.taskId] || (prev[current.taskId] = [])).push(parse(current.targetDate, 'yyyy-MM-dd', new Date()));
+                return prev;
+            }, {} as { [taskId: number]: Date[] });
+
+        setTaskAchievementMap(map1);
+
+        // let numbers = Object.entries(map1).reduce((prev, [taskId, dates]) => {
+        //     prev[Number.parseInt(taskId)] = calcContinueCount(dates);
+        //     return prev;
+        // }, {} as { [taskId: number]: number });
+
+        // map.forEach((targetDates, taskId) => {
+        //     const latestDate = targetDates[targetDates.length - 1];
+        //     if (isToday(latestDate) || isYesterday(latestDate)) {
+        //
+        //     }
+        //
+        // })
+
     };
 
     useEffect(() => {
@@ -50,11 +79,22 @@ const BoardPage = () => {
         });
         if (checked) {
             setCheckedList((prev) => new Set(prev.add(id)));
+            setTaskAchievementMap((prevState => {
+                const achievementDates = (prevState[id] || (prevState[id] = []));
+                achievementDates.push(parse(selectedDate, 'yyyy-MM-dd', new Date()));
+                achievementDates.sort(compareAsc);
+                return Object.assign({}, prevState);
+            }))
         } else {
             setCheckedList((prev) => {
                 prev.delete(id);
                 return new Set(prev);
             });
+            setTaskAchievementMap((prevState => {
+                const achievementDates = prevState[id];
+                prevState[id] = achievementDates.filter(date => format(date, 'yyyy-MM-dd') !== selectedDate);
+                return Object.assign({}, prevState);
+            }))
         }
     }, [selectedDate, setCheckedList]);
 
@@ -65,10 +105,12 @@ const BoardPage = () => {
                 taskId={task.id}
                 taskTitle={task.title}
                 checked={checkedList.has(task.id)}
-                onCheck={handleCheck}/>
+                onCheck={handleCheck}
+                continueCount={calcContinueCount(taskAchievementMap[task.id]) || undefined}
+            />
         );
         return <TaskList taskCards={taskCards}/>;
-    }, [taskList, checkedList, handleCheck]);
+    }, [taskList, checkedList, handleCheck, taskAchievementMap]); // ここにcontinueCountMapを入れる
 
     const buttons = useMemo(() => {
         const element = <SelectedDateButtons
@@ -106,12 +148,30 @@ async function getTaskList() {
 
 const fetchAchievements = async () => {
     // const response = await TasksApi().getAchievement(targetDate);
-    const response = await TasksApi().getAllAchievement();
+    const response = await TasksApi().getAchievements();
     return response.data;
 }
 
 const updateProgress = async (taskId: number, isCompleted: boolean, targetDate: string) => {
     TasksApi().putAchievement(taskId, targetDate, isCompleted);
+}
+
+const calcContinueCount = (dates?: Date[]) => {
+    if (!dates) return 0;
+    const latestDate = dates[dates.length - 1];
+    if (!isToday(latestDate) && !isYesterday(latestDate)) {
+        return 0;
+    } else {
+        let counter = 1;
+        for (let i = dates.length - 1; i > 0; i--) {
+            if (dates[i].getDate() === addDays(dates[i - 1], 1).getDate()) {
+                counter++;
+            } else {
+                break;
+            }
+        }
+        return counter;
+    }
 }
 
 export default withRouter(BoardPage);

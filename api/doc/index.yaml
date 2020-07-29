@@ -170,42 +170,12 @@ paths:
   /task/achievement:
     get:
       summary: get all task achivement
-      operationId: getAllAchievement
+      operationId: getAchievements
       tags:
         - tasks
       responses:
         '200':
           description: array of task achivement
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/AchievementDTO"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /task/achievement/{date}:
-    get:
-      summary: get task achivement by date
-      operationId: getAchievement
-      tags:
-        - tasks
-      parameters:
-        - name: date
-          in: path
-          required: true
-          description: target date
-          schema:
-            type: string
-            format: date
-            example: '2020-05-01'
-      responses:
-        '200':
-          description: array of task challenge result
           content:
             application/json:
               schema:
