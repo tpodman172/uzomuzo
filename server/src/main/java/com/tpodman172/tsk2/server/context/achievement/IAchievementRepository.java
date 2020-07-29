@@ -6,5 +6,7 @@ import java.util.List;
 public interface IAchievementRepository {
     void update(AchievementEntity entity);
 
+    List<AchievementEntity> findByUserId(Long userId);
+
     List<AchievementEntity> findByTargetDateAndUserId(LocalDate localDate, Long userId);
 }

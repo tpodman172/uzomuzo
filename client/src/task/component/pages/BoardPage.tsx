@@ -15,15 +15,16 @@ const BoardPage = () => {
     const [taskList, setTaskList] = useState<TaskDTO[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'))
     const [checkedList, setCheckedList] = useState(new Set<number>());
-    const handleDisplayButtonClick = (targetDate?: string) => {
+    const handleDisplayButtonClick = useCallback((targetDate?: string) => {
         targetDate = targetDate || format(new Date(), 'yyyy-MM-dd');
         setSelectedDate(targetDate);
-    }
+    }, [setSelectedDate]);
+
     const fetchTasks = async () => {
         // setSelectedDate(targetDate);
         const taskDTOs = await getTaskList();
         setTaskList(taskDTOs);
-        const achievementDTOs = await fetchAchievements(selectedDate);
+        const achievementDTOs = await fetchAchievements();
 
         const completedTaskIds = achievementDTOs
             .filter(value => value.targetDate === selectedDate)
@@ -74,7 +75,7 @@ const BoardPage = () => {
             onClick={handleDisplayButtonClick}
             selectedDate={selectedDate}/>
         return element;
-    }, [handleDisplayButtonClick]);
+    }, [handleDisplayButtonClick, selectedDate]);
 
     const taskListWithSearch = useMemo(() => <TaskListWithSearch
         searchButtons={buttons}
@@ -103,8 +104,9 @@ async function getTaskList() {
     }
 }
 
-const fetchAchievements = async (targetDate: string) => {
-    const response = await TasksApi().getAchievement(targetDate);
+const fetchAchievements = async () => {
+    // const response = await TasksApi().getAchievement(targetDate);
+    const response = await TasksApi().getAllAchievement();
     return response.data;
 }
 

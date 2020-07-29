@@ -57,8 +57,13 @@ public class TaskController implements TasksApi {
     }
 
     @Override
+    public ResponseEntity<List<AchievementDTO>> getAllAchievement() {
+        return new ResponseEntity(taskAppService.fetchAchievement(userSessionService.getUserId()), null, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<AchievementDTO>> getAchievement(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return new ResponseEntity(taskAppService.fetchAchievement(date, userSessionService.getUserId()), null, HttpStatus.OK);
+        return new ResponseEntity(taskAppService.fetchAchievementByTargetDate(date, userSessionService.getUserId()), null, HttpStatus.OK);
     }
 
     @Override

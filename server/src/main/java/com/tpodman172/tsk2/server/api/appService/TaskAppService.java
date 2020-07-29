@@ -33,7 +33,15 @@ public class TaskAppService {
                 .collect(Collectors.toList());
     }
 
-    public List<AchievementDTO> fetchAchievement(LocalDate targetDate, Long userId) {
+    public List<AchievementDTO> fetchAchievement(Long userId) {
+
+        return achievementRepository.findByUserId(userId)
+                .stream()
+                .map(this::mapToAchievementDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<AchievementDTO> fetchAchievementByTargetDate(LocalDate targetDate, Long userId) {
 
         return achievementRepository.findByTargetDateAndUserId(targetDate, userId)
                 .stream()

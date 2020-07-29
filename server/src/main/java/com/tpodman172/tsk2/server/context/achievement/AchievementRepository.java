@@ -33,6 +33,20 @@ public class AchievementRepository implements IAchievementRepository {
     }
 
     @Override
+    public List<AchievementEntity> findByUserId(Long userId) {
+        return jooq.select(ACHIEVEMENT.asterisk())
+                .from(ACHIEVEMENT)
+                .innerJoin(TASK).on(ACHIEVEMENT.TASK_ID.eq(TASK.TASK_ID))
+                .where(TASK.USER_ID.eq(userId))
+                .fetchStreamInto(ACHIEVEMENT)
+                .map(taskProgressRecord ->
+                        new AchievementEntity(taskProgressRecord.getTaskId(),
+                                taskProgressRecord.getTargetDate(),
+                                taskProgressRecord.getCompleted()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void update(AchievementEntity entity) {
         jooq.insertInto(
                 ACHIEVEMENT,

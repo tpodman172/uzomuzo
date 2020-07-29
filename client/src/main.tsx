@@ -4,7 +4,7 @@ import reset from 'styled-reset'
 import styled, {createGlobalStyle} from "styled-components";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import BoardPage from "./task/component/pages/BoardPage";
-import LoginPage from "./login/component/pages/LoginPage";
+import LoginPage from "./authorization/component/pages/LoginPage";
 import UserRegistrationPage from "./user/component/pages/UserRegistrationPage";
 import Auth from "./base/component/Auth";
 import {UserTokenContextProvider} from "./base/hooks/useToken";

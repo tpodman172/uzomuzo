@@ -167,17 +167,38 @@ paths:
       responses:
         '204':
           description: やることの更新成功
+  /task/achievement:
+    get:
+      summary: get all task achivement
+      operationId: getAllAchievement
+      tags:
+        - tasks
+      responses:
+        '200':
+          description: array of task achivement
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AchievementDTO"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /task/achievement/{date}:
     get:
-      summary: get task challenge result by date
+      summary: get task achivement by date
       operationId: getAchievement
       tags:
         - tasks
       parameters:
         - name: date
           in: path
-          required: true # todo 未指定の場合は全部とる実装
-          description: target date. [wip]When not specified, all challenge result returned.
+          required: true
+          description: target date
           schema:
             type: string
             format: date
