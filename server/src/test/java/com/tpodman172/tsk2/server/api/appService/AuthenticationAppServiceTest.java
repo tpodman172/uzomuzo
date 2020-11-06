@@ -60,6 +60,8 @@ class AuthenticationAppServiceTest {
 
     @Test
     void jwtLibrarySample() throws Exception {
+        System.out.println(testTempPublicKey);
+        System.out.println(testTempPrivateKey);
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         System.out.println(bCryptPasswordEncoder.encode("password"));
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
