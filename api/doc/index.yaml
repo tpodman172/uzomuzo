@@ -110,7 +110,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ModelError"
     post:
       tags:
         - tasks
@@ -187,7 +187,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ModelError"
   /task/{id}/achievement:
     put:
       summary: update task status
@@ -224,7 +224,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/ModelError"
 components:
   schemas:
     LoginDTO:
@@ -299,7 +299,7 @@ components:
           example: '2020-05-03'
         completed:
           type: boolean
-    Error:
+    ModelError:
       required:
         - code
         - message
